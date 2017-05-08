@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 04 14:20:12 2017
-
-@author: Crosby
-"""
+# Created 5/1/2017
+# Author S. C. Crosby
 
 from datetime import datetime
 from pytz import timezone
@@ -24,6 +21,23 @@ def get_gmt_offset():
     diff_time = nowUTCCorrected - nowPDTCorrected
     diff_hour = int(round(diff_time.seconds/3600))
     return diff_hour
+
+# Returns GMT offset to PST/PDT 
+def get_gmt_offset_2(myTime):
+    # Works through 2019, HARDCODED
+    if datetime(2015,3,8,2,0,0) < myTime < datetime(2015,11,1,2,0,0):
+        GMT2PST = 7 #hr
+    elif datetime(2016,3,13,2,0,0) < myTime < datetime(2016,11,6,2,0,0):
+        GMT2PST = 7 #hr
+    elif datetime(2017,3,12,2,0,0) < myTime < datetime(2017,11,5,2,0,0):
+        GMT2PST = 7 #hr
+    elif datetime(2018,3,11,2,0,0) < myTime < datetime(2018,11,4,2,0,0):
+        GMT2PST = 7 #hr
+    elif datetime(2019,3,10,2,0,0) < myTime < datetime(2019,11,3,2,0,0):
+        GMT2PST = 7 #hr
+    else:
+        GMT2PST = 8 #hr
+    return GMT2PST
 
 # Function downloads grib file
 #   Used by get_hrdps()
@@ -65,7 +79,7 @@ def get_hrdps(date_requested):
         os.mkdir(loc_output)
          
     # Download grib files
-    for hour in range(1):#forecast_hour:
+    for hour in forecast_hour:
         # Pressure (prtmsl)    
         download_grib(gribPrefixP, url, dateString, hour, loc_output)      
         # U wind    

@@ -3,8 +3,9 @@ Skagit Operational Model Development
 As we proceed try to 
 -use functions as much as possible
 -Emphasize generalization, methodology will be applied to many "local models"
--include comments describing input/output and steps
--utilize git branching and comment commits appropriately
+-Include comments describing input/output and steps
+-Utilize git branching and comment commits appropriately
+-Keep large datasets (input/output) in seperate folders. Codes & Model should be independent and portable
 
 Work in progress includes
 -Better treatment of Time Zones
@@ -18,5 +19,16 @@ Larger improvements
 -Make switcht to Delft-FM to leverage varying grid spacing
   - Will save computation time
   - May allow higher resolution (25m) at shoreline
+
+Greater Structure (strawman)
+
+Data Archive
+  - Downloaded winds/pressure (original grib)
+  - Tides (predicted and/or measured)
+
+Local Model data
+  - Cropped wind/pressure fields on meteo grid
+  - Local tide predictions
+
 
 

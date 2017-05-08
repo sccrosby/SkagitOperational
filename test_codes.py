@@ -19,4 +19,3 @@ print op_functions.get_gmt_offset()
 date_requested = datetime.utcnow() - timedelta(days=0)
 op_functions.get_hrdps(date_requested)
 
- 

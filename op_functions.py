@@ -91,8 +91,7 @@ def get_hrdps(date_requested):
 def latest_hrdps_forecast():
 	# Set static string and format
     gribPrefix = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_'
-    FormatZ = '%Y-%m-%d %H:%M:%S %Z'
-	forecastHr = 48
+    forecastHr = 48
 	
     # Try today and yesterday
     for ndy in [0,-1]:
@@ -107,13 +106,13 @@ def latest_hrdps_forecast():
             
             # See if file exists, if so return, otherwise loop
             try:
-            	test = urllib2.urlopen(gribUrl)
-            	forecastHour = runStart
-            	return dateString, utc
+            	   urllib2.urlopen(gribUrl)
+            	   forecastHour = runStart
+            	   return dateString, forecastHour
             except:
-                print('48 hour file doesn\'t exist yet for {0:s}, {1:02d}Z'.format(dateString, runStart)),
-	
-	#If no files found return null
+                print('48 hour file doesn\'t exist yet for {0:s}, {1:02d}Z\n'.format(dateString, runStart)),
+
+    #If no files found return null
     dateString = 'null'
     forecastHour = 'null'
     return dateString, forecastHour

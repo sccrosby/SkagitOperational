@@ -43,8 +43,8 @@ def get_gmt_offset_2(myTime):
 #   Used by get_hrdps()
 def download_grib(gribPrefixP, url, dateString, hour, loc_output):
     # Set name and creat URL
-    grib_name = '%s%s00_P%03d-00.grib2' % (gribPrefixP, dateString, hour)
-    grib_url = '%s/00/%03d/%s' % (url, hour, grib_name)
+    grib_name = '%s%s18_P%03d-00.grib2' % (gribPrefixP, dateString, hour)
+    grib_url = '%s/18/%03d/%s' % (url, hour, grib_name)
 
     # Download file to folder specified, throw error if not found
     outfile = '%s/%s' % (loc_output,grib_name)
@@ -79,7 +79,7 @@ def get_hrdps(date_requested):
         os.mkdir(loc_output)
          
     # Download grib files
-    for hour in forecast_hour:
+    for hour in range(1):#forecast_hour:
         # Pressure (prtmsl)    
         download_grib(gribPrefixP, url, dateString, hour, loc_output)      
         # U wind    

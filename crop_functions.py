@@ -24,6 +24,11 @@ maxWind = 0.0
 maxHour = 0
 meanMax = 0.0
 
+
+
+
+
+###
 datasetU = gdal.Open(fol_grib + fname_grib, GA_ReadOnly )  
 
 rband = datasetU.GetRasterBand(1)
@@ -34,7 +39,6 @@ Ny = band.YSize
 
 U10 = np.flipud(band_u.ReadAsArray(0,0))
 
- 
 
 # # # # # # # # # 
 Lats = np.zeros((Ny,Nx), dtype='d')

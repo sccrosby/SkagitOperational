@@ -2,7 +2,7 @@
 # Created 5/1/2017
 # Author S. C. Crosby
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 import os
 import urllib2
@@ -86,5 +86,37 @@ def get_hrdps(date_requested):
         download_grib(gribPrefixU, url, dateString, hour, loc_output)       
         # V wind    
         download_grib(gribPrefixV, url, dateString, hour, loc_output)
-        
+
+# Find latest files available for Canada HRDPS
+def latest_hrdps_forecast():
+	# Set static string and format
+    gribPrefix = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_'
+    FormatZ = '%Y-%m-%d %H:%M:%S %Z'
+	forecastHr = 48
+	
+    # Try today and yesterday
+    for ndy in [0,-1]:
+        NowUTC = datetime.utcnow() + timedelta(days=ndy)
+        dateString = NowUTC.strftime('%Y%m%d')
+		
+		# Try most recent forecast first, then go backwards
+        for runStart in [18,12,6,0]:
+            gribName = '{0:s}{1:s}{2:02d}_P{3:03d}-00.grib2'.format(gribPrefix, dateString, runStart, forecastHr)
+            gribUrl   = 'http://dd.weather.gc.ca/model_hrdps/west/grib2/{0:02d}/{1:03d}/{2:s}'.format(runStart, forecastHr, gribName)
+            #print(gribUrl)
+            
+            # See if file exists, if so return, otherwise loop
+            try:
+            	test = urllib2.urlopen(gribUrl)
+            	forecastHour = runStart
+            	return dateString, utc
+            except:
+                print('48 hour file doesn\'t exist yet for {0:s}, {1:02d}Z'.format(dateString, runStart)),
+	
+	#If no files found return null
+    dateString = 'null'
+    forecastHour = 'null'
+    return dateString, forecastHour
+
+
         

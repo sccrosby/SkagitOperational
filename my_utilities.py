@@ -15,6 +15,6 @@ def clear_all():
 
         del globals()[var]
         
-def reset():
-    from IPython import get_ipython
-    get_ipython().magic('reset -sf')
+#def reset():
+#    from IPython import get_ipython
+#    get_ipython().magic('reset -sf')

@@ -23,8 +23,9 @@ def get_gmt_offset():
     return diff_hour
 
 # Returns GMT offset to PST/PDT 
-def get_gmt_offset_2(myTime):
+def get_gmt_offset_2():
     # Works through 2019, HARDCODED
+    myTime = datetime.utcnow()
     if datetime(2015,3,8,2,0,0) < myTime < datetime(2015,11,1,2,0,0):
         GMT2PST = 7 #hr
     elif datetime(2016,3,13,2,0,0) < myTime < datetime(2016,11,6,2,0,0):
@@ -41,10 +42,10 @@ def get_gmt_offset_2(myTime):
 
 # Function downloads grib file
 #   Used by get_hrdps()
-def download_grib(gribPrefixP, url, dateString, hour, loc_output):
+def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_output):
     # Set name and creat URL
-    grib_name = '%s%s18_P%03d-00.grib2' % (gribPrefixP, dateString, hour)
-    grib_url = '%s/18/%03d/%s' % (url, hour, grib_name)
+    grib_name = '%s%s%02d_P%03d-00.grib2' % (gribPrefixP, dateString, zulu_hour, forecast_hour)
+    grib_url = '%s/%02d/%03d/%s' % (url, zulu_hour, forecast_hour, grib_name)
 
     # Download file to folder specified, throw error if not found
     outfile = '%s/%s' % (loc_output,grib_name)
@@ -58,34 +59,40 @@ def download_grib(gribPrefixP, url, dateString, hour, loc_output):
         raise ValueError(err_str)
 
 # Function download winds & pressure from Canada HRDPS predictions
-def get_hrdps(date_requested):
+def get_hrdps(date_string, zulu_hour):
+    
     #Static (Hardwired) Variables
     forecast_hour = range(48)
     gribPrefixP = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' #Canadian file prefixes
     gribPrefixU = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'
     gribPrefixV = 'CMC_hrdps_west_VGRD_TGL_10_ps2.5km_'
+    gribPrefixLAND = 'CMC_hrdps_west_LAND_SFC_0_ps2.5km_'
     url = 'http://dd.weather.gc.ca/model_hrdps/west/grib2'
-    
+    loc_output = '../Data/raw_downloads/hrdps/hrdps_grib_%s' % date_string  # Set output folder location
+  
     # Create datestring
-    dateString  = date_requested.strftime('%Y%m%d')
+    # dateString  = date_requested.strftime('%Y%m%d')
     
-    # Set output folder location
-    loc_output = 'hrdps_grib_%s' % dateString 
-    
+  
     # Make output folder if neccessary
     if os.path.exists(loc_output):
-        print('Folder \'{0:s}\' exists.'.format(loc_output))
+    	temp=0#print('Folder \'{0:s}\' exists.'.format(loc_output))
     else:
         os.mkdir(loc_output)
+    
+    # Dowload land mask?
+    download_grib(gribPrefixLAND, url, date_string, zulu_hour, 0, loc_output)
          
     # Download grib files
-    for hour in range(1):#forecast_hour:
+    for hour in forecast_hour: 
+    	print 'Dowloading hrdps forecast hour %02d' % hour
         # Pressure (prtmsl)    
-        download_grib(gribPrefixP, url, dateString, hour, loc_output)      
+        download_grib(gribPrefixP, url, date_string, zulu_hour, hour, loc_output)      
         # U wind    
-        download_grib(gribPrefixU, url, dateString, hour, loc_output)       
+        download_grib(gribPrefixU, url, date_string, zulu_hour, hour, loc_output)       
         # V wind    
-        download_grib(gribPrefixV, url, dateString, hour, loc_output)
+        download_grib(gribPrefixV, url, date_string, zulu_hour, hour, loc_output)
+    
 
 # Find latest files available for Canada HRDPS
 def latest_hrdps_forecast():

@@ -1,7 +1,28 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu May 04 13:49:35 2017
+SkagitOperational - Contains all codes
 
+File Structure
+
+Documents/
+    SkagitOperational/  (git repo)
+        Archive/
+    Grids/
+        delft3d/
+        delftfm/
+        suntans/
+    Data/
+        raw_downloads/
+            hrdps/
+                hrdps_grib_xxxxx/            
+        crop/
+            hrdps/
+                hrdps_crop_xxxxx/
+        d3d_input/
+            skagit_wind_hrdps/    
+    openearthtools/
+    
 @author: Crosby
 """
 # Clear workspace
@@ -37,4 +58,43 @@ bounds = np.asarray([[207,56],[287,219]]) # Salish Sea region of HRDPS forecast
 crop_functions.region_crop(latest_date, latest_zulu, bounds)
 
 # Prep D3D wind files for Skagit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,5 +1,25 @@
 Skagit Operational Model Development
 
+File structure outside of Repo
+
+Documents/
+    SkagitOperational/  (git repo)
+        Archive/
+    Grids/
+        delft3d/
+        delftfm/
+        suntans/
+    Data/
+        raw_downloads/
+            hrdps/
+                hrdps_grib_xxxxx/            
+        crop/
+            hrdps/
+                hrdps_crop_xxxxx/
+        d3d_input/
+            skagit_wind_hrdps/    
+    openearthtools/
+
 As we proceed try to 
 -use functions as much as possible
 -Emphasize generalization, methodology will be applied to many "local models"

@@ -18,6 +18,7 @@ import subprocess
 import matplotlib.cm as cm
 from matplotlib.colors import LightSource
 
+# Hardcoded Options
 SCIPY = True
 
 # Choose one of these
@@ -31,122 +32,54 @@ else:
     from matplotlib.mlab import griddata
 
 
-if EQUIDISTANT:
-    Nx = 415+2
-    Ny = 490+2
-if CURVILINEAR or ON_GRID:
-    Nx = 415
-    Ny = 490
+#if EQUIDISTANT:
+#    Nx = 415+2
+#    Ny = 490+2
+#if CURVILINEAR or ON_GRID:
+#    Nx = 415
+#    Ny = 490
 
 def Skagit_regrid(dateString, day_of_year, hyphenatedString, folder, fileCount, utc):
     # ========== output file headers ==========
     global Ny
     global Nx
     print('Skagit regrid(Ny={0:d},Nx={1:d})'.format(Ny,Nx))
-    if EQUIDISTANT:
-        wind_u_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amu'.format(dateString, day_of_year, utc)
-        wind_v_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amv'.format(dateString, day_of_year, utc)
-        if os.path.exists(wind_u_name) and os.path.exists(wind_v_name):
-            print('Skagit .amu and .amv files found.')
-            return 0
-        uFile = open(wind_u_name,'w')
-        vFile = open(wind_v_name,'w')
 
-        uFile.write('### START OF HEADER\n')
-        uFile.write('### This file is created for Skagit Delta model\n')
-        uFile.write('FileVersion     =    1.03\n')  # Version of meteo input file, to check if the newest file format is used
-        # Type of meteo input file: meteo_on_flow_grid, meteo_on_curvilinear_grid, meteo_on_rectilinear_grid or meteo_on_spiderweb_grid
-        uFile.write('filetype        =    meteo_on_equidistant_grid\n')
-        uFile.write('NODATA_value    =    -999.000\n')           # Value used for undefined or missing data
-        uFile.write('n_cols          =    {0:3d}\n'.format(Nx))
-        uFile.write('n_rows          =    {0:3d}\n'.format(Ny))
-        uFile.write('grid_unit       =    m\n')
-        uFile.write('x_llcorner      =    526108.0\n')
-        uFile.write('y_llcorner      =    5343228.0\n')
-        uFile.write('dx              =    50.0\n')
-        uFile.write('dy              =    50.0\n')
-        uFile.write('n_quantity      =    1\n')                  # Number of quantities prescribed in the file
-        uFile.write('quantity1       =    x_wind\n')             # Name of quantity1
-        uFile.write('unit1           =    m s-1\n')              # Unit of quantity1
-        uFile.write('### END OF HEADER\n')
+    wind_u_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amu'.format(dateString, day_of_year, utc)
+    wind_v_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amv'.format(dateString, day_of_year, utc)
+    if os.path.exists(wind_u_name) and os.path.exists(wind_v_name):
+        print('Skagit .amu and .amv files found.')
+        return 0
+    uFile = open(wind_u_name,'w')
+    vFile = open(wind_v_name,'w')
 
-        vFile.write('### START OF HEADER\n')
-        vFile.write('### This file is created for Skagit Delta model\n')
-        vFile.write('FileVersion     =    1.03\n')
-        vFile.write('filetype        =    meteo_on_equidistant_grid\n')
-        vFile.write('NODATA_value    =    -999.000\n')
-        vFile.write('n_cols          =    {0:3d}\n'.format(Nx))
-        vFile.write('n_rows          =    {0:3d}\n'.format(Ny))
-        vFile.write('grid_unit       =    m\n')
-        vFile.write('x_llcorner      =    526108.0\n')
-        vFile.write('y_llcorner      =    5343228.0\n')
-        vFile.write('dx              =    50.0\n')
-        vFile.write('dy              =    50.0\n')
-        vFile.write('n_quantity      =    1\n')
-        vFile.write('quantity1       =    y_wind\n')
-        vFile.write('unit1           =    m s-1\n')
-        vFile.write('### END OF HEADER\n')
+    uFile.write('### START OF HEADER\n')
+    uFile.write('### This file is created for Skagit Delta model\n')
+    uFile.write('FileVersion     =    1.03\n')
+    uFile.write('filetype        =    meteo_on_curvilinear_grid\n')
+    uFile.write('NODATA_value    =    -9999.000\n')
+    uFile.write('grid_file        =    meteo.grd\n')
+    uFile.write('first_data_value =    grid_llcorner\n')
+    uFile.write('data_row         =    grid_row\n')
+    uFile.write('n_quantity      =    1\n')
+    uFile.write('quantity1       =    x_wind\n')
+    uFile.write('unit1           =    m s-1\n')
+    uFile.write('### END OF HEADER\n')
 
-    if CURVILINEAR:
-        wind_u_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amu'.format(dateString, day_of_year, utc)
-        wind_v_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amv'.format(dateString, day_of_year, utc)
-        if os.path.exists(wind_u_name) and os.path.exists(wind_v_name):
-            print('Skagit .amu and .amv files found.')
-            return 0
-        uFile = open(wind_u_name,'w')
-        vFile = open(wind_v_name,'w')
+    vFile.write('### START OF HEADER\n')
+    vFile.write('### This file is created for Skagit Delta model\n')
+    vFile.write('FileVersion     =    1.03\n')
+    vFile.write('filetype        =    meteo_on_curvilinear_grid\n')
+    vFile.write('NODATA_value    =    -9999.000\n')
+    vFile.write('grid_file        =    meteo.grd\n')
+    vFile.write('first_data_value =    grid_llcorner\n')
+    vFile.write('data_row         =    grid_row\n')
+    vFile.write('n_quantity      =    1\n')
+    vFile.write('quantity1       =    y_wind\n')
+    vFile.write('unit1           =    m s-1\n')
+    vFile.write('### END OF HEADER\n')
 
-        uFile.write('### START OF HEADER\n')
-        uFile.write('### This file is created for Skagit Delta model\n')
-        uFile.write('FileVersion     =    1.03\n')
-        uFile.write('filetype        =    meteo_on_curvilinear_grid\n')
-        uFile.write('NODATA_value    =    -9999.000\n')
-        uFile.write('grid_file        =    meteo.grd\n')
-        uFile.write('first_data_value =    grid_llcorner\n')
-        uFile.write('data_row         =    grid_row\n')
-        uFile.write('n_quantity      =    1\n')
-        uFile.write('quantity1       =    x_wind\n')
-        uFile.write('unit1           =    m s-1\n')
-        uFile.write('### END OF HEADER\n')
-
-        vFile.write('### START OF HEADER\n')
-        vFile.write('### This file is created for Skagit Delta model\n')
-        vFile.write('FileVersion     =    1.03\n')
-        vFile.write('filetype        =    meteo_on_curvilinear_grid\n')
-        vFile.write('NODATA_value    =    -9999.000\n')
-        vFile.write('grid_file        =    meteo.grd\n')
-        vFile.write('first_data_value =    grid_llcorner\n')
-        vFile.write('data_row         =    grid_row\n')
-        vFile.write('n_quantity      =    1\n')
-        vFile.write('quantity1       =    y_wind\n')
-        vFile.write('unit1           =    m s-1\n')
-        vFile.write('### END OF HEADER\n')
-
-    if ON_GRID:
-        # Manual: A.2.10.1 Space-varying wind on the computational (SWAN) grid
-        # Wave program: "meteo on computational grid" (flow grid) is not supported by Delft3D-WAVE
-
-        wind_uv_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.wnd'.format(dateString, day_of_year, utc)
-        if os.path.exists(wind_uv_name):
-            print('Skagit .wnd file found.')
-            return 0
-        uvFile = open(wind_uv_name,'w')
-
-        uvFile.write('### START OF HEADER\n')
-        uvFile.write('### This file is created for Skagit Delta model\n')
-        uvFile.write('FileVersion      =    1.03\n')               # Version of meteo input file, to check if the newest file format is used
-        # Type of meteo input file: meteo_on_flow_grid, meteo_on_curvilinear_grid, meteo_on_rectilinear_grid or meteo_on_spiderweb_grid
-        uvFile.write('filetype         =    meteo_on_computational_grid\n')
-        uvFile.write('NODATA_value     =    -999.000\n')           # Value used for undefined or missing data
-        uvFile.write('n_quantity       =    3\n')                  # Number of quantities prescribed in the file
-        uvFile.write('quantity1        =    x_wind\n')             # Name of quantity1
-        uvFile.write('quantity2        =    y_wind\n')             # Name of quantity1
-        uvFile.write('quantity3        =    air_pressure\n')             # Name of quantity1
-        uvFile.write('unit1            =    m s-1\n')              # Unit of quantity1
-        uvFile.write('unit2            =    m s-1\n')              # Unit of quantity1
-        uvFile.write('unit3            =    Pa\n')              # Unit of quantity1
-        uvFile.write('### END OF HEADER\n')
-
+   
     # ============== D3D grid  ================
 
     gridFile = open('Wave_skagit/SKAGIT_50m.grd','r')

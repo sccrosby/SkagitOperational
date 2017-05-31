@@ -40,6 +40,44 @@ def get_gmt_offset_2():
         GMT2PST = 8 #hr
     return GMT2PST
 
+
+# Function download winds & pressure from Canada HRDPS predictions
+def get_hrdps(date_string, zulu_hour, param):
+    
+    #Set Static Variables
+    num_forecast_hours = param['num_forecast_hours']
+    gribPrefixP = param['hrdps_PrefixP']
+    gribPrefixU = param['hrdps_PrefixU']
+    gribPrefixV = param['hrdps_PrefixV']
+    gribPrefixLAND = param['hrdps_PrefixLAND']
+    url = param['hrdps_url']
+    
+    # Set folder for downloads
+    loc_output = '{0:s}/{1:s}{2:s}'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
+  
+    # Create datestring
+    # dateString  = date_requested.strftime('%Y%m%d')
+    
+  
+    # Make output folder if neccessary
+    if os.path.exists(loc_output):
+    	temp=0#print('Folder \'{0:s}\' exists.'.format(loc_output))
+    else:
+        os.mkdir(loc_output)
+    
+    # Dowload land mask?
+    download_grib(gribPrefixLAND, url, date_string, zulu_hour, 0, loc_output)
+         
+    # Download grib files
+    for hour in range(num_forecast_hours): 
+    	print 'Dowloading hrdps forecast hour %02d' % hour
+        # Pressure (prtmsl)    
+        download_grib(gribPrefixP, url, date_string, zulu_hour, hour, loc_output)      
+        # U wind    
+        download_grib(gribPrefixU, url, date_string, zulu_hour, hour, loc_output)       
+        # V wind    
+        download_grib(gribPrefixV, url, date_string, zulu_hour, hour, loc_output)
+ 
 # Function downloads grib file
 #   Used by get_hrdps()
 def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_output):
@@ -57,42 +95,7 @@ def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_ou
     except:
         err_str = 'Grib file not found, url incorrect, trying %s' % grib_url
         raise ValueError(err_str)
-
-# Function download winds & pressure from Canada HRDPS predictions
-def get_hrdps(date_string, zulu_hour):
-    
-    #Static (Hardwired) Variables
-    forecast_hour = range(48)
-    gribPrefixP = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' #Canadian file prefixes
-    gribPrefixU = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'
-    gribPrefixV = 'CMC_hrdps_west_VGRD_TGL_10_ps2.5km_'
-    gribPrefixLAND = 'CMC_hrdps_west_LAND_SFC_0_ps2.5km_'
-    url = 'http://dd.weather.gc.ca/model_hrdps/west/grib2'
-    loc_output = '../Data/raw_downloads/hrdps/hrdps_grib_%s' % date_string  # Set output folder location
-  
-    # Create datestring
-    # dateString  = date_requested.strftime('%Y%m%d')
-    
-  
-    # Make output folder if neccessary
-    if os.path.exists(loc_output):
-    	temp=0#print('Folder \'{0:s}\' exists.'.format(loc_output))
-    else:
-        os.mkdir(loc_output)
-    
-    # Dowload land mask?
-    download_grib(gribPrefixLAND, url, date_string, zulu_hour, 0, loc_output)
-         
-    # Download grib files
-    for hour in forecast_hour: 
-    	print 'Dowloading hrdps forecast hour %02d' % hour
-        # Pressure (prtmsl)    
-        download_grib(gribPrefixP, url, date_string, zulu_hour, hour, loc_output)      
-        # U wind    
-        download_grib(gribPrefixU, url, date_string, zulu_hour, hour, loc_output)       
-        # V wind    
-        download_grib(gribPrefixV, url, date_string, zulu_hour, hour, loc_output)
-    
+   
 
 # Find latest files available for Canada HRDPS
 def latest_hrdps_forecast():
@@ -125,4 +128,57 @@ def latest_hrdps_forecast():
     return dateString, forecastHour
 
 
-        
+def get_tides(tide_file, datestring, zulu_hour, num_forecast_hours):   
+    # NULL vars ignored
+    
+    # Functoin to find minimum nearest
+    def nearest(items, pivot):
+        return min(items, key=lambda x: abs(x - pivot))
+    
+    # Load Tide File
+    with open(tide_file) as fid:
+        content = fid.readlines()
+    
+    # Disregard Header    
+    content.pop(0)
+    
+    # Format of time data
+    t_format = '%Y-%m-%d-%H-%M-%S'
+    
+    # Parse time and tide data 
+    time = [datetime.strptime(x.split()[0],t_format) for x in content]    
+    tide = [float(x.split()[1]) for x in content]
+    win
+    # Format input date
+    temp = '%s%02d' % (datestring, zulu_hour)
+    time_forecast =  datetime.strptime(temp,'%Y%m%d%H')
+    
+    # Find index for requested time
+    time_nearest = nearest(time,time_forecast)
+    idx = time.index(time_nearest)
+    
+    # Return 48-hour forecast of tides
+    model_time = time[idx:idx+num_forecast_hours]
+    model_tide = tide[idx:idx+num_forecast_hours]
+    
+    return model_tide    
+    
+#    # Convert to Local Time
+#    model_time = [x-timedelta(hours=timeDifference) for x in model_time ]
+#    
+    # Write latest tide time file
+#    fname = 'D:\EG_WORK\Skagit_OperationalModel\pythonscripting\CANADA\Tide_data_canada\latest_tide_time.txt'
+#    out_contents = '%s   %02d' % (datestring, forecast_hour)
+#    with open(fname,'w') as fid:
+#        fid.write(out_contents)
+    
+    # Write 48-hour tide file
+#    fol_loc = r'D:/EG_WORK/Skagit_OperationalModel/pythonscripting/CANADA/Tide_data_canada'
+#    fname = '%s/tide_forecast_%s_%02dZ.txt' % (fol_loc, datestring, forecast_hour)
+#    #print fname
+#    with open(fname,'w') as fid:
+#        for x,y in zip(model_time,model_tide):
+#            fid.write('%s  %5.3f\n' % (x.strftime('%Y-%m-%d %H:%M:%S'),y))
+
+    # Return 48-hour tide forecast
+

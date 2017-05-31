@@ -20,24 +20,10 @@ from matplotlib.colors import LightSource
 from scipy.interpolate import griddata
 
 
-# Choose one of these
-EQUIDISTANT = False
-CURVILINEAR = True
-ON_GRID = False         # not enabled yet in WAVE
 
-
-
-
-#if EQUIDISTANT:
-#    Nx = 415+2
-#    Ny = 490+2
-#if CURVILINEAR or ON_GRID:
-#    Nx = 415
-#    Ny = 490
-
-# Create Curvilinear wind file
 def write_amuv(dateString,zulu_hour):
-#def write_amuv(dateString, hyphenatedString, folder, fileCount, utc):
+# Create Curvilinear wind file
+
     # Set some constants that vary from model to model
     line_meteo_grid_size= 1     # Line number in meteo grid with Nx, Ny
     line_header_skip    = 3     # Number of header lines in meteo file
@@ -46,9 +32,9 @@ def write_amuv(dateString,zulu_hour):
     num_forecast_hours  = 48
     
     # Set locations
-    fol_wind_grib =     '../Data/crop/hrdps'
-    fol_wind_amuv =     '../Data/d3d_input/skagit'
-    fol_grid =          '../Grids/delft3d/skagit'
+    param = {'fol_wind_grib':'../Data/crop/hrdps',
+                  'fol_wind_amuv':'../Data/d3d_input/skagit',
+                  'fol_grid':'../Grids/delft3d/skagit'}
         
     # Set file names
     fname_fol_wind =    'hrdps_crop_{0:s}'.format(dateString)
@@ -61,7 +47,7 @@ def write_amuv(dateString,zulu_hour):
     # ------------------- Begin Function ----------------------------------    
 
     # create datetime obj    
-    time_obj = datetime.strptime('20170524','%Y%m%d')
+    time_obj = datetime.strptime(dateString,'%Y%m%d')
     
     # Write Header
     uFile = open(wind_u_name,'w')
@@ -242,6 +228,149 @@ def write_amuv(dateString,zulu_hour):
 #    maxWindFile.close()
 
     return 0
+
+
+
+def write_mdw(dateString, zulu_hour, tides):
+    
+    time_obj = datetime.strptime(dateString,'%Y%m%d')
+    
+    # for tides:
+    if N_location == 0:
+        location_str = "Crescent Harbor, N. Whidbey Island, Washington"
+    elif N_location == 1:
+        location_str = "Bellingham, Bellingham Bay, Washington"
+    dt = timedelta(days=2, hours=1)
+    Start = tTide
+    Next  = tTide + dt
+    # ========================================= tides =============================================
+    command_str = 'tide -b \"{0:s}\" -e \"{1:s}\" -l \"{2:s}\" -mr -um -s 01:00'.\
+        format( datetime.strftime(Start,"%Y-%m-%d %H:%M"), datetime.strftime(Next,"%Y-%m-%d %H:%M"), location_str )
+    tidesStr = subprocess.check_output(command_str, shell=True)
+    tides = tidesStr.split()    # 48 times and 48 elevations
+    Ntides = len(tides)
+    if Ntides > 96:
+        Ntides = 96
+    elevation = np.empty(Ntides/2, dtype='d')
+    for n in range(0,Ntides,2):
+        elevation[n/2] = (float(tides[n+1]))
+        
+    # =============================================================================================
+    if N_location == 0:
+        mdwFile = open('Wave_skagit/skagit_50m.mdw','w')
+    elif N_location == 1:
+        return
+        #mdwFile = open('Wave_bellingham/bellingham_100m.mdw','w')
+    mdwFile.write('[WaveFileInformation]\n')
+    mdwFile.write('   FileVersion          = 02.00\n')
+    mdwFile.write('[General]\n')
+    mdwFile.write('   ProjectName          = Skgt_50m\n')
+    mdwFile.write('   ProjectNr            = 1\n')
+    mdwFile.write('   Description          = Grid info:\n')
+    mdwFile.write('   OnlyInputVerify      = false\n')
+    mdwFile.write('   SimMode              = stationary\n')
+    mdwFile.write('   DirConvention        = nautical\n')
+    mdwFile.write('   ReferenceDate        = {0:s}\n'.format(time_obj.strftime('%Y-%m-%d')))
+    mdwFile.write('   MeteoFile            = wind_{0:s}_{1:03d}_{2:02d}.amu\n'.format(dateString, day_of_year, utc))
+    mdwFile.write('   MeteoFile            = wind_{0:s}_{1:03d}_{2:02d}.amv\n'.format(dateString, day_of_year, utc))
+    for hour in range(48):
+        #elevation = float(tideLines[hour].split()[1])
+        #elevation = tides[hour].split()[1]
+        mdwFile.write('[TimePoint]\n')
+        mdwFile.write('   Time                 =  {0:3.1f}\n'.format(hour*60.0))
+        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(elevation[hour]))
+        mdwFile.write('   XVeloc               =  0.0000000e+000\n')
+        mdwFile.write('   YVeloc               =  0.0000000e+000\n')
+    mdwFile.write('[Constants]\n')
+    mdwFile.write('   WaterLevelCorrection =  0.0000000e+000\n')
+    mdwFile.write('   Gravity              =  9.8100004e+000\n')
+    mdwFile.write('   WaterDensity         =  1.0250000e+003\n')
+    mdwFile.write('   NorthDir             =  9.0000000e+001\n')
+    mdwFile.write('   MinimumDepth         =  5.0000001e-002\n')
+    mdwFile.write('[Processes]\n')
+    mdwFile.write('   GenModePhys          = 3\n')
+    mdwFile.write('   Breaking             = true\n')
+    mdwFile.write('   BreakAlpha           =  1.0000000e+000\n')
+    mdwFile.write('   BreakGamma           =  7.3000002e-001\n')
+    mdwFile.write('   Triads               = false\n')
+    mdwFile.write('   TriadsAlpha          =  1.0000000e-001\n')
+    mdwFile.write('   TriadsBeta           =  2.2000000e+000\n')
+    mdwFile.write('   WaveSetup            = false\n')
+    mdwFile.write('   BedFriction          = jonswap\n')
+    mdwFile.write('   BedFricCoef          =  6.7000002e-002\n')
+    mdwFile.write('   Diffraction          = false\n')
+    mdwFile.write('   DiffracCoef          =  2.0000000e-001\n')
+    mdwFile.write('   DiffracSteps         = 5\n')
+    mdwFile.write('   DiffracProp          = true\n')
+    mdwFile.write('   WindGrowth           = true\n')
+    mdwFile.write('   WhiteCapping         = Komen\n')
+    mdwFile.write('   Quadruplets          = true\n')
+    mdwFile.write('   Refraction           = true\n')
+    mdwFile.write('   FreqShift            = true\n')
+    mdwFile.write('   WaveForces           = dissipation 3d\n')
+    mdwFile.write('[Numerics]\n')
+    mdwFile.write('   DirSpaceCDD          =  5.0000000e-001\n')
+    mdwFile.write('   FreqSpaceCSS         =  5.0000000e-001\n')
+    mdwFile.write('   RChHsTm01            =  2.0000000e-002\n')
+    mdwFile.write('   RChMeanHs            =  2.0000000e-002\n')
+    mdwFile.write('   RChMeanTm01          =  2.0000000e-002\n')
+    mdwFile.write('   PercWet              =  9.8000000e+001\n')
+    mdwFile.write('   MaxIter              = 30\n')
+    mdwFile.write('[Output]\n')
+    mdwFile.write('   TestOutputLevel      = 0\n')
+    mdwFile.write('   TraceCalls           = false\n')
+    mdwFile.write('   UseHotFile           = true\n')
+    mdwFile.write('   Int2KeepHotfile      = 180.0\n')
+    mdwFile.write('   WriteCOM             = false\n')
+    mdwFile.write('   COMWriteInterval     = 60\n')
+    mdwFile.write('   AppendCOM            = true\n')
+    mdwFile.write('   WriteCOM             = false\n')
+    mdwFile.write('   LocationFile         = test.loc\n')
+    mdwFile.write('   WriteTable           = true\n')
+    mdwFile.write('   WriteSpec1D          = true\n')
+    mdwFile.write('   WriteSpec2D          = true\n')
+    mdwFile.write('[Domain]\n')
+    mdwFile.write('   Grid                 = SKAGIT_50m.grd\n')
+    mdwFile.write('   BedLevel             = SKAGIT_50m.dep\n')
+    mdwFile.write('   DirSpace             = circle\n')
+    mdwFile.write('   NDir                 = 36\n')
+    mdwFile.write('   StartDir             =  0.0000000e+000\n')
+    mdwFile.write('   EndDir               =  0.0000000e+000\n')
+    mdwFile.write('   FreqMin              =  1.25000001e-001\n')
+    mdwFile.write('   FreqMax              =  5.0000000e+000\n')
+    mdwFile.write('   NFreq                = 24\n')
+    mdwFile.write('   Output               = true\n')
+    mdwFile.close()
+
+def locations_1(grid_number):
+    locFile = open('Wave_skagit/test.loc','w')
+    if grid_number == 1:
+        # 10 meter
+        locFile.write('533035.858 5360764.142\n')
+        locFile.write('532809.584 5360990.416\n')
+        locFile.write('532597.452 5361202.548\n')
+    elif grid_number == 2:
+        # 20 meter
+        locFile.write('532610.787 5358963.213\n')
+        locFile.write('532066.315 5359507.685\n')
+        locFile.write('531521.842 5360052.158\n')
+    elif grid_number == 3:
+        locFile.write('533624.235 5358750.978\n')
+        locFile.write('533409.416 5359552.696\n')
+        locFile.write('533194.596 5360354.415\n')
+    locFile.close()
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##============================================
 #def read_SRTM():

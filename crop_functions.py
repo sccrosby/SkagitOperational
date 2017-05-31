@@ -23,19 +23,21 @@ import scipy.io as sio
 from matplotlib.colors import LightSource
 import matplotlib.gridspec as gridspec
 
-def region_crop(dateString, zulu_hour, bounds):
+def region_crop(dateString, zulu_hour, param):
     #Hardcoded variables    
-    fileCount = 48 #Number of forecast hours
-    maxFileName = '../Data/crop/hrdps/max_files/max_regional_wind_{0:s}_{1:02d}Z.dat'.format(dateString, zulu_hour) #Short file with max wind speeds
-    hrdps_lamwest_file = '../Data/raw_downloads/hrdps/lamwestpoints.dat'
-    hrdps_rotation_file = '../Data/raw_downloads/hrdps/rotations.dat'
-    grib_input_loc = '../Data/raw_downloads/hrdps/hrdps_grib_{0:s}/'.format(dateString)
-    crop_output_loc = '../Data/crop/hrdps/hrdps_crop_{0:s}/'.format(dateString)
-    prefix_uwnd = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'
-    prefix_vwnd = 'CMC_hrdps_west_VGRD_TGL_10_ps2.5km_'
+    maxFileName = '../Data/crop/hrdps/max_files/max_regional_wind_{0:s}_{1:02d}Z.dat'.format(dateString, zulu_hour) #Short file with max wind speeds    
+    
+    # Initialize    
+    fileCount = param['num_forecast_hours'] #Number of forecast hours
+    hrdps_lamwest_file = param['hrdps_lamwest_file']
+    hrdps_rotation_file = param['hrdps_rotation_file']
+    grib_input_loc = '{0:s}/{1:s}{2:s}'.format(param['fol_wind_grib'],param['folname_grib_prefix'],dateString)
+    crop_output_loc = '{0:s}/{1:s}{2:s}'.format(param['fol_wind_crop'],param['folname_crop_prefix'],dateString)
+    prefix_uwnd = param['hrdps_PrefixU'] 
+    prefix_vwnd = param['hrdps_PrefixV'] 
     
     #----------------------- setup mask for sea level wind ------------------------------------------------
-    maskFileName = '{0:s}CMC_hrdps_west_LAND_SFC_0_ps2.5km_{1:s}{2:02d}_P000-00.grib2'.format(grib_input_loc, dateString, zulu_hour)
+    maskFileName = '{0:s}/CMC_hrdps_west_LAND_SFC_0_ps2.5km_{1:s}{2:02d}_P000-00.grib2'.format(grib_input_loc, dateString, zulu_hour)
     grbl = pygrib.open(maskFileName)
     grblL = grbl.select(name='Land-sea mask')[0]
     Land = grblL.values

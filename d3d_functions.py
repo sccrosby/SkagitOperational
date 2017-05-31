@@ -21,28 +21,28 @@ from scipy.interpolate import griddata
 
 
 
-def write_amuv(dateString,zulu_hour):
+def write_amuv(dateString,zulu_hour,param):
 # Create Curvilinear wind file
 
     # Set some constants that vary from model to model
-    line_meteo_grid_size= 1     # Line number in meteo grid with Nx, Ny
-    line_header_skip    = 3     # Number of header lines in meteo file
-    xLL                 = 526108.0  # lower left corner of SWAN computational grid
-    yLL                 = 5343228.0
-    num_forecast_hours  = 48
+    line_meteo_grid_size= param['line_meteo_grid_size']     # Line number in meteo grid with Nx, Ny
+    line_header_skip    = param['line_header_skip']    # Number of header lines in meteo file
+    xLL                 = param['xLL']  # lower left corner of SWAN computational grid
+    yLL                 = param['yLL']
+    num_forecast_hours  = param['num_forecast_hours']
     
     # Set locations
-    param = {'fol_wind_grib':'../Data/crop/hrdps',
-                  'fol_wind_amuv':'../Data/d3d_input/skagit',
-                  'fol_grid':'../Grids/delft3d/skagit'}
+    fol_wind_crop = param['fol_wind_crop']
+    fol_wind_amuv = param['fol_model']
+    fol_grid = param['fol_grid']
         
     # Set file names
-    fname_fol_wind =    'hrdps_crop_{0:s}'.format(dateString)
-    fname_prefix_wind = 'cropped_wind_{0:s}_{1:02d}z'.format(dateString,zulu_hour)
-    fname_meteo =       'skagit_meteo.grd'
-    fname_grd =         'skagit_50m.grd'
-    wind_u_name =       '{0:s}/wind_skagit.amu'.format(fol_wind_amuv)    
-    wind_v_name =       '{0:s}/wind_skagit.amv'.format(fol_wind_amuv)
+    fname_fol_wind =    '{0:s}{1:s}'.format(param['folname_crop_prefix'],dateString)
+    fname_wind_file = '{0:s}{1:s}_{2:02d}z'.format(param['fname_prefix_wind'],dateString,zulu_hour)
+    fname_meteo =       param['fname_meteo_grid']
+    fname_grd =         param['fname_grid']
+    wind_u_file =       '{0:s}/{1:s}'.format(param['fol_model'],param['wind_u_name'])    
+    wind_v_file =       '{0:s}/{1:s}'.format(param['fol_model'],param['wind_v_name'])
     
     # ------------------- Begin Function ----------------------------------    
 
@@ -50,15 +50,16 @@ def write_amuv(dateString,zulu_hour):
     time_obj = datetime.strptime(dateString,'%Y%m%d')
     
     # Write Header
-    uFile = open(wind_u_name,'w')
-    vFile = open(wind_v_name,'w')
+    print 'Writing D3D wind files to {0:s}'.format(wind_u_file)
+    uFile = open(wind_u_file,'w')
+    vFile = open(wind_v_file,'w')
 
     uFile.write('### START OF HEADER\n')
     uFile.write('### This file is created for Skagit Delta model\n')
     uFile.write('FileVersion     =    1.03\n')
     uFile.write('filetype        =    meteo_on_curvilinear_grid\n')
     uFile.write('NODATA_value    =    -9999.000\n')
-    uFile.write('grid_file        =    meteo.grd\n')
+    uFile.write('grid_file        =    {0:s}\n'.format(param['fname_meteo_grid']))
     uFile.write('first_data_value =    grid_llcorner\n')
     uFile.write('data_row         =    grid_row\n')
     uFile.write('n_quantity      =    1\n')
@@ -71,7 +72,7 @@ def write_amuv(dateString,zulu_hour):
     vFile.write('FileVersion     =    1.03\n')
     vFile.write('filetype        =    meteo_on_curvilinear_grid\n')
     vFile.write('NODATA_value    =    -9999.000\n')
-    vFile.write('grid_file        =    meteo.grd\n')
+    vFile.write('grid_file        =    {0:s}\n'.format(param['fname_meteo_grid']))
     vFile.write('first_data_value =    grid_llcorner\n')
     vFile.write('data_row         =    grid_row\n')
     vFile.write('n_quantity      =    1\n')
@@ -79,6 +80,8 @@ def write_amuv(dateString,zulu_hour):
     vFile.write('unit1           =    m s-1\n')
     vFile.write('### END OF HEADER\n')
 
+   
+     
    
     # Load D3D meteo grid
     gridFile = open('{0:s}/{1:s}'.format(fol_grid,fname_meteo),'r')
@@ -128,7 +131,7 @@ def write_amuv(dateString,zulu_hour):
     maxHour = 0
     meanMax = 0.0
     for hour in range(num_forecast_hours):
-        windFileName = '{0:s}/{1:s}/{2:s}_{3:02d}.dat'.format(fol_wind_grib,fname_fol_wind,fname_prefix_wind,hour)
+        windFileName = '{0:s}/{1:s}/{2:s}_{3:02d}.dat'.format(fol_wind_crop,fname_fol_wind,fname_wind_file,hour)
         print('reading {0:s} '.format(windFileName))
 
         windFile = open(windFileName,"r")
@@ -231,36 +234,32 @@ def write_amuv(dateString,zulu_hour):
 
 
 
-def write_mdw(dateString, zulu_hour, tides):
+def write_mdw(dateString, zulu_hour, tides, param):
     
     time_obj = datetime.strptime(dateString,'%Y%m%d')
     
-    # for tides:
-    if N_location == 0:
-        location_str = "Crescent Harbor, N. Whidbey Island, Washington"
-    elif N_location == 1:
-        location_str = "Bellingham, Bellingham Bay, Washington"
-    dt = timedelta(days=2, hours=1)
-    Start = tTide
-    Next  = tTide + dt
-    # ========================================= tides =============================================
-    command_str = 'tide -b \"{0:s}\" -e \"{1:s}\" -l \"{2:s}\" -mr -um -s 01:00'.\
-        format( datetime.strftime(Start,"%Y-%m-%d %H:%M"), datetime.strftime(Next,"%Y-%m-%d %H:%M"), location_str )
-    tidesStr = subprocess.check_output(command_str, shell=True)
-    tides = tidesStr.split()    # 48 times and 48 elevations
-    Ntides = len(tides)
-    if Ntides > 96:
-        Ntides = 96
-    elevation = np.empty(Ntides/2, dtype='d')
-    for n in range(0,Ntides,2):
-        elevation[n/2] = (float(tides[n+1]))
+#    # for tides:
+#    if N_location == 0:
+#        location_str = "Crescent Harbor, N. Whidbey Island, Washington"
+#    elif N_location == 1:
+#        location_str = "Bellingham, Bellingham Bay, Washington"
+#    dt = timedelta(days=2, hours=1)
+#    Start = tTide
+#    Next  = tTide + dt
+#    # ========================================= tides =============================================
+#    command_str = 'tide -b \"{0:s}\" -e \"{1:s}\" -l \"{2:s}\" -mr -um -s 01:00'.\
+#        format( datetime.strftime(Start,"%Y-%m-%d %H:%M"), datetime.strftime(Next,"%Y-%m-%d %H:%M"), location_str )
+#    tidesStr = subprocess.check_output(command_str, shell=True)
+#    tides = tidesStr.split()    # 48 times and 48 elevations
+#    Ntides = len(tides)
+#    if Ntides > 96:
+#        Ntides = 96
+#    elevation = np.empty(Ntides/2, dtype='d')
+#    for n in range(0,Ntides,2):
+#        elevation[n/2] = (float(tides[n+1]))
         
     # =============================================================================================
-    if N_location == 0:
-        mdwFile = open('Wave_skagit/skagit_50m.mdw','w')
-    elif N_location == 1:
-        return
-        #mdwFile = open('Wave_bellingham/bellingham_100m.mdw','w')
+    mdwFile = open('{0:s}/{1:s}'.format(param['fol_model'],param['fname_mdw']),'w')
     mdwFile.write('[WaveFileInformation]\n')
     mdwFile.write('   FileVersion          = 02.00\n')
     mdwFile.write('[General]\n')
@@ -271,14 +270,14 @@ def write_mdw(dateString, zulu_hour, tides):
     mdwFile.write('   SimMode              = stationary\n')
     mdwFile.write('   DirConvention        = nautical\n')
     mdwFile.write('   ReferenceDate        = {0:s}\n'.format(time_obj.strftime('%Y-%m-%d')))
-    mdwFile.write('   MeteoFile            = wind_{0:s}_{1:03d}_{2:02d}.amu\n'.format(dateString, day_of_year, utc))
-    mdwFile.write('   MeteoFile            = wind_{0:s}_{1:03d}_{2:02d}.amv\n'.format(dateString, day_of_year, utc))
-    for hour in range(48):
+    mdwFile.write('   MeteoFile            = {0:s}\n'.format(param['wind_u_name']))
+    mdwFile.write('   MeteoFile            = {0:s}\n'.format(param['wind_v_name']))
+    for hour in range(param['num_forecast_hours']):
         #elevation = float(tideLines[hour].split()[1])
         #elevation = tides[hour].split()[1]
         mdwFile.write('[TimePoint]\n')
         mdwFile.write('   Time                 =  {0:3.1f}\n'.format(hour*60.0))
-        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(elevation[hour]))
+        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides[hour]))
         mdwFile.write('   XVeloc               =  0.0000000e+000\n')
         mdwFile.write('   YVeloc               =  0.0000000e+000\n')
     mdwFile.write('[Constants]\n')
@@ -330,34 +329,23 @@ def write_mdw(dateString, zulu_hour, tides):
     mdwFile.write('   WriteSpec1D          = true\n')
     mdwFile.write('   WriteSpec2D          = true\n')
     mdwFile.write('[Domain]\n')
-    mdwFile.write('   Grid                 = SKAGIT_50m.grd\n')
-    mdwFile.write('   BedLevel             = SKAGIT_50m.dep\n')
+    mdwFile.write('   Grid                 = {0:s}\n'.format(param['fname_grid']))
+    mdwFile.write('   BedLevel             = {0:s}\n'.format(param['fname_dep']))
     mdwFile.write('   DirSpace             = circle\n')
     mdwFile.write('   NDir                 = 36\n')
     mdwFile.write('   StartDir             =  0.0000000e+000\n')
     mdwFile.write('   EndDir               =  0.0000000e+000\n')
     mdwFile.write('   FreqMin              =  1.25000001e-001\n')
-    mdwFile.write('   FreqMax              =  5.0000000e+000\n')
+    mdwFile.write('   FreqMax              =  1.0000000e+000\n')
     mdwFile.write('   NFreq                = 24\n')
     mdwFile.write('   Output               = true\n')
     mdwFile.close()
 
-def locations_1(grid_number):
-    locFile = open('Wave_skagit/test.loc','w')
-    if grid_number == 1:
-        # 10 meter
-        locFile.write('533035.858 5360764.142\n')
-        locFile.write('532809.584 5360990.416\n')
-        locFile.write('532597.452 5361202.548\n')
-    elif grid_number == 2:
-        # 20 meter
-        locFile.write('532610.787 5358963.213\n')
-        locFile.write('532066.315 5359507.685\n')
-        locFile.write('531521.842 5360052.158\n')
-    elif grid_number == 3:
-        locFile.write('533624.235 5358750.978\n')
-        locFile.write('533409.416 5359552.696\n')
-        locFile.write('533194.596 5360354.415\n')
+def make_test_loc(param):
+    locFile = open('{0:s}/test.loc'.format(param['fol_model']),'w')
+    locFile.write('533624.235 5358750.978\n')
+    locFile.write('533409.416 5359552.696\n')
+    locFile.write('533194.596 5360354.415\n')
     locFile.close()
 
 

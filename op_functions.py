@@ -128,7 +128,7 @@ def latest_hrdps_forecast():
     return dateString, forecastHour
 
 
-def get_tides(tide_file, datestring, zulu_hour, num_forecast_hours):   
+def get_tides(datestring, zulu_hour, param):   
     # NULL vars ignored
     
     # Functoin to find minimum nearest
@@ -136,7 +136,7 @@ def get_tides(tide_file, datestring, zulu_hour, num_forecast_hours):
         return min(items, key=lambda x: abs(x - pivot))
     
     # Load Tide File
-    with open(tide_file) as fid:
+    with open(param['tide_file']) as fid:
         content = fid.readlines()
     
     # Disregard Header    
@@ -148,7 +148,7 @@ def get_tides(tide_file, datestring, zulu_hour, num_forecast_hours):
     # Parse time and tide data 
     time = [datetime.strptime(x.split()[0],t_format) for x in content]    
     tide = [float(x.split()[1]) for x in content]
-    win
+
     # Format input date
     temp = '%s%02d' % (datestring, zulu_hour)
     time_forecast =  datetime.strptime(temp,'%Y%m%d%H')
@@ -158,8 +158,8 @@ def get_tides(tide_file, datestring, zulu_hour, num_forecast_hours):
     idx = time.index(time_nearest)
     
     # Return 48-hour forecast of tides
-    model_time = time[idx:idx+num_forecast_hours]
-    model_tide = tide[idx:idx+num_forecast_hours]
+    model_time = time[idx:idx+param['num_forecast_hours']]
+    model_tide = tide[idx:idx+param['num_forecast_hours']]
     
     return model_tide    
     

@@ -18,6 +18,7 @@ Documents/
     Data/
         raw_downloads/
             hrdps/
+                max_files/
                 hrdps_grib_xxxxx/            
         crop/
             hrdps/
@@ -26,7 +27,7 @@ Documents/
             skagit/    
     
     ModelRuns
-        skagit/
+        skagit_wave_50m/
             
     openearthtools/ (svn repo)
     
@@ -38,17 +39,20 @@ import op_functions
 import crop_functions
 import d3d_functions
 import numpy as np
+import os
 import sys
+import subprocess
+import shutil
 from datetime import datetime, timedelta
 
 # ---------------------- SELECT DATE FOR MODEL RUN ----------------------------
 
 # Specifiy date and zulu hour
-dateString = '20170524'
-zulu_hour = 12
+# dateString = '20170524'
+# zulu_hour = 12
 
 # Select most recent available forecast
-# (dateString, zulu_hour) = op_functions.latest_hrdps_forecast()
+(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
@@ -67,19 +71,23 @@ param['xLL']                    = 526108.0  # lower left corner of SWAN computat
 param['yLL']                    = 5343228.0
 
 # Set locations
+param['fol_model']              = '../ModelRuns/skagit_wave_50m'
 param['fol_wind_grib']          = '../Data/downloads/hrdps'
 param['fol_wind_crop']          = '../Data/crop/hrdps'
-param['fol_wind_amuv']          = '../Data/d3d_input/skagit'
 param['fol_grid']               = '../Grids/delft3d/skagit'
     
 # Set file names
 param['folname_crop_prefix']    = 'hrdps_crop_'
 param['folname_grib_prefix']    = 'hrdps_grib_'
 param['fname_prefix_wind']      = 'wind_crop_' #{0:s}_{1:02d}z'.format(dateString,zulu_hour)
-param['fname_meteo']            = 'skagit_meteo.grd'
-param['fname_grd']              = 'skagit_50m.grd'
+param['fname_meteo_grid']       = 'skagit_meteo.grd'
+param['fname_meteo_enc']        = 'skagit_meteo.enc'
+param['fname_grid']             = 'skagit_50m.grd'
+param['fname_dep']              = 'skagit_50m.dep'
+param['fname_enc']              = 'skagit_50m.enc'
 param['wind_u_name']            = 'wind_skagit.amu'    
 param['wind_v_name']            = 'wind_skagit.amv'
+param['fname_mdw']              = 'skagit_50m.mdw'
 
 # HRDPS prefixes and url
 param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 
@@ -87,8 +95,8 @@ param['hrdps_PrefixU']          = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'
 param['hrdps_PrefixV']          = 'CMC_hrdps_west_VGRD_TGL_10_ps2.5km_'
 param['hrdps_PrefixLAND']       = 'CMC_hrdps_west_LAND_SFC_0_ps2.5km_'
 param['hrdps_url']              = 'http://dd.weather.gc.ca/model_hrdps/west/grib2'
-param['hrdps_lamwest_file']     = '../Data/raw_downloads/hrdps/lamwestpoints.dat'
-param['hrdps_rotation_file']    = '../Data/raw_downloads/hrdps/rotations.dat'
+param['hrdps_lamwest_file']     = '../Data/downloads/hrdps/lamwestpoints.dat'
+param['hrdps_rotation_file']    = '../Data/downloads/hrdps/rotations.dat'
 
 
 # Determine offset from local time (PST/PDT) to GMT 
@@ -97,28 +105,31 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 
 # Download raw grib files
-op_functions.get_hrdps(latest_date, latest_zulu, param)
+op_functions.get_hrdps(date_string, zulu_hour, param)
 
 # Parse grib, crop to region, and store
-#crop_functions.region_crop(latest_date, latest_zulu, crop_bounds)
+crop_functions.region_crop(date_string, zulu_hour, param)
 
 # Write amu and amv files
-# write_amuv(dateString,zulu_hour)
+d3d_functions.write_amuv(dateString, zulu_hour, param)
 
 # Get tide predictions for forecast
-tides = op_functions.get_tides(tide_file, dateString, zulu_hour, param['num_forecast_hours'])
+tides = op_functions.get_tides(date_string, zulu_hour, param)
+
+# Write mdw file to model folder
+d3d_functions.write_mdw(date_string, zulu_hour, tides, param)
+d3d_functions.make_test_loc(param)
 
 # Copy files to model folder 
-# shutil.copyfile('../Data/d3d_input/skagit/wind_skagit.amu')
+for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc']:
+    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+
+# Run Model 
+os.chdir(param['fol_model'])
+subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
+os.chdir('../../SkagitOperational')
 
 
-# Find latest
-#from seek_latest_canadian_data import find_latest_canadian_data
-#gribPrefix = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_'
-#(x,y) = find_latest_canadian_data(gribPrefix)
-
-
-# Prep D3D wind files for Skagit
 
 
 

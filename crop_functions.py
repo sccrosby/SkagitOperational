@@ -31,13 +31,14 @@ def region_crop(dateString, zulu_hour, param):
     fileCount = param['num_forecast_hours'] #Number of forecast hours
     hrdps_lamwest_file = param['hrdps_lamwest_file']
     hrdps_rotation_file = param['hrdps_rotation_file']
-    grib_input_loc = '{0:s}/{1:s}{2:s}'.format(param['fol_wind_grib'],param['folname_grib_prefix'],dateString)
-    crop_output_loc = '{0:s}/{1:s}{2:s}'.format(param['fol_wind_crop'],param['folname_crop_prefix'],dateString)
+    grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],dateString)
+    crop_output_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_crop'],param['folname_crop_prefix'],dateString)
     prefix_uwnd = param['hrdps_PrefixU'] 
     prefix_vwnd = param['hrdps_PrefixV'] 
+    bounds = param['crop_bounds']
     
     #----------------------- setup mask for sea level wind ------------------------------------------------
-    maskFileName = '{0:s}/CMC_hrdps_west_LAND_SFC_0_ps2.5km_{1:s}{2:02d}_P000-00.grib2'.format(grib_input_loc, dateString, zulu_hour)
+    maskFileName = '{0:s}/{1:s}{2:s}{3:02d}_P000-00.grib2'.format(grib_input_loc, param['hrdps_PrefixLAND'], dateString, zulu_hour)
     grbl = pygrib.open(maskFileName)
     grblL = grbl.select(name='Land-sea mask')[0]
     Land = grblL.values
@@ -96,7 +97,7 @@ def region_crop(dateString, zulu_hour, param):
         
         # Output file name
         windFileName = '{0:s}wind_{1:s}_{2:02d}z_{3:02d}.dat'.format( crop_output_loc, dateString, zulu_hour, hour)
-        croppedFileName = '{0:s}cropped_wind_{1:s}_{2:02d}z_{3:02d}.dat'.format( crop_output_loc, dateString, zulu_hour, hour)
+        croppedFileName = '{0:s}{1:s}{2:s}_{3:02d}z_{4:02d}.dat'.format( crop_output_loc, param['fname_prefix_wind'], dateString, zulu_hour, hour)
 
         #Input grib file names            
         UwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_uwnd, dateString, zulu_hour, hour)

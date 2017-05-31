@@ -17,19 +17,15 @@ import os
 import subprocess
 import matplotlib.cm as cm
 from matplotlib.colors import LightSource
+from scipy.interpolate import griddata
 
-# Hardcoded Options
-SCIPY = True
 
 # Choose one of these
 EQUIDISTANT = False
 CURVILINEAR = True
 ON_GRID = False         # not enabled yet in WAVE
 
-if SCIPY:
-    from scipy.interpolate import griddata
-else:
-    from matplotlib.mlab import griddata
+
 
 
 #if EQUIDISTANT:
@@ -39,17 +35,35 @@ else:
 #    Nx = 415
 #    Ny = 490
 
-def Skagit_regrid(dateString, day_of_year, hyphenatedString, folder, fileCount, utc):
-    # ========== output file headers ==========
-    global Ny
-    global Nx
-    print('Skagit regrid(Ny={0:d},Nx={1:d})'.format(Ny,Nx))
+# Create Curvilinear wind file
+def write_amuv(dateString,zulu_hour):
+#def write_amuv(dateString, hyphenatedString, folder, fileCount, utc):
+    # Set some constants that vary from model to model
+    line_meteo_grid_size= 1     # Line number in meteo grid with Nx, Ny
+    line_header_skip    = 3     # Number of header lines in meteo file
+    xLL                 = 526108.0  # lower left corner of SWAN computational grid
+    yLL                 = 5343228.0
+    num_forecast_hours  = 48
+    
+    # Set locations
+    fol_wind_grib =     '../Data/crop/hrdps'
+    fol_wind_amuv =     '../Data/d3d_input/skagit'
+    fol_grid =          '../Grids/delft3d/skagit'
+        
+    # Set file names
+    fname_fol_wind =    'hrdps_crop_{0:s}'.format(dateString)
+    fname_prefix_wind = 'cropped_wind_{0:s}_{1:02d}z'.format(dateString,zulu_hour)
+    fname_meteo =       'skagit_meteo.grd'
+    fname_grd =         'skagit_50m.grd'
+    wind_u_name =       '{0:s}/wind_skagit.amu'.format(fol_wind_amuv)    
+    wind_v_name =       '{0:s}/wind_skagit.amv'.format(fol_wind_amuv)
+    
+    # ------------------- Begin Function ----------------------------------    
 
-    wind_u_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amu'.format(dateString, day_of_year, utc)
-    wind_v_name = 'Wave_skagit/wind_{0:s}_{1:03d}_{2:02d}.amv'.format(dateString, day_of_year, utc)
-    if os.path.exists(wind_u_name) and os.path.exists(wind_v_name):
-        print('Skagit .amu and .amv files found.')
-        return 0
+    # create datetime obj    
+    time_obj = datetime.strptime('20170524','%Y%m%d')
+    
+    # Write Header
     uFile = open(wind_u_name,'w')
     vFile = open(wind_v_name,'w')
 
@@ -80,19 +94,22 @@ def Skagit_regrid(dateString, day_of_year, hyphenatedString, folder, fileCount, 
     vFile.write('### END OF HEADER\n')
 
    
-    # ============== D3D grid  ================
-
-    gridFile = open('Wave_skagit/SKAGIT_50m.grd','r')
+    # Load D3D meteo grid
+    gridFile = open('{0:s}/{1:s}'.format(fol_grid,fname_meteo),'r')
     lines = gridFile.readlines()
-    split_line = lines[6].split()
-    #Nx = int(split_line[0])
-    #Ny = int(split_line[1])
-    #print("Nx, Ny", Nx, Ny)
+    
+    # Read in Nx and Ny
+    split_line = lines[line_meteo_grid_size].split()
+    Nx = int(split_line[0])
+    Ny = int(split_line[1])
+    print("Nx, Ny", Nx, Ny)
+    
+    # Read in grid
     easting  = np.zeros((Ny,Nx), dtype='d')
     northing = np.zeros((Ny,Nx), dtype='d')
     N = len(lines)
     row = 0
-    offset = 8  # header length
+    offset = line_header_skip  # header lines to skip
     j = 0
     for n in range(offset,(N-offset)/2):
         split_line = lines[n].split()
@@ -118,18 +135,14 @@ def Skagit_regrid(dateString, day_of_year, hyphenatedString, folder, fileCount, 
                 northing[j,i+5+5*row] = float(split_line[i])
             row += 1
 
-    # =========================================
 
-    # lower left corner of SWAN computational grid
-    xLL =  526108.0
-    yLL = 5343228.0
-
-    #=============================================
+    #-----------------------Load and write winds from grib --------------------
+    hyphenatedString = time_obj.strftime('%Y-%m-%d')
     maxWind = 0.0
     maxHour = 0
     meanMax = 0.0
-    for hour in range(fileCount):
-        windFileName = 'wind_data_{0:03d}/cropped_wind_{0:03d}_{1:02d}z_{2:02d}.dat'.format(day_of_year, utc, hour)
+    for hour in range(num_forecast_hours):
+        windFileName = '{0:s}/{1:s}/{2:s}_{3:02d}.dat'.format(fol_wind_grib,fname_fol_wind,fname_prefix_wind,hour)
         print('reading {0:s} '.format(windFileName))
 
         windFile = open(windFileName,"r")
@@ -154,29 +167,16 @@ def Skagit_regrid(dateString, day_of_year, hyphenatedString, folder, fileCount, 
             u[n] = float(split_line[2])
             v[n] = float(split_line[3])
 
-        # data bounds for 30 degree rotated grid: 519438.08/552480.01   5337880.74/5370825.41  1.41141/2.53641  -2.213364/-1.338364
 
-        #xi = np.linspace( 519438.08,  552480.01, Nx)
-        #yi = np.linspace(5337880.74, 5370825.41, Ny)
-        if EQUIDISTANT:
-            margin = 50.0
-            deltax = np.linspace(0.0, (20700.0+2.0*margin), Nx)
-            deltay = np.linspace(0.0, (24450.0+2.0*margin), Ny)
-            xi = deltax + xLL - margin
-            yi = deltay + yLL - margin
+        margin = 50.0
+        deltax = np.linspace(0.0, (20700.0+2.0*margin), Nx)
+        deltay = np.linspace(0.0, (24450.0+2.0*margin), Ny)
+        xi = deltax + xLL - margin
+        yi = deltay + yLL - margin
 
-        if CURVILINEAR or ON_GRID:
-            deltax = np.linspace(0.0, (20700.0), Nx)
-            deltay = np.linspace(0.0, (24450.0), Ny)
-            xi = deltax + xLL
-            yi = deltay + yLL
 
-        if SCIPY:
-            ui = griddata(xy,  u, (xi[None,:], yi[:,None]), method='cubic')  # linear, nearest, cubic
-            vi = griddata(xy,  v, (xi[None,:], yi[:,None]), method='cubic')
-        else:
-            ui = griddata(x, y,  u, xi, yi,interp='nn') # linear, nn
-            vi = griddata(x, y,  v, xi, yi,interp='nn')
+        ui = griddata(xy,  u, (xi[None,:], yi[:,None]), method='cubic')  # linear, nearest, cubic
+        vi = griddata(xy,  v, (xi[None,:], yi[:,None]), method='cubic')
 
         ws = np.sqrt(ui**2 + vi**2)
         mspd = np.max(ws)
@@ -187,105 +187,59 @@ def Skagit_regrid(dateString, day_of_year, hyphenatedString, folder, fileCount, 
             meanMax = mmax
             maxHour = hour
 
-        #regularFile = open('regular_wind_grid_{0:03d}_{1:02d}z_{2:02d}.dat'.format(day_of_year, utc, hour),'w')
-        #for j in range(Ny):
-            #for i in range(Nx):
-                #if not ui[j,i]:
-                    #regularFile.write('{0:9.2f} {1:11.2f} {2:12.6f} {3:12.6f}\n'.format(xi[i], yi[j], 0.0, 0.0 ))
-                #elif np.isnan(ui[j,i]):
-                    #regularFile.write('{0:9.2f} {1:11.2f} {2:12.6f} {3:12.6f}\n'.format(xi[i], yi[j], 0.0, 0.0 ))
-                #else:
-                    #regularFile.write('{0:9.2f} {1:11.2f} {2:12.6f} {3:12.6f}\n'.format(xi[i], yi[j], ui[j,i], vi[j,i] ))
-        #regularFile.close()
 
-        if EQUIDISTANT or CURVILINEAR:
-            #Fixed format: time unit since date time time difference (time zone)
-            uFile.write('TIME = {0:3.1f} minutes since {1:s} 00:00:00 +00:00\n'.format(60.0*(hour), hyphenatedString))
-            vFile.write('TIME = {0:3.1f} minutes since {1:s} 00:00:00 +00:00\n'.format(60.0*(hour), hyphenatedString))
-            for j in range(Ny):
-                for i in range(Nx):
-                    if easting[j,i]*northing[j,i] > 0.0:
-                        uFile.write('{0:16.9f}'.format(ui[j,i]))
-                        vFile.write('{0:16.9f}'.format(vi[j,i]))
-                    else:
-                        uFile.write('{0:16.9f}'.format(-9999.0))
-                        vFile.write('{0:16.9f}'.format(-9999.0))
-                    if i > 0 and (i+1)%5 == 0:
-                        uFile.write('\n')
-                        vFile.write('\n')
-                if Nx%5 != 0:
+        #Fixed format: time unit since date time time difference (time zone)
+        uFile.write('TIME = {0:3.1f} minutes since {1:s} 00:00:00 +00:00\n'.format(60.0*(hour), hyphenatedString))
+        vFile.write('TIME = {0:3.1f} minutes since {1:s} 00:00:00 +00:00\n'.format(60.0*(hour), hyphenatedString))
+        for j in range(Ny):
+            for i in range(Nx):
+                if easting[j,i]*northing[j,i] > 0.0:
+                    uFile.write('{0:16.9f}'.format(ui[j,i]))
+                    vFile.write('{0:16.9f}'.format(vi[j,i]))
+                else:
+                    uFile.write('{0:16.9f}'.format(-9999.0))
+                    vFile.write('{0:16.9f}'.format(-9999.0))
+                if i > 0 and (i+1)%5 == 0:
                     uFile.write('\n')
                     vFile.write('\n')
+            if Nx%5 != 0:
+                uFile.write('\n')
+                vFile.write('\n')
 
-            WNDNOW_file = open('Wave_skagit/WNDNOW_{0:02d}'.format(hour),'w')
-            count = 0
-            for j in range(Ny):
-                for i in range(Nx):
-                    if easting[j,i]*northing[j,i] > 0.0:
-                        WNDNOW_file.write('{0:16.6e}'.format(ui[j,i]))
-                    else:
-                        WNDNOW_file.write('{0:16.6e}'.format(0.0))
-                    if count > 0 and (count+1)%4 == 0:
-                        WNDNOW_file.write('\n')
-                    count += 1
-            if (count-1)%4 != 0:
-                WNDNOW_file.write('\n')
-            count = 0
-            for j in range(Ny):
-                for i in range(Nx):
-                    if easting[j,i]*northing[j,i] > 0.0:
-                        WNDNOW_file.write('{0:16.6e}'.format(vi[j,i]))
-                    else:
-                        WNDNOW_file.write('{0:16.6e}'.format(0.0))
-                    if count > 0 and (count+1)%4 == 0:
-                        WNDNOW_file.write('\n')
-                    count += 1
-            if (count-1)%4 != 0:
-                WNDNOW_file.write('\n')
-            WNDNOW_file.close()
-
-        if ON_GRID:
-            uvFile.write('TIME = {0:5.1f} minutes since 2015-08-23 00:00:00 +00:00\n'.format(60.0*(hour)))
-            for j in range(Ny):
-                for i in range(Nx):
-                    if easting[j,i]*northing[j,i] > 0.0:
-                        uvFile.write('{0:16.9f}'.format(ui[j,i]))
-                    else:
-                        uvFile.write('{0:16.9f}'.format(-999.0))
-                    if i > 0 and (i+1)%5 == 0:
-                        uvFile.write('\n')
-                if Nx%5 != 0:
-                    uvFile.write('\n')
-
-            for j in range(Ny):
-                for i in range(Nx):
-                    if easting[j,i]*northing[j,i] > 0.0:
-                        uvFile.write('{0:16.9f}'.format(vi[j,i]))
-                    else:
-                        uvFile.write('{0:16.9f}'.format(-999.0))
-                    if i > 0 and (i+1)%5 == 0:
-                        uvFile.write('\n')
-                if Nx%5 != 0:
-                    uvFile.write('\n')
-
-            for j in range(Ny):
-                for i in range(Nx):
-                    if easting[j,i]*northing[j,i] > 0.0:
-                        uvFile.write('{0:16.9f}'.format(100000.0))
-                    else:
-                        uvFile.write('{0:16.9f}'.format(-999.0))
-                    if i > 0 and (i+1)%5 == 0:
-                        uvFile.write('\n')
-                if Nx%5 != 0:
-                    uvFile.write('\n')
+#        WNDNOW_file = open('Wave_skagit/WNDNOW_{0:02d}'.format(hour),'w')
+#        count = 0
+#        for j in range(Ny):
+#            for i in range(Nx):
+#                if easting[j,i]*northing[j,i] > 0.0:
+#                    WNDNOW_file.write('{0:16.6e}'.format(ui[j,i]))
+#                else:
+#                    WNDNOW_file.write('{0:16.6e}'.format(0.0))
+#                if count > 0 and (count+1)%4 == 0:
+#                    WNDNOW_file.write('\n')
+#                count += 1
+#        if (count-1)%4 != 0:
+#            WNDNOW_file.write('\n')
+#        count = 0
+#        for j in range(Ny):
+#            for i in range(Nx):
+#                if easting[j,i]*northing[j,i] > 0.0:
+#                    WNDNOW_file.write('{0:16.6e}'.format(vi[j,i]))
+#                else:
+#                    WNDNOW_file.write('{0:16.6e}'.format(0.0))
+#                if count > 0 and (count+1)%4 == 0:
+#                    WNDNOW_file.write('\n')
+#                count += 1
+#        if (count-1)%4 != 0:
+#            WNDNOW_file.write('\n')
+#        WNDNOW_file.close()
 
     uFile.close()
     vFile.close()
 
-    maxFileName = folder+'maximum_local_wind_{0:02d}Z.dat'.format(utc)
-    maxWindFile = open(maxFileName,'w')
-    maxWindFile.write('Maximum wind: {0:6.3f} m/s, maximum mean local wind {1:6.3f} m/s at {2:2d} hours\n'.format(maxWind, meanMax, maxHour))
-    maxWindFile.close()
+#    maxFileName = folder+'maximum_local_wind_{0:02d}Z.dat'.format(utc)
+#    maxWindFile = open(maxFileName,'w')
+#    maxWindFile.write('Maximum wind: {0:6.3f} m/s, maximum mean local wind {1:6.3f} m/s at {2:2d} hours\n'.format(maxWind, meanMax, maxHour))
+#    maxWindFile.close()
 
     return 0
 

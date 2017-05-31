@@ -40,6 +40,11 @@ import numpy as np
 print 'Current offset to GMT is %d (method1)' % op_functions.get_gmt_offset()
 print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
+# Test write_amuv
+from d3d_functions import write_amuv
+dateString = '20170524'
+zulu_hour = 12
+write_amuv(dateString,zulu_hour)
 
 
 # Find latest
@@ -48,14 +53,14 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 #(x,y) = find_latest_canadian_data(gribPrefix)
 
 # Determine most recent available forecast
-(latest_date, latest_zulu) = op_functions.latest_hrdps_forecast()
+# (latest_date, latest_zulu) = op_functions.latest_hrdps_forecast()
 
 # Download raw grib files
 # op_functions.get_hrdps(latest_date, latest_zulu)
 
 # Parse grib, crop to region, and store
-bounds = np.asarray([[207,56],[287,219]]) # Salish Sea region of HRDPS forecast
-crop_functions.region_crop(latest_date, latest_zulu, bounds)
+#bounds = np.asarray([[207,56],[287,219]]) # Salish Sea region of HRDPS forecast
+#crop_functions.region_crop(latest_date, latest_zulu, bounds)
 
 # Prep D3D wind files for Skagit
 

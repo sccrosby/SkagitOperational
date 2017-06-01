@@ -1,24 +1,32 @@
 Skagit Operational Model Development
 
-File structure outside of Repo
+Assumed File Structure
 
 Documents/
     SkagitOperational/  (git repo)
         Archive/
+        
     Grids/
         delft3d/
+            skagit/
         delftfm/
         suntans/
+        
     Data/
         raw_downloads/
             hrdps/
+                max_files/
                 hrdps_grib_xxxxx/            
         crop/
             hrdps/
                 hrdps_crop_xxxxx/
         d3d_input/
-            skagit_wind_hrdps/    
-    openearthtools/
+            skagit/    
+    
+    ModelRuns
+        skagit_wave_50m/
+            
+    openearthtools/ (svn repo)
 
 As we proceed try to 
 -use functions as much as possible

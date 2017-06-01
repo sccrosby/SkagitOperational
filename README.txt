@@ -40,15 +40,5 @@ Larger improvements
   - Will save computation time
   - May allow higher resolution (25m) at shoreline
 
-Greater Structure (strawman)
-
-Data Archive
-  - Downloaded winds/pressure (original grib)
-  - Tides (predicted and/or measured)
-
-Local Model data
-  - Cropped wind/pressure fields on meteo grid
-  - Local tide predictions
-
 
 

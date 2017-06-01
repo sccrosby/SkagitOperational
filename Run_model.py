@@ -111,13 +111,13 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 
 # Download raw grib files
-#op_functions.get_hrdps(date_string, zulu_hour, param)
+op_functions.get_hrdps(date_string, zulu_hour, param)
 
 # Parse grib, crop to region, and store
-#crop_functions.region_crop(date_string, zulu_hour, param)
+crop_functions.region_crop(date_string, zulu_hour, param)
 
 # Write amu and amv files
-# d3d_functions.write_amuv(date_string, zulu_hour, param)
+d3d_functions.write_amuv(date_string, zulu_hour, param)
 
 # Get tide predictions for forecast
 tides = op_functions.get_tides(date_string, zulu_hour, param)

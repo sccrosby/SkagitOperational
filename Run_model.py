@@ -43,6 +43,7 @@ import os
 import sys
 import subprocess
 import shutil
+import time
 from datetime import datetime, timedelta
 
 # ---------------------- SELECT DATE FOR MODEL RUN ----------------------------
@@ -99,19 +100,24 @@ param['hrdps_lamwest_file']     = '../Data/downloads/hrdps/lamwestpoints.dat'
 param['hrdps_rotation_file']    = '../Data/downloads/hrdps/rotations.dat'
 
 
+# Start timer
+start_time = time.time()
+
+
+
 # Determine offset from local time (PST/PDT) to GMT 
 print 'Current offset to GMT is %d (method1)' % op_functions.get_gmt_offset()
 print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 
 # Download raw grib files
-op_functions.get_hrdps(date_string, zulu_hour, param)
+#op_functions.get_hrdps(date_string, zulu_hour, param)
 
 # Parse grib, crop to region, and store
-crop_functions.region_crop(date_string, zulu_hour, param)
+#crop_functions.region_crop(date_string, zulu_hour, param)
 
 # Write amu and amv files
-d3d_functions.write_amuv(dateString, zulu_hour, param)
+# d3d_functions.write_amuv(date_string, zulu_hour, param)
 
 # Get tide predictions for forecast
 tides = op_functions.get_tides(date_string, zulu_hour, param)
@@ -126,11 +132,13 @@ for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_met
 
 # Run Model 
 os.chdir(param['fol_model'])
-subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
+subprocess.check_output('./run_wave.sh')             # Run Wave, which runs Swan using wind data
 os.chdir('../../SkagitOperational')
 
 
 
+# End timer
+print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))
 
 
 

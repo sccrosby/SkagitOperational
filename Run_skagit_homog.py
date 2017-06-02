@@ -64,7 +64,7 @@ zulu_hour = 12
 param = {}
 
 # Length of forecast
-param['num_forecast_hours']     = 48    # numer of files [hours]
+param['num_forecast_hours']     = 1    # numer of files [hours]
 param['crop_bounds']            = np.asarray([[207,56],[287,219]]) # Salish Sea region
 param['tide_file']              = 'tide_pred_9448576.txt' # Set tide file to use
 
@@ -120,40 +120,51 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 # Parse grib, crop to region, and store
 #crop_functions.region_crop(date_string, zulu_hour, param)
 
-# Remove all files from model folder
-misc_functions.clean_folder(param['fol_model'])
-
-
-# Write amu and amv files
-d3d_functions.write_amuv(date_string, zulu_hour, param)
-#wind_speed = 2 #[m/s]
-#wind_dir = 180  #deg, arriving from, compass coord
-#d3d_functions.write_amuv_homog(date_string, zulu_hour, param, wind_speed, wind_dir)
-
 
 # Get tide predictions for forecast
-tides = op_functions.get_tides(date_string, zulu_hour, param)
-
-# Write mdw file to model folder
-d3d_functions.write_mdw(date_string, zulu_hour, tides, param)
-d3d_functions.make_test_loc(param)
-
-# Copy files to model folder 
-for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
-    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
-
-# Make run file executeable
-import stat
-myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
-st = os.stat(myfile)
-os.chmod(myfile, st.st_mode | stat.S_IEXEC)
-
-# Run Model 
-#os.chdir(param['fol_model'])
-#subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
-#os.chdir('../../SkagitOperational')
-
-
+# tides = op_functions.get_tides(date_string, zulu_hour, param)
+for tide in [10., 5., 0.]:
+    
+    for wind_speed in [20, 15, 10, 5]: #[m/s]
+        
+        for wind_dir in [0, 60, 120, 180, 240, 300]:  #deg, arriving from, compass coord
+        
+            # Remove all files from model folder
+            misc_functions.clean_folder(param['fol_model'])
+            
+            # Write amuv files
+            d3d_functions.write_amuv_homog(date_string, zulu_hour, param, wind_speed, wind_dir)
+            
+            # Write mdw file to model folder
+            d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
+            d3d_functions.make_test_loc(param)
+            
+            # Copy files to model folder 
+            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+                shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+            
+            # Make run file executeable (loses this property in copy over)
+            import stat
+            myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
+            st = os.stat(myfile)
+            os.chmod(myfile, st.st_mode | stat.S_IEXEC)
+            
+            # Run Model 
+            os.chdir(param['fol_model'])
+            subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
+            
+            # Make dir for output
+            out_fol = '../../Output/skagit_t{:2.0f}_s{:d}_d{:d}'.format(tide,wind_speed,wind_dir)
+            os.mkdir(out_fol)
+            
+            # Copy all files over
+            for f in os.listdir(os.curdir):
+                shutil.copyfile(f,'{:s}/{:s}'.format(out_fol,f))
+            
+            # Go back to working directory        
+            os.chdir('../../SkagitOperational')
+            
+            print 'tide %d, wind speed %d, wind dir %d complete' % (tide,wind_speed,wind_dir)
 
 # End timer
 print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))

@@ -7,6 +7,7 @@ from pytz import timezone
 import os
 import urllib2
 
+
 # Function returns current offset to PST/PDT (8 or 7 hours)
 def get_gmt_offset():
     pdt = timezone('US/Pacific')

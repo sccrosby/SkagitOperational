@@ -232,7 +232,144 @@ def write_amuv(dateString,zulu_hour,param):
 
     return 0
 
+def write_amuv_homog(dateString, zulu_hour, param, wind_speed, wind_dir):
+# Create Curvilinear wind file with homogenous wind forcing
 
+    # Set some constants that vary from model to model
+    line_meteo_grid_size= param['line_meteo_grid_size']     # Line number in meteo grid with Nx, Ny
+    line_header_skip    = param['line_header_skip']    # Number of header lines in meteo file
+    xLL                 = param['xLL']  # lower left corner of SWAN computational grid
+    yLL                 = param['yLL']
+    num_forecast_hours  = param['num_forecast_hours']
+    
+    # Set locations
+    fol_wind_crop = param['fol_wind_crop']
+    fol_wind_amuv = param['fol_model']
+    fol_grid = param['fol_grid']
+        
+    # Set file names
+    fname_fol_wind =    '{0:s}{1:s}'.format(param['folname_crop_prefix'],dateString)
+    fname_wind_file = '{0:s}{1:s}_{2:02d}z'.format(param['fname_prefix_wind'],dateString,zulu_hour)
+    fname_meteo =       param['fname_meteo_grid']
+    fname_grd =         param['fname_grid']
+    wind_u_file =       '{0:s}/{1:s}'.format(param['fol_model'],param['wind_u_name'])    
+    wind_v_file =       '{0:s}/{1:s}'.format(param['fol_model'],param['wind_v_name'])
+    
+    # ------------------- Begin Function ----------------------------------    
+
+    # create datetime obj    
+    time_obj = datetime.strptime(dateString,'%Y%m%d')
+    
+    # Write Header
+    print 'Writing D3D wind files to {0:s}'.format(wind_u_file)
+    uFile = open(wind_u_file,'w')
+    vFile = open(wind_v_file,'w')
+
+    uFile.write('### START OF HEADER\n')
+    uFile.write('### This file is created for Skagit Delta model\n')
+    uFile.write('FileVersion     =    1.03\n')
+    uFile.write('filetype        =    meteo_on_curvilinear_grid\n')
+    uFile.write('NODATA_value    =    -9999.000\n')
+    uFile.write('grid_file        =    {0:s}\n'.format(param['fname_meteo_grid']))
+    uFile.write('first_data_value =    grid_llcorner\n')
+    uFile.write('data_row         =    grid_row\n')
+    uFile.write('n_quantity      =    1\n')
+    uFile.write('quantity1       =    x_wind\n')
+    uFile.write('unit1           =    m s-1\n')
+    uFile.write('### END OF HEADER\n')
+
+    vFile.write('### START OF HEADER\n')
+    vFile.write('### This file is created for Skagit Delta model\n')
+    vFile.write('FileVersion     =    1.03\n')
+    vFile.write('filetype        =    meteo_on_curvilinear_grid\n')
+    vFile.write('NODATA_value    =    -9999.000\n')
+    vFile.write('grid_file        =    {0:s}\n'.format(param['fname_meteo_grid']))
+    vFile.write('first_data_value =    grid_llcorner\n')
+    vFile.write('data_row         =    grid_row\n')
+    vFile.write('n_quantity      =    1\n')
+    vFile.write('quantity1       =    y_wind\n')
+    vFile.write('unit1           =    m s-1\n')
+    vFile.write('### END OF HEADER\n')
+   
+    # Load D3D meteo grid
+    gridFile = open('{0:s}/{1:s}'.format(fol_grid,fname_meteo),'r')
+    lines = gridFile.readlines()
+    
+    # Read in Nx and Ny
+    split_line = lines[line_meteo_grid_size].split()
+    Nx = int(split_line[0])
+    Ny = int(split_line[1])
+    print("Nx, Ny", Nx, Ny)
+    
+    # Read in grid
+    easting  = np.zeros((Ny,Nx), dtype='d')
+    northing = np.zeros((Ny,Nx), dtype='d')
+    N = len(lines)
+    row = 0
+    offset = line_header_skip  # header lines to skip
+    j = 0
+    for n in range(offset,(N-offset)/2):
+        split_line = lines[n].split()
+        if split_line[0] == 'ETA=':
+            j = int(split_line[1]) - 1
+            for i in range(5):
+                easting[j,i] = float(split_line[i+2])
+            row = 0
+        else:
+            for i in range(len(split_line)):
+                easting[j,i+5+5*row] = float(split_line[i])
+            row += 1
+
+    for n in range(offset+(N-offset)/2,N):
+        split_line = lines[n].split()
+        if split_line[0] == 'ETA=':
+            j = int(split_line[1]) - 1
+            for i in range(5):
+                northing[j,i] = float(split_line[i+2])
+            row = 0
+        else:
+            for i in range(len(split_line)):
+                northing[j,i+5+5*row] = float(split_line[i])
+            row += 1
+
+
+    #-----------------------Load and write winds from grib --------------------
+    hyphenatedString = time_obj.strftime('%Y-%m-%d')
+
+    print 'Creating amuv with wind speed {0:d} m/s and direction {1:d} deg'.format(wind_speed,wind_dir)    
+    
+    wind_dir = 90 - wind_dir #Switch to cartesian
+    wind_dir = wind_dir + 180 #Switch from coming-from, to going-to
+
+    deg2rad = np.pi/180.    
+    
+    u = wind_speed*np.cos(wind_dir*deg2rad)
+    v = wind_speed*np.sin(wind_dir*deg2rad)
+    
+    print 'u velocity is {0:.2f} m/s and v velocity is {1:.2f} m/s'.format(u,v)    
+
+    for hour in range(2):           
+        #Fixed format: time unit since date time time difference (time zone)
+        uFile.write('TIME = {:d} minutes since {:s} 00:00:00 +00:00\n'.format(hour*60,hyphenatedString))
+        vFile.write('TIME = {:d} minutes since {:s} 00:00:00 +00:00\n'.format(hour*60,hyphenatedString))
+        for j in range(Ny):
+            for i in range(Nx):
+                if easting[j,i]*northing[j,i] > 0.0:
+                    uFile.write('{0:16.9f}'.format(u))
+                    vFile.write('{0:16.9f}'.format(v))
+                else:
+                    uFile.write('{0:16.9f}'.format(-9999.0))
+                    vFile.write('{0:16.9f}'.format(-9999.0))
+                if i > 0 and (i+1)%5 == 0:
+                    uFile.write('\n')
+                    vFile.write('\n')
+            if Nx%5 != 0:
+                uFile.write('\n')
+                vFile.write('\n')
+
+    uFile.close()
+    vFile.close()
+    return 0
 
 def write_mdw(dateString, zulu_hour, tides, param):
     
@@ -277,7 +414,8 @@ def write_mdw(dateString, zulu_hour, tides, param):
         #elevation = tides[hour].split()[1]
         mdwFile.write('[TimePoint]\n')
         mdwFile.write('   Time                 =  {0:3.1f}\n'.format(hour*60.0))
-        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides[hour]))
+        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides))
+#        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides[hour]))        
         mdwFile.write('   XVeloc               =  0.0000000e+000\n')
         mdwFile.write('   YVeloc               =  0.0000000e+000\n')
     mdwFile.write('[Constants]\n')
@@ -318,7 +456,7 @@ def write_mdw(dateString, zulu_hour, tides, param):
     mdwFile.write('[Output]\n')
     mdwFile.write('   TestOutputLevel      = 0\n')
     mdwFile.write('   TraceCalls           = false\n')
-    mdwFile.write('   UseHotFile           = true\n')
+    mdwFile.write('   UseHotFile           = false\n')
     mdwFile.write('   Int2KeepHotfile      = 180.0\n')
     mdwFile.write('   WriteCOM             = false\n')
     mdwFile.write('   COMWriteInterval     = 60\n')
@@ -336,8 +474,8 @@ def write_mdw(dateString, zulu_hour, tides, param):
     mdwFile.write('   StartDir             =  0.0000000e+000\n')
     mdwFile.write('   EndDir               =  0.0000000e+000\n')
     mdwFile.write('   FreqMin              =  1.25000001e-001\n')
-    mdwFile.write('   FreqMax              =  1.0000000e+000\n')
-    mdwFile.write('   NFreq                = 24\n')
+    mdwFile.write('   FreqMax              =  5.0000000e+000\n')
+    mdwFile.write('   NFreq                = 36\n')
     mdwFile.write('   Output               = true\n')
     mdwFile.close()
 

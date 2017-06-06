@@ -123,7 +123,7 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 # Get tide predictions for forecast
 # tides = op_functions.get_tides(date_string, zulu_hour, param)
-for tide in [10., 5., 0.]:
+for tide in [0., 1., 2., 3.]:
     
     for wind_speed in [20, 15, 10, 5]: #[m/s]
         
@@ -154,17 +154,18 @@ for tide in [10., 5., 0.]:
             subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
             
             # Make dir for output
-            out_fol = '../../Output/skagit_t{:2.0f}_s{:d}_d{:d}'.format(tide,wind_speed,wind_dir)
+            out_fol = '../../Output/skagit_t{:d}_s{:d}_d{:d}'.format(int(tide),wind_speed,wind_dir)
             os.mkdir(out_fol)
             
-            # Copy all files over
-            for f in os.listdir(os.curdir):
+            # Copy files to output
+            my_file_list = ['wavm-skagit_50m.dat', 'wavm-skagit_50m.def'] # for all files, use os.listdir(os.curdir)
+            for f in my_file_list:
                 shutil.copyfile(f,'{:s}/{:s}'.format(out_fol,f))
             
             # Go back to working directory        
             os.chdir('../../SkagitOperational')
             
-            print 'tide %d, wind speed %d, wind dir %d complete' % (tide,wind_speed,wind_dir)
+            print 'tide %d, wind speed %d, wind dir %d complete' % (int(tide),wind_speed,wind_dir)
 
 # End timer
 print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))

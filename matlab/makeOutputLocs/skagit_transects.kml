@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>skagit_transects.kml</name>
+	<StyleMap id="m_ylw-pushpin">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin0</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin_hl">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl0">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+	</Style>
+	<StyleMap id="m_ylw-pushpin0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+	</Style>
+	<Style id="s_ylw-pushpin0">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+	</Style>
+	<Folder>
+		<name>Swinomish_Waves</name>
+		<open>1</open>
+		<Placemark>
+			<name>Snee1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5741006614016,48.37677807032286,0 -122.5458839337607,48.39985896308839,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Snee2</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5710508335455,48.37451347290253,0 -122.5420912110505,48.39889572686149,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Snee3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.568472789572,48.37205347559657,0 -122.5390488318271,48.39737721995655,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LT1</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5726423679627,48.37451800774528,0 -122.554492142165,48.40729749110642,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LT2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.571019451788,48.37364518812098,0 -122.5531588253085,48.40622491996071,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LT3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5697126456362,48.37191345851167,0 -122.5511133117614,48.40573249870173,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LT4</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.6026402945818,48.41489788304352,0 -122.5515908395934,48.41146321148681,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LT5</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.603162173912,48.41288214417229,0 -122.5515916670739,48.40956651065407,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LT6</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5980903512428,48.41030653681486,0 -122.5528013672954,48.40753152440018,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KS1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5607235982267,48.40431712580155,0 -122.5599936425016,48.42084725821716,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KS2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.558798159322,48.40398817144429,0 -122.5575272435403,48.42143748227515,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KS3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5566369553242,48.40390020384179,0 -122.5555340913631,48.42062670695483,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KSW1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5741251209454,48.40314840783514,0 -122.5746806252514,48.41707548627793,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KSW2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5722108434847,48.40322329133554,0 -122.5726056651859,48.41757062468919,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KSW3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5704132186227,48.40321805222675,0 -122.5711322914619,48.41764919285423,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KNW1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.581325536582,48.42713958601642,0 -122.5746806252514,48.41707548627793,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KNW2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5792359171576,48.42783549432983,0 -122.5726025485201,48.41748601151308,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KNW3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5775231942288,48.42854216489183,0 -122.5712760594039,48.41865042933117,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KN1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5779986884194,48.43274167722912,0 -122.5602434495612,48.42101942967643,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KN2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5765838989944,48.43495819000134,0 -122.5579037002134,48.42195301643063,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>KN3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5768620613898,48.43760372878962,0 -122.5581413702607,48.42429892441199,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>TB1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.565791425559,48.42289046650366,0 -122.5521019963792,48.44846229167847,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>TB2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5643487476324,48.42270912189294,0 -122.5459524021047,48.45541919460752,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>TB3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5626673651489,48.4220464780207,0 -122.5464117589413,48.4502901307447,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>SB1</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5780986042405,48.44329477240098,0 -122.5629544096313,48.42246227283864,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>SB2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5747239894633,48.44557243424951,0 -122.5608837587097,48.42342888795378,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>SB3</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5703278513947,48.44641795152738,0 -122.5592472350152,48.42626908742115,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>LongBasin</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.4003401304406,48.29350720288228,0 -122.5742167384346,48.3730775785751,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>CrossBasinNorth</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5220493434211,48.32396056607985,0 -122.4721866086394,48.35781795558258,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>CrossBasinSouth</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					-122.5488587443396,48.25720197461754,0 -122.4317133078013,48.33565544643139,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

@@ -8,8 +8,8 @@ addpath C:\openearthtools\matlab\applications\delft3d_matlab
 
 grid_path = '../../Grids/delft3d/'; % Set path to grid files
 grid_file = 'skagit_50m.grd';       % Set grd file name
-res = 1000;                         % Set resolution [m]
-meteo_file = 'skagit_meteo.grd';    % Set meteo/enc file name     
+res = 50;                         % Set resolution [m]
+meteo_file = 'skagit_meteo_50m.grd';    % Set meteo/enc file name     
 
 % Use Delft3d read/write grd tool
 [Grd.x,Grd.y,Grd.grd.ENC,Grd.CS,Grd.nodatavalue] = ...

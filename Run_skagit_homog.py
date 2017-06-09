@@ -94,6 +94,11 @@ param['wind_v_name']            = 'wind_skagit.amv'
 param['fname_mdw']              = 'skagit_50m.mdw'
 param['run_script']             = 'run_wave.sh'
 
+# Set Output Locs
+param['output_locs']            = ['skagit_CrossBasinNorth_points.loc',
+                                   'skagit_CrossBasinSouth_points.loc',
+                                   'skagit_LongBasin_points.loc']   
+
 # HRDPS prefixes and url
 param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 
 param['hrdps_PrefixU']          = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'
@@ -123,11 +128,11 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 # Get tide predictions for forecast
 # tides = op_functions.get_tides(date_string, zulu_hour, param)
-for tide in [0., 1., 2., 3.]:
+for tide in [3]:#[0., 1., 2., 3.]:
     
-    for wind_speed in [20, 15, 10, 5]: #[m/s]
+    for wind_speed in [20]:# [25, 20, 15, 10, 5]: #[m/s]
         
-        for wind_dir in [0, 60, 120, 180, 240, 300]:  #deg, arriving from, compass coord
+        for wind_dir in [120]:#[0, 60, 120, 180, 240, 300]:  #deg, arriving from, compass coord
         
             # Remove all files from model folder
             misc_functions.clean_folder(param['fol_model'])
@@ -137,11 +142,14 @@ for tide in [0., 1., 2., 3.]:
             
             # Write mdw file to model folder
             d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
-            d3d_functions.make_test_loc(param)
+            #d3d_functions.make_test_loc(param)
             
-            # Copy files to model folder 
+            # Copy grid files to model folder 
             for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
-                shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+                shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))           
+            # Copy location files to model folder
+            for fname in param['output_locs']:
+                shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
             
             # Make run file executeable (loses this property in copy over)
             import stat

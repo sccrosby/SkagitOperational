@@ -132,7 +132,7 @@ def latest_hrdps_forecast():
 def get_tides(datestring, zulu_hour, param):   
     # NULL vars ignored
     
-    # Functoin to find minimum nearest
+    # Function to find minimum nearest
     def nearest(items, pivot):
         return min(items, key=lambda x: abs(x - pivot))
     

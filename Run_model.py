@@ -53,11 +53,11 @@ from datetime import datetime, timedelta
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
 # Specifiy date and zulu hour
-# date_string = '20170601'
-# zulu_hour = 12
+date_string = '20170601'
+zulu_hour = 12
 
 # Select most recent available forecast
-(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+#(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
@@ -96,9 +96,10 @@ param['fname_mdw']              = 'skagit_50m.mdw'
 param['run_script']             = 'run_wave.sh'
 
 # Set Output Locs
-param['output_locs']            = ['skagit_CrossBasinNorth_points.loc',
-                                   'skagit_CrossBasinSouth_points.loc',
-                                   'skagit_LongBasin_points.loc']   
+param['output_locs']            = ['LongB.loc',
+                                   'CrossBN.loc',
+                                   'CrossBS.loc']   
+                                   
 # HRDPS prefixes and url
 param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 
 param['hrdps_PrefixU']          = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'

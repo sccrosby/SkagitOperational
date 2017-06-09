@@ -414,8 +414,7 @@ def write_mdw(dateString, zulu_hour, tides, param):
         #elevation = tides[hour].split()[1]
         mdwFile.write('[TimePoint]\n')
         mdwFile.write('   Time                 =  {0:3.1f}\n'.format(hour*60.0))
-        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides))
-#        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides[hour]))        
+        mdwFile.write('   WaterLevel           =  {0:9.6f}\n'.format(tides[hour]))        
         mdwFile.write('   XVeloc               =  0.0000000e+000\n')
         mdwFile.write('   YVeloc               =  0.0000000e+000\n')
     mdwFile.write('[Constants]\n')

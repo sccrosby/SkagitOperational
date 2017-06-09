@@ -95,9 +95,9 @@ param['fname_mdw']              = 'skagit_50m.mdw'
 param['run_script']             = 'run_wave.sh'
 
 # Set Output Locs
-param['output_locs']            = ['skagit_CrossBasinNorth_points.loc',
-                                   'skagit_CrossBasinSouth_points.loc',
-                                   'skagit_LongBasin_points.loc']   
+param['output_locs']            = ['LongB.loc',
+                                   'CrossBN.loc',
+                                   'CrossBS.loc']   
 
 # HRDPS prefixes and url
 param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 
@@ -128,11 +128,14 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 # Get tide predictions for forecast
 # tides = op_functions.get_tides(date_string, zulu_hour, param)
-for tide in [3]:#[0., 1., 2., 3.]:
+for tide_level in [3]:#[0., 1., 2., 3.]:
     
     for wind_speed in [20]:# [25, 20, 15, 10, 5]: #[m/s]
         
         for wind_dir in [120]:#[0, 60, 120, 180, 240, 300]:  #deg, arriving from, compass coord
+        
+            # Functions expecting a list of water/tide levels
+            tide = [tide_level]        
         
             # Remove all files from model folder
             misc_functions.clean_folder(param['fol_model'])

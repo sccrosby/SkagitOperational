@@ -162,15 +162,22 @@ for tide_level in [3.]:#[0., 1., 2., 3.]:
             
             # Run Model 
             os.chdir(param['fol_model'])
+            os.mkdir('temp')
             subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
             
             # Make dir for output
             out_fol = '../../Output/skagit_t{:d}_s{:d}_d{:d}'.format(int(tide_level),wind_speed,wind_dir)
             os.mkdir(out_fol)
             
-            # Copy files to output
-            my_file_list = ['wavm-skagit_50m.dat', 'wavm-skagit_50m.def'] # for all files, use os.listdir(os.curdir)
-            for f in my_file_list:
+            # Create list of files to save
+            d3d_out_files = ['wavm-skagit_50m.dat', 'wavm-skagit_50m.def'] # for all files, use os.listdir(os.curdir)
+            for fname in param['output_locs']:
+                d3d_out_files.append(fname+'.tab')
+                #d3d_out_files.append(fname+'.sp1')
+                #d3d_out_files.append(fname+'.sp2')
+            
+            # Copy to Output
+            for f in d3d_out_files:
                 shutil.copyfile(f,'{:s}/{:s}'.format(out_fol,f))
             
             # Go back to working directory        

@@ -26,10 +26,13 @@ Documents/
         d3d_input/
             skagit/    
     
-    ModelRuns
+    ModelRuns/
         skagit_wave_50m/
-        
-            
+    
+    Plots/
+        skagit_50m/
+            plotting_files/
+                   
     openearthtools/ (svn repo)
     
 @author: Crosby
@@ -40,6 +43,7 @@ import op_functions
 import crop_functions
 import d3d_functions
 import misc_functions
+import plot_functions
 
 # Import standard libraries
 import numpy as np
@@ -96,9 +100,10 @@ param['fname_mdw']              = 'skagit_50m.mdw'
 param['run_script']             = 'run_wave.sh'
 
 # Set Output Locs
-param['output_locs']            = ['LongB.loc',
-                                   'CrossBN.loc',
-                                   'CrossBS.loc']   
+param['output_locs']            = []
+#param['output_locs']            = ['LongB.loc',
+#                                   'CrossBN.loc',
+#                                   'CrossBS.loc']   
                                    
 # HRDPS prefixes and url
 param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 
@@ -134,35 +139,43 @@ else:
     crop_functions.region_crop(date_string, zulu_hour, param)
 
 # Remove all files from model folder
-misc_functions.clean_folder(param['fol_model'])
+#misc_functions.clean_folder(param['fol_model'])
 
 # Write amu and amv files
-d3d_functions.write_amuv(date_string, zulu_hour, param)
+#d3d_functions.write_amuv(date_string, zulu_hour, param)
 
 # Get tide predictions for forecast
-tides = op_functions.get_tides(date_string, zulu_hour, param)
+tide = op_functions.get_tides(date_string, zulu_hour, param)
 
 # Write mdw file to model folder
-d3d_functions.write_mdw(date_string, zulu_hour, tides, param)
-
-# Create output locations
-d3d_functions.make_test_loc(param)
+#d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
 
 # Copy files to model folder 
-for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
-    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+#for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+#    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+## Copy location files to model folder
+#for fname in param['output_locs']:
+#   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
 
 # Make run file executeable (when copying it loses this property)
-import stat
-myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
-st = os.stat(myfile)
-os.chmod(myfile, st.st_mode | stat.S_IEXEC)
+#import stat
+#myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
+#st = os.stat(myfile)
+#os.chmod(myfile, st.st_mode | stat.S_IEXEC)
 
 # Run Model 
-print 'Beginning D3D model run'
-os.chdir(param['fol_model'])
-subprocess.check_call('./run_wave.sh',shell=True)  # Run Wave, which runs Swan using wind data
-os.chdir('../../SkagitOperational')
+#print 'Beginning D3D model run'
+#os.chdir(param['fol_model'])
+#if not os.path.isdir('temp'):
+#    os.mkdir('temp')  # Add temp directory for outputing raw swan files
+#subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
+#os.chdir('../../SkagitOperational')
+
+# Plot 
+print 'Plotting'
+max_wind = 10
+import plot_functions
+plot_functions.plot_skagit_hsig(date_string, zulu_hour, max_wind, tide, param)
 
 # End timer
 print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))

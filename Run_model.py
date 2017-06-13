@@ -48,11 +48,9 @@ import plot_functions
 # Import standard libraries
 import numpy as np
 import os
-import sys
 import subprocess
 import shutil
 import time
-from datetime import datetime, timedelta
 
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
@@ -139,42 +137,41 @@ else:
     crop_functions.region_crop(date_string, zulu_hour, param)
 
 # Remove all files from model folder
-#misc_functions.clean_folder(param['fol_model'])
+misc_functions.clean_folder(param['fol_model'])
 
 # Write amu and amv files
-#d3d_functions.write_amuv(date_string, zulu_hour, param)
+d3d_functions.write_amuv(date_string, zulu_hour, param)
 
 # Get tide predictions for forecast
 tide = op_functions.get_tides(date_string, zulu_hour, param)
 
 # Write mdw file to model folder
-#d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
+d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
 
 # Copy files to model folder 
-#for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
-#    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
-## Copy location files to model folder
-#for fname in param['output_locs']:
-#   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
+for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+# Copy location files to model folder
+for fname in param['output_locs']:
+   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
 
 # Make run file executeable (when copying it loses this property)
-#import stat
-#myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
-#st = os.stat(myfile)
-#os.chmod(myfile, st.st_mode | stat.S_IEXEC)
+import stat
+myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
+st = os.stat(myfile)
+os.chmod(myfile, st.st_mode | stat.S_IEXEC)
 
 # Run Model 
-#print 'Beginning D3D model run'
-#os.chdir(param['fol_model'])
-#if not os.path.isdir('temp'):
-#    os.mkdir('temp')  # Add temp directory for outputing raw swan files
-#subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
-#os.chdir('../../SkagitOperational')
+print 'Beginning D3D model run'
+os.chdir(param['fol_model'])
+if not os.path.isdir('temp'):
+    os.mkdir('temp')  # Add temp directory for outputing raw swan files
+subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
+os.chdir('../../SkagitOperational')
 
 # Plot 
 print 'Plotting'
 max_wind = 10
-import plot_functions
 plot_functions.plot_skagit_hsig(date_string, zulu_hour, max_wind, tide, param)
 
 # End timer

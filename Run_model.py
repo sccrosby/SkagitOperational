@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 04 13:49:35 2017
-Skagit Operational Model
+#---------------------------------------------------------------------#
+#----------------------Skagit Operational Model-----------------------#
+#---------------------------------------------------------------------#
 
-Assumed File Structure
+#-----------------------Assumed File Structure------------------------#
 
 Documents/
     SkagitOperational/  (git repo)
@@ -32,11 +33,17 @@ Documents/
     Plots/
         skagit_50m/
             plotting_files/
+    
+    GoogleDrive/
+        SkagitPlots/
                    
     openearthtools/ (svn repo)
     
-@author: Crosby
+@author: S. C. Crosby
 """
+
+#http://dd.weather.gc.ca/model_hrdps/west/grib2/12/031/CMC_hrdps_west_UGRD_TGL_10_ps2.5km_2017061312_P031-00.grib2
+#http://dd.weather.gc.ca/model_hrdps/west/grib2/12/031/CMC_hrdps_west_UGRD_TGL_10_ps2.5km_2017061312_P031-00.grib2
 
 # Import custom libaraies
 import op_functions
@@ -54,12 +61,16 @@ import time
 
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
-# Specifiy date and zulu hour
-date_string = '20170601'
-zulu_hour = 12
+# OPTION 1: Specifiy date and zulu hour
+# date_string = '20170601'
+# zulu_hour = 12
 
-# Select most recent available forecast
-#(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+# OPTION 2: Select most recent available forecast
+(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+
+# ------------------------ SET GOOGLE DRIVE OUTPUT ----------------------------
+google_drive = '../GoogleDrive'
+google_drive_fol = 'SkagitPlots'
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
@@ -82,8 +93,9 @@ param['fol_model']              = '../ModelRuns/skagit_wave_50m'
 param['fol_wind_grib']          = '../Data/downloads/hrdps'
 param['fol_wind_crop']          = '../Data/crop/hrdps'
 param['fol_grid']               = '../Grids/delft3d/skagit'
+param['fol_plots']              = '../Plots/skagit_50m'
     
-# Set file names
+# Set file names and prefixes
 param['folname_crop_prefix']    = 'hrdps_crop_'
 param['folname_grib_prefix']    = 'hrdps_grib_'
 param['fname_prefix_wind']      = 'wind_crop_' #{0:s}_{1:02d}z'.format(dateString,zulu_hour)
@@ -173,6 +185,18 @@ os.chdir('../../SkagitOperational')
 print 'Plotting'
 max_wind = 10
 plot_functions.plot_skagit_hsig(date_string, zulu_hour, max_wind, tide, param)
+
+# Copy files and Google Drive Folder
+for hour in range(param['num_forecast_hours']):
+    fname_src = '{0:s}/wind_wave_skagit{1:s}_{2:02d}z_{3:02d}.png'.format(param['fol_plots'], date_string, zulu_hour, hour)
+    fname_dest = '{:s}/{:s}/wind_wave_skagit_latest_{:02d}.png'.format(google_drive, google_drive_fol, hour)
+    shutil.copyfile(fname_src,fname_dest)
+    
+# Sync Google Drive Folder       
+griveCommand = 'grive -s {:s}/'.format(google_drive_fol)
+os.chdir(google_drive)
+err = subprocess.check_call(griveCommand, shell=True)
+os.chdir('../SkagitOperational')
 
 # End timer
 print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))

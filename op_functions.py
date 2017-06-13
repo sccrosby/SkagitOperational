@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from pytz import timezone
 import os
 import urllib2
+import time
 
 
 # Function returns current offset to PST/PDT (8 or 7 hours)
@@ -94,8 +95,16 @@ def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_ou
             temp = webpage.read()
             fid.write(temp)
     except:
-        err_str = 'Grib file not found, url incorrect, trying %s' % grib_url
-        raise ValueError(err_str)
+        print 'Could not download {:s}, will pause and try again'.format(grib_url)
+        time.sleep(1)
+            try:
+                webpage = urllib2.urlopen(grib_url)
+                with open(outfile,'w') as fid:
+                    temp = webpage.read()
+                    fid.write(temp)
+            except:
+                err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)
+                raise ValueError(err_str)
    
 
 # Find latest files available for Canada HRDPS

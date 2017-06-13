@@ -256,7 +256,7 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
 #        ax3.set_ylim(dy[0],dy[1])
         ax3.grid(True)
 
-        fileName = '../Plots/skagit_50m/wind_wave_skagit{0:s}_{1:02d}z_{2:02d}.png'.format(date_string, zulu_hour, hour)
+        fileName = '{0:s}/wind_wave_skagit{1:s}_{2:02d}z_{3:02d}.png'.format(param['fol_plots'],date_string, zulu_hour, hour)
         plt.tight_layout()
         fig.savefig(fileName)
         #plt.show()

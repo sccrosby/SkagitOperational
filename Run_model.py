@@ -124,13 +124,16 @@ param['hrdps_url']              = 'http://dd.weather.gc.ca/model_hrdps/west/grib
 param['hrdps_lamwest_file']     = '../Data/downloads/hrdps/lamwestpoints.dat'
 param['hrdps_rotation_file']    = '../Data/downloads/hrdps/rotations.dat'
 
-
-# Start timer
-start_time = time.time()
+# Set GMT offset to local time
+param['gmt_offset']             = op_functions.get_gmt_offset_2()
 
 # Determine offset from local time (PST/PDT) to GMT +
 print 'Current offset to GMT is %d (method1)' % op_functions.get_gmt_offset()
 print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
+
+
+# Start timer
+start_time = time.time()
 
 # Download raw grib files
 test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}{4:02d}_P047-00.grib2'.format(param['fol_wind_grib'],

@@ -3,6 +3,8 @@
 Downloads NOAA tide predictions for select station and saves in text file
 Note, some testing is needed to determine URL format of station name
 Created on Wed May 03 11:34:52 2017
+
+Downloads tides from 2017 thru the end of 2021 
 @author: Crosby S. C.
 """
 
@@ -19,7 +21,7 @@ sta_str = 'Sneeoosh%20Point'
 
 # Set date start and end
 date_start = datetime.strptime('20170101','%Y%m%d')
-date_end = datetime.strptime('20171230','%Y%m%d')
+date_end = datetime.strptime('20211230','%Y%m%d')
 
 # Build URL
 url_noaa = 'https://tidesandcurrents.noaa.gov/cgi-bin/predictiondownload.cgi?'

@@ -19,6 +19,9 @@ import os
 from scipy.interpolate import griddata
 
 def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
+    # Constants
+    m2ft = 3.28084  # Convert meters to feet
+    
     #-------------Plotting file locations-------------------------
     file_grid_crop = '../Plots/skagit_50m/plotting_files/cropped_two_meter.dat'
     file_shore_mask = '../Plots/skagit_50m/plotting_files/SKAGIT_shore_mask.dat'    
@@ -27,8 +30,9 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
     file_grid = '{:s}/{:s}'.format(param['fol_grid'],param['fname_grid'])
 
     # Time variables
-    time_start_utc = datetime.strptime(date_string,'%Y%m%d')
+    time_start_utc = datetime.strptime('{:s}{:02d}'.format(date_string,zulu_hour),'%Y%m%d%H')
     time_vec_utc = [time_start_utc + timedelta(hours=x) for x in range(param['num_forecast_hours'])]    
+    time_vec_local = [time_start_utc - timedelta(hours=(x-param['gmt_offset'])) for x in range(param['num_forecast_hours'])]  
     
     #================== Skagit topography ========================
     NxT = 2500
@@ -126,7 +130,7 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
     
     # =========================================================================
     for hour in range(param['num_forecast_hours']):
-        pnwDateString = datetime.strftime(time_vec_utc[hour], "%Y-%m-%d %H:%M")
+        pnwDateString = datetime.strftime(time_vec_local[hour], "%Y-%m-%d %H:%M")
         
         file_wind_crop = '{0:s}/{1:s}{2:s}/{3:s}{2:s}_{4:02d}z_{5:02d}.dat'.format(param['fol_wind_crop'],
         param['folname_crop_prefix'],date_string,param['fname_prefix_wind'], zulu_hour, hour)
@@ -170,7 +174,7 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
         inFile.close()
         for n in range(len(lines)):
             split_line   = lines[n].split()
-            hsign[j,i]   = float(split_line[0])
+            hsign[j,i]   = m2ft*float(split_line[0])
             azimuth[j,i] = float(split_line[1])
             i += 1
             if i == Nx:
@@ -231,12 +235,12 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
         # =============================================================================
         ax2.imshow(ls.hillshade(zT), cmap=cm.gray, extent=[ewMin, ewMax, nsMin, nsMax])
         ax2.quiver(x[::skip,::skip], y[::skip,::skip], uhsig[::skip,::skip], vhsig[::skip,::skip], color='w', pivot='middle', width=0.003, scale=Scale, zorder=10)
-        cs = ax2.contour(x, y, hsign, levels=Levels, colors=['0.0', '0.5'], zorder=5)
+        cs = ax2.contour(x, y, hsign, levels=Levels, colors=['0.0', '0.5', '1'], zorder=5)
 
         cs2 = ax2.contourf(x, y, hsign, levels=Levels, cmap=cm.jet, zorder=1)
         cb2 = plt.colorbar(cs2, ax=ax2)   # label='Pascal'
 
-        cb2.set_label('Significant Wave Height [m]')
+        cb2.set_label('Significant Wave Height [ft]')
         ax2.set_title('Wave Forecast for {0:s}'.format(pnwDateString))
         ax2.grid(True)
         plt.setp(ax2.get_xticklabels(), visible=False)
@@ -248,8 +252,8 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
         ax2.set_ylim(nsMin,nsMax)
 
         # =============================================================================
-        ax3.plot(time_vec_utc,tide,'b-',lw=2)
-        ax3.plot(time_vec_utc[hour],tide[hour],'ro',ms=10)
+        ax3.plot(time_vec_local,tide,'b-',lw=2)
+        ax3.plot(time_vec_local[hour],tide[hour],'ro',ms=10)
 #        ax3.set_xlim(-8.0,41.0)
         ax3.set_xlabel('Time in UTC')
         ax3.set_ylabel('Tide Prediction NAVD88 [m]')

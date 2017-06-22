@@ -97,14 +97,14 @@ def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_ou
     except:
         print 'Could not download {:s}, will pause and try again'.format(grib_url)
         time.sleep(1)
-            try:
-                webpage = urllib2.urlopen(grib_url)
-                with open(outfile,'w') as fid:
-                    temp = webpage.read()
-                    fid.write(temp)
-            except:
-                err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)
-                raise ValueError(err_str)
+        try:
+            webpage = urllib2.urlopen(grib_url)
+            with open(outfile,'w') as fid:
+                temp = webpage.read()
+                fid.write(temp)
+        except:
+            err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)
+            raise ValueError(err_str)
    
 
 # Find latest files available for Canada HRDPS
@@ -139,7 +139,6 @@ def latest_hrdps_forecast():
 
 
 def get_tides(datestring, zulu_hour, param):   
-    # NULL vars ignored
     
     # Function to find minimum nearest
     def nearest(items, pivot):
@@ -172,6 +171,36 @@ def get_tides(datestring, zulu_hour, param):
     model_tide = tide[idx:idx+param['num_forecast_hours']]
     
     return model_tide    
+
+
+def tide_exc_prob(t_file, t_level, duration):
+    # Function returns probablity that tide will exceed t_level during the duration
+    # duration [hours]
+    # t_level [m] in NAVD88
+
+    # Load Tide File
+    with open(t_file) as fid:
+        content = fid.readlines()
+    
+    # Disregard Header    
+    content.pop(0)
+     
+    # Parse tide data , ignore time
+    tide = [float(x.split()[1]) for x in content]
+    
+    # Estimate probablity of threshold exceedence
+    N = len(tide)    
+    p_true = 0.
+    for t in range(N-duration):
+        block = tide[t:t+duration]
+        test = [i for i in block if i>t_level]
+        if test:
+            p_true += 1
+            
+    prob = p_true/(N-duration)
+    
+    return prob
+
     
 #    # Convert to Local Time
 #    model_time = [x-timedelta(hours=timeDifference) for x in model_time ]

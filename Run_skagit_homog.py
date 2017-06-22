@@ -3,34 +3,13 @@
 Created on Thu May 04 13:49:35 2017
 SkagitOperational - Contains all codes
 
-Assumed File Structure
+Run Skagit through scenarios
+min tide -0.56
+max tide 4.53
 
-Documents/
-    SkagitOperational/  (git repo)
-        Archive/
-        
-    Grids/
-        delft3d/
-            skagit/
-        delftfm/
-        suntans/
-        
-    Data/
-        raw_downloads/
-            hrdps/
-                max_files/
-                hrdps_grib_xxxxx/            
-        crop/
-            hrdps/
-                hrdps_crop_xxxxx/
-        d3d_input/
-            skagit/    
-    
-    ModelRuns
-        skagit_wave_50m/
-            
-    openearthtools/ (svn repo)
-    
+
+
+
 @author: Crosby
 """
 
@@ -128,11 +107,11 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 # Get tide predictions for forecast
 # tides = op_functions.get_tides(date_string, zulu_hour, param)
-for tide_level in [3.]:#[0., 1., 2., 3.]:
+for tide_level in [0., 2., 4., 5.]:
     
-    for wind_speed in [20]:# [25, 20, 15, 10, 5]: #[m/s]
+    for wind_speed in [25, 20, 15, 10]: #[m/s]
         
-        for wind_dir in [120]:#[0, 60, 120, 180, 240, 300]:  #deg, arriving from, compass coord
+        for wind_dir in [135, 255, 15]:  #deg, arriving from, compass coord
         
             # Functions expecting a list of water/tide levels
             tide = [tide_level]        

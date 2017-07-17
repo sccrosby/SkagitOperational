@@ -107,11 +107,11 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 
 # Get tide predictions for forecast
 # tides = op_functions.get_tides(date_string, zulu_hour, param)
-for tide_level in [0., 2., 4., 5.]:
+for tide_level in [5]: #[0., 1., 2., 3., 4.]:
     
     for wind_speed in [25, 20, 15, 10]: #[m/s]
         
-        for wind_dir in [135, 255, 15]:  #deg, arriving from, compass coord
+        for wind_dir in [135]: #[135, 255, 15]:  #deg, arriving from, compass coord
         
             # Functions expecting a list of water/tide levels
             tide = [tide_level]        

@@ -4,6 +4,7 @@
 
 from datetime import datetime, timedelta
 from pytz import timezone
+import numpy as np
 import os
 import urllib2
 import time
@@ -105,7 +106,19 @@ def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_ou
         except:
             err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)
             raise ValueError(err_str)
-   
+
+# Small function to load rotations needed for HRDPS
+def load_rotations(hrdps_rotation_file,Ny,Nx):
+    Theta = np.zeros((Ny,Nx), dtype='d')
+    RotationFile = open(hrdps_rotation_file,'r')
+    Lines = RotationFile.readlines()
+    RotationFile.close()
+    for Line in Lines:
+        LineSplit = Line.split()
+        i = int(LineSplit[0])
+        j = int(LineSplit[1])
+        Theta[j,i] = -float(LineSplit[2])
+    return Theta
 
 # Find latest files available for Canada HRDPS
 def latest_hrdps_forecast():
@@ -201,6 +214,93 @@ def tide_exc_prob(t_file, t_level, duration):
     
     return prob
 
+    
+def read_hrdps_grib(date_string, zulu_hour, param):
+    import pygrib
+    from pyproj import Proj
+    
+    # Initialize    
+    forecast_count = param['num_forecast_hours'] #Number of forecast hours
+    hrdps_lamwest_file = param['hrdps_lamwest_file']
+    hrdps_rotation_file = param['hrdps_rotation_file']
+    grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
+    prefix_uwnd = param['hrdps_PrefixU'] 
+    prefix_vwnd = param['hrdps_PrefixV'] 
+    bounds = param['crop_bounds']
+    
+    #----------------------- Load up HRDP Land Mask----------------------------------------
+    maskFileName = '{0:s}/{1:s}{2:s}{3:02d}_P000-00.grib2'.format(grib_input_loc, param['hrdps_PrefixLAND'], date_string, zulu_hour)
+    grbl = pygrib.open(maskFileName)
+    grblL = grbl.select(name='Land-sea mask')[0]
+    Land = grblL.values
+    Land = np.asarray(Land)
+    Ny = np.shape(Land)[0]
+    Nx = np.shape(Land)[1]
+    Land = Land[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]    # reduce to Salish Sea region
+    
+    #------------------------------- Load lat/lon positions of hrps ---------------------------------
+    degreesLat = np.zeros((Ny,Nx), dtype='d')
+    degreesLon = np.zeros((Ny,Nx), dtype='d')
+    indexFile = open(hrdps_lamwest_file,'r')
+    for line in indexFile:
+        split = line.split()
+        i = int(split[0])-1
+        j = int(split[1])-1
+        degreesLat[j,i] = float(split[2])
+        degreesLon[j,i] = float(split[3])
+    indexFile.close()
+    degreesLat = degreesLat[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    degreesLon = degreesLon[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    
+    #---------------------------- Load rotations---------------------
+    Theta = load_rotations(hrdps_rotation_file,Ny,Nx)
+    Theta = Theta[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    Nyr = np.shape(Theta)[0]
+    Nxr = np.shape(Theta)[1]
+    
+    
+    #--------------------------------------------- UTM ----------------------------------------------
+    p = Proj(proj='utm', zone=10, ellps='WGS84')
+    X, Y = p(degreesLon, degreesLat)  # note the capital L
+    
+    
+    # ------------ Load in All Forecast Data --------------------------------
+    U10 = []
+    V10 = []
+    for hour in range(forecast_count):
+        #Input grib file names            
+        UwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_uwnd, date_string, zulu_hour, hour)
+        VwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_vwnd, date_string, zulu_hour, hour)
+        
+        # Open grib
+        grbsu = pygrib.open(UwindFileName)
+        grbu  = grbsu.select(name='10 metre U wind component')[0]
+        grbsv = pygrib.open(VwindFileName)
+        grbv  = grbsv.select(name='10 metre V wind component')[0]
+        
+        u10 = grbu.values # same as grb['values']
+        v10 = grbv.values
+        u10 = np.asarray(u10)
+        v10 = np.asarray(v10)
+        
+        # Crop
+        u10 = u10[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+        v10 = v10[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+        
+        
+        # Rotate to earth relative with Bert-Derived rotations based on grid poitns (increased accuracy was derived for grid locations)
+        for j in range(Nyr):
+            for i in range(Nxr):
+                R = np.matrix([ [np.cos(Theta[j,i]), -np.sin(Theta[j,i])], [np.sin(Theta[j,i]), np.cos(Theta[j,i])] ])
+                rot = R.dot([u10[j,i],v10[j,i]])
+                u10[j,i] = rot[0,0]
+                v10[j,i] = rot[0,1]
+        
+        # Save all varaibles into list of arrays        
+        U10.append(u10)
+        V10.append(v10)
+    
+    return (X, Y, U10, V10)
     
 #    # Convert to Local Time
 #    model_time = [x-timedelta(hours=timeDifference) for x in model_time ]

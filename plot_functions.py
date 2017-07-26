@@ -5,9 +5,11 @@ Created on Fri Jun  9 12:09:18 2017
 @author: crosby
 """
 
+
 import numpy as np
 import numpy.ma as ma
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import matplotlib.cm as cm
 from show_grid import Grid
 import matplotlib.gridspec as gridspec
@@ -18,9 +20,31 @@ from poly_mask import Polygon
 import os
 from scipy.interpolate import griddata
 
+import op_functions
+
+# Returns GMT offset to PST/PDT 
+#def get_gmt_offset_2():
+#    # Works through 2019, HARDCODED
+#    myTime = datetime.utcnow()
+#    if datetime(2015,3,8,2,0,0) < myTime < datetime(2015,11,1,2,0,0):
+#        GMT2PST = 7 #hr
+#    elif datetime(2016,3,13,2,0,0) < myTime < datetime(2016,11,6,2,0,0):
+#        GMT2PST = 7 #hr
+#    elif datetime(2017,3,12,2,0,0) < myTime < datetime(2017,11,5,2,0,0):
+#        GMT2PST = 7 #hr
+#    elif datetime(2018,3,11,2,0,0) < myTime < datetime(2018,11,4,2,0,0):
+#        GMT2PST = 7 #hr
+#    elif datetime(2019,3,10,2,0,0) < myTime < datetime(2019,11,3,2,0,0):
+#        GMT2PST = 7 #hr
+#    else:
+#        GMT2PST = 8 #hr
+#    return GMT2PST
+
 def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
     # Constants
     m2ft = 3.28084  # Convert meters to feet
+    
+    print 'Entering plotting function for BBay'
     
     #-------------Plotting file locations-------------------------
     file_grid_crop = '../Plots/skagit_50m/plotting_files/cropped_two_meter.dat'
@@ -266,3 +290,228 @@ def plot_skagit_hsig(date_string, zulu_hour, maxWind, tide, param):
         #plt.show()
         plt.close(fig)
         #quit()
+
+    
+# Plot Bellingham Bay Winds
+def plot_bbay_wind(date_string, zulu_hour, param):
+    from netCDF4 import Dataset
+    import pygrib
+    import scipy.ndimage
+    import shutil
+
+    from op_functions import load_rotations    
+    
+    gmt_off = op_functions.get_gmt_offset()
+    ms2mph = 2.237
+    
+    # Initialize    
+    forecast_count = param['num_forecast_hours'] #Number of forecast hours
+    hrdps_lamwest_file = param['hrdps_lamwest_file']
+    hrdps_rotation_file = param['hrdps_rotation_file']
+    grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
+    crop_output_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_crop'],param['folname_crop_prefix'],date_string)
+    prefix_uwnd = param['hrdps_PrefixU'] 
+    prefix_vwnd = param['hrdps_PrefixV'] 
+    #bounds = param['crop_bounds']
+    bounds = np.asarray([[270,117],[288,141]]) # Bellingham Bay
+    
+    # For Trimming files
+    llcorner = [48.39, -122.88]
+    urcorner = [48.87, -122.28]
+    
+    # For Trimming plots
+    llcorner_plot = [48.42, -122.83]
+    urcorner_plot = [48.79, -122.44]
+    llcorner_plot_zoom = [48.64, -122.65]
+    urcorner_plot_zoom = [48.785, -122.47]
+    
+    #----------------------- Load up HRDP Land Mask----------------------------------------
+    maskFileName = '{0:s}/{1:s}{2:s}{3:02d}_P000-00.grib2'.format(grib_input_loc, param['hrdps_PrefixLAND'], date_string, zulu_hour)
+    grbl = pygrib.open(maskFileName)
+    grblL = grbl.select(name='Land-sea mask')[0]
+    Land = grblL.values
+    Land = np.asarray(Land)
+    Ny = np.shape(Land)[0]
+    Nx = np.shape(Land)[1]
+    Land = Land[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]    # reduce to Salish Sea region
+    
+    #------------------------------- Load lat/lon positions of hrps ---------------------------------
+    degreesLat = np.zeros((Ny,Nx), dtype='d')
+    degreesLon = np.zeros((Ny,Nx), dtype='d')
+    indexFile = open(hrdps_lamwest_file,'r')
+    for line in indexFile:
+        split = line.split()
+        i = int(split[0])-1
+        j = int(split[1])-1
+        degreesLat[j,i] = float(split[2])
+        degreesLon[j,i] = float(split[3])
+    indexFile.close()
+    degreesLat = degreesLat[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    degreesLon = degreesLon[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    
+    #---------------------------- Load rotations---------------------
+    Theta = load_rotations(hrdps_rotation_file,Ny,Nx)
+    Theta = Theta[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    Nyr = np.shape(Theta)[0]
+    Nxr = np.shape(Theta)[1]
+    
+    #---------------------------- Load bathy ------------------------
+    fname = '../Bathymetry/nw_pacific_crm_v1.nc'
+    fh = Dataset(fname,mode='r')
+    bathy_lon = fh.variables['x'][:]
+    bathy_lat = fh.variables['y'][:]
+    bathy_elv = fh.variables['z'][:]
+    fh.close()
+    
+    # Trim bathy file down (very large)
+    lon_ind = [i for i,v in enumerate(bathy_lon) if v > llcorner[1] and v < urcorner[1]]
+    lat_ind = [i for i,v in enumerate(bathy_lat) if v > llcorner[0] and v < urcorner[0]]
+    p_inds = np.ix_(lat_ind,lon_ind)
+    bathy_elv = bathy_elv[p_inds]
+    bathy_lon = bathy_lon[lon_ind]
+    bathy_lat = bathy_lat[lat_ind]
+    
+    
+    #--------------------------------------------- UTM ----------------------------------------------
+    #p = Proj(proj='utm', zone=10, ellps='WGS84')
+    #degreesLat = np.zeros((Ny,Nx), dtype='d')
+    #degreesLon = np.zeros((Ny,Nx), dtype='d')
+    # Lons, Lats = p(degreesLon, degreesLat)  # note the capital L
+    
+
+    
+    # ------------ Load in All Data --------------------------------
+    # Will allow setting of max colorbar to be constant throughout
+    max_speed = 0
+    U10 = []
+    V10 = []
+    Speed = []
+    for hour in range(forecast_count):
+        #Input grib file names            
+        UwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_uwnd, date_string, zulu_hour, hour)
+        VwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_vwnd, date_string, zulu_hour, hour)
+        
+        # Open grib
+        grbsu = pygrib.open(UwindFileName)
+        grbu  = grbsu.select(name='10 metre U wind component')[0]
+        grbsv = pygrib.open(VwindFileName)
+        grbv  = grbsv.select(name='10 metre V wind component')[0]
+        
+        u10 = grbu.values # same as grb['values']
+        v10 = grbv.values
+        u10 = np.asarray(u10)
+        v10 = np.asarray(v10)
+        
+        u10 = u10[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+        v10 = v10[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+        
+        
+        # Rotate to earth relative with Bert-Derived rotations based on grid poitns (increased accuracy was derived for grid locations)
+        for j in range(Nyr):
+            for i in range(Nxr):
+                R = np.matrix([ [np.cos(Theta[j,i]), -np.sin(Theta[j,i])], [np.sin(Theta[j,i]), np.cos(Theta[j,i])] ])
+                rot = R.dot([u10[j,i],v10[j,i]])
+                u10[j,i] = rot[0,0]
+                v10[j,i] = rot[0,1]
+                
+        speed = ms2mph*np.sqrt(u10**2 + v10**2)
+        
+        # Keep track of max speed
+        new_max = np.max(speed)
+        if new_max > max_speed:
+            max_speed = new_max
+        
+       
+        # Save all varaibles into list of arrays        
+        U10.append(u10)
+        V10.append(v10)
+        Speed.append(speed)
+    
+    # Control wind speed colors
+    if max_speed < 15:
+        max_speed_plot = 15
+    elif max_speed < 30:
+        max_speed_plot = 30
+    elif max_speed < 45:
+        max_speed_plot = 45
+    else:
+        max_speed_plot = 60
+    
+    #----------------------Make Plots----------------------------------
+    for hour in range(forecast_count):
+        # Local Time
+        time_local = datetime.strptime('{:s}{:d}'.format(date_string,zulu_hour),'%Y%m%d%H')+timedelta(hours=(hour-gmt_off))
+        
+        # Interp onto high res grid to smooth 3x        
+        hr3_speed = scipy.ndimage.zoom(Speed[hour],3)
+        hr3_lon = scipy.ndimage.zoom(degreesLon,3)
+        hr3_lat = scipy.ndimage.zoom(degreesLat,3)
+ 
+        # Interp onto high res grid to smooth 2x        
+        hr2_u10 = scipy.ndimage.zoom(U10[hour],2)
+        hr2_v10 = scipy.ndimage.zoom(V10[hour],2)
+        hr2_lon = scipy.ndimage.zoom(degreesLon,2)
+        hr2_lat = scipy.ndimage.zoom(degreesLat,2)
+        
+        # Make REGIONAL BELLINGHAM Plot
+        plt.figure(figsize=(7,6))
+        #CS = plt.contourf(degreesLon, degreesLat, Speed[hour], levels=np.linspace(0, max_speed_plot, 16))
+        CS = plt.contourf(hr3_lon, hr3_lat, hr3_speed, levels=np.linspace(0, max_speed_plot, 16))
+        plt.contour(bathy_lon,bathy_lat,bathy_elv,levels=[0],colors='k') #[0, 50, 100, 500, 750, 1000]
+        #plt.quiver(degreesLon,degreesLat,U10[hour],V10[hour],color=(.5, .5, .5),units='width')
+        plt.quiver(degreesLon,degreesLat,U10[hour],V10[hour],color=(.5, .5, .5),scale=20,scale_units='inches')
+        plt.contourf(bathy_lon,bathy_lat,bathy_elv,levels=[0, 5000],hatches=['...'],alpha=0)
+        cbar = plt.colorbar(CS)
+        cbar.ax.set_ylabel('Wind Speed [mph]')
+        CS.ax.ticklabel_format(useOffset=False)
+        CS.ax.get_xaxis().get_major_formatter().set_scientific(False)
+        CS.ax.set_ylim(llcorner_plot[0], urcorner_plot[0])
+        CS.ax.set_xlim(llcorner_plot[1], urcorner_plot[1])
+        CS.ax.set_xticks([-122.8, -122.6, -122.4])
+        CS.ax.set_xticklabels(['122.8$^\circ$ W', '122.6$^\circ$ W', '122.4$^\circ$ W'])
+        CS.ax.set_yticks([48.5, 48.7])
+        CS.ax.set_yticklabels(['48.5$^\circ$ W', '48.7$^\circ$ W'])
+        CS.ax.set_title('Init: {:s} Z{:02d} - FCST HR {:d},   Local Time: {:s}'.format(date_string,zulu_hour,hour,time_local.strftime('%b %d %H:%S')))              
+        plt.savefig('../GoogleDrive/BellinghamBay/Regional_Wind_HR{:02d}.png'.format(hour),dpi=200)
+        plt.close()
+        
+        # Make ZOOMED BELLINGHAM Bay Plot
+        plt.figure(figsize=(7,6))
+        #CS = plt.contourf(degreesLon, degreesLat, Speed[hour], levels=np.linspace(0, max_speed_plot, 16))
+        CS = plt.contourf(hr3_lon, hr3_lat, hr3_speed, levels=np.linspace(0, max_speed_plot, 16))
+        plt.contour(bathy_lon,bathy_lat,bathy_elv,levels=[0],colors='k') #[0, 50, 100, 500, 750, 1000]
+        #plt.quiver(degreesLon,degreesLat,U10[hour],V10[hour],color=(.5, .5, .5),units='width')
+        plt.quiver(hr2_lon,hr2_lat,hr2_u10,hr2_v10,color=(.5, .5, .5),scale=20,scale_units='inches')
+        plt.contourf(bathy_lon,bathy_lat,bathy_elv,levels=[0, 5000],hatches=['...'],alpha=0)
+        cbar = plt.colorbar(CS)
+        cbar.ax.set_ylabel('Wind Speed [mph]')
+        CS.ax.ticklabel_format(useOffset=False)
+        CS.ax.get_xaxis().get_major_formatter().set_scientific(False)
+        CS.ax.set_ylim(llcorner_plot_zoom[0], urcorner_plot_zoom[0])
+        CS.ax.set_xlim(llcorner_plot_zoom[1], urcorner_plot_zoom[1])
+        CS.ax.set_xticks([-122.6, -122.5])
+        CS.ax.set_xticklabels(['122.6$^\circ$ W', '122.5$^\circ$ W'])
+        CS.ax.set_yticks([48.65, 48.7])
+        CS.ax.set_yticklabels(['48.6$^\circ$ W', '48.7$^\circ$ W'])
+        CS.ax.set_title('Init: {:s} Z{:02d} - FCST HR {:d},   Local Time: {:s}'.format(date_string,zulu_hour,hour,time_local.strftime('%b %d %H:%S')))              
+        plt.savefig('../GoogleDrive/BellinghamBay/BBay_Wind_HR{:02d}.png'.format(hour),dpi=200)
+        plt.close()
+        
+        
+    # Use ffmpeg to make animation
+    os.chdir('../GoogleDrive/BellinghamBay/')
+    ffmpegCommand = 'ffmpeg -f image2 -r 1 -i Regional_Wind_HR%02d.png -vcodec mpeg4 -y -vb 700k Regional_Wind.mp4'    
+    err = subprocess.check_call(ffmpegCommand, shell=True)
+    ffmpegCommand = 'ffmpeg -f image2 -r 1 -i BBay_Wind_HR%02d.png -vcodec mpeg4 -y -vb 700k BBay_Wind.mp4'    
+    err = subprocess.check_call(ffmpegCommand, shell=True)
+    os.chdir('../../SkagitOperational')
+                
+    # Move png files to image folder
+    for hour in range(forecast_count):
+        shutil.move('../GoogleDrive/BellinghamBay/Regional_Wind_HR{:02d}.png'.format(hour),
+                    '../GoogleDrive/BellinghamBay/ImageFiles/Regional_Wind_HR{:02d}.png'.format(hour))
+        shutil.move('../GoogleDrive/BellinghamBay/BBay_Wind_HR{:02d}.png'.format(hour),
+                    '../GoogleDrive/BellinghamBay/ImageFiles/BBay_Wind_HR{:02d}.png'.format(hour))
+                
+                
+                

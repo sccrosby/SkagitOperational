@@ -17,10 +17,8 @@ import os
 import subprocess
 import matplotlib.cm as cm
 from matplotlib.colors import LightSource
-#from scipy.interpolate import griddata
-from matplotlib.mlab import griddata
+from scipy.interpolate import griddata
 
-import op_functions 
 
 
 def write_amuv(dateString,zulu_hour,param):
@@ -29,13 +27,20 @@ def write_amuv(dateString,zulu_hour,param):
     # Set some constants that vary from model to model
     line_meteo_grid_size= param['line_meteo_grid_size']     # Line number in meteo grid with Nx, Ny
     line_header_skip    = param['line_header_skip']    # Number of header lines in meteo file
+    xLL                 = param['xLL']  # lower left corner of SWAN computational grid
+    yLL                 = param['yLL']
     num_forecast_hours  = param['num_forecast_hours']
     
     # Set locations
+    fol_wind_crop = param['fol_wind_crop']
+    fol_wind_amuv = param['fol_model']
     fol_grid = param['fol_grid']
         
     # Set file names
+    fname_fol_wind =    '{0:s}{1:s}'.format(param['folname_crop_prefix'],dateString)
+    fname_wind_file = '{0:s}{1:s}_{2:02d}z'.format(param['fname_prefix_wind'],dateString,zulu_hour)
     fname_meteo =       param['fname_meteo_grid']
+    fname_grd =         param['fname_grid']
     wind_u_file =       '{0:s}/{1:s}'.format(param['fol_model'],param['wind_u_name'])    
     wind_v_file =       '{0:s}/{1:s}'.format(param['fol_model'],param['wind_v_name'])
     
@@ -75,7 +80,9 @@ def write_amuv(dateString,zulu_hour,param):
     vFile.write('unit1           =    m s-1\n')
     vFile.write('### END OF HEADER\n')
 
-    
+   
+     
+   
     # Load D3D meteo grid
     gridFile = open('{0:s}/{1:s}'.format(fol_grid,fname_meteo),'r')
     lines = gridFile.readlines()
@@ -120,14 +127,55 @@ def write_amuv(dateString,zulu_hour,param):
 
     #-----------------------Load and write winds from grib --------------------
     hyphenatedString = time_obj.strftime('%Y-%m-%d')
-    
-    # Read in winds from grib file for region (using bounds)
-    (X, Y, U10, V10)= op_functions.read_hrdps_grib(dateString, zulu_hour, param)
+    maxWind = 0.0
+    maxHour = 0
+    meanMax = 0.0
+    for hour in range(num_forecast_hours):
+        windFileName = '{0:s}/{1:s}/{2:s}_{3:02d}.dat'.format(fol_wind_crop,fname_fol_wind,fname_wind_file,hour)
+        print('reading {0:s} '.format(windFileName))
 
-    for hour in range(num_forecast_hours):        
+        windFile = open(windFileName,"r")
+        line = windFile.readline()
+        Nyw = int(line.split()[0])
+        Nxw = int(line.split()[1])
+        Nw = Nyw*Nxw
 
-        ui = griddata(X.flatten(), Y.flatten(), U10[hour].flatten(), easting, northing, interp='linear')  # linear, nearest, cubic
-        vi = griddata(X.flatten(), Y.flatten(), V10[hour].flatten(), easting, northing, interp='linear')  # linear, nearest, cubic
+        x = np.zeros(Nw, dtype='d')
+        y = np.zeros(Nw, dtype='d')
+        xy = np.zeros((Nw,2), dtype='d')
+        u = np.zeros(Nw, dtype='d')
+        v = np.zeros(Nw, dtype='d')
+
+        for n in range(Nw):
+            line = windFile.readline()
+            split_line = line.split()
+            x[n] = float(split_line[0])
+            y[n] = float(split_line[1])
+            xy[n,0] = x[n]
+            xy[n,1] = y[n]
+            u[n] = float(split_line[2])
+            v[n] = float(split_line[3])
+
+
+        margin = 50.0
+        deltax = np.linspace(0.0, (20700.0+2.0*margin), Nx)
+        deltay = np.linspace(0.0, (24450.0+2.0*margin), Ny)
+        xi = deltax + xLL - margin
+        yi = deltay + yLL - margin
+
+
+        ui = griddata(xy,  u, (xi[None,:], yi[:,None]), method='cubic')  # linear, nearest, cubic
+        vi = griddata(xy,  v, (xi[None,:], yi[:,None]), method='cubic')
+
+        ws = np.sqrt(ui**2 + vi**2)
+        mspd = np.max(ws)
+        mmax = np.mean(ws)
+        if maxWind < mspd:
+            maxWind = mspd
+        if meanMax < mmax:
+            meanMax = mmax
+            maxHour = hour
+
 
         #Fixed format: time unit since date time time difference (time zone)
         uFile.write('TIME = {0:3.1f} minutes since {1:s} 00:00:00 +00:00\n'.format(60.0*(hour), hyphenatedString))

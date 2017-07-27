@@ -9,6 +9,7 @@ Documents/
     Grids/
         delft3d/
             skagit/
+            bbay/
         delftfm/
         suntans/
         
@@ -23,9 +24,17 @@ Documents/
         d3d_input/
             skagit/    
     
-    ModelRuns
+    ModelRuns/
         skagit_wave_50m/
-            
+        bbay_150m/
+    
+    Plots/
+        skagit_50m/
+            plotting_files/
+    
+    GoogleDrive/
+        SkagitPlots/
+                   
     openearthtools/ (svn repo)
 
 As we proceed try to 

@@ -1,3 +1,363 @@
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.69 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  21.54 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  16.98 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  19.93 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  25.60 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  51.26 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  77.85 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  93.92 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  97.23 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  99.00 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  19.51 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  49.12 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  36.58 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  25.23 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  25.90 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  50.52 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  79.95 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  96.35 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  98.95 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  20.45 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  48.01 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  32.85 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  20.35 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  21.98 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  49.72 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  78.49 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  97.53 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.23 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  17.74 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  45.62 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  36.14 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  26.97 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  27.07 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  45.99 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  82.68 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  97.45 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.22 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  15.68 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  35.79 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  19.48 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  17.26 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.54 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  46.34 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  75.68 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.10 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
 --------------------------------------------------------------------------------
 -  Delft3D
 -  Deltares, Delft3D-WAVE Version 3.05.01.7200, Jun 12 2017, 14:20:17
@@ -8,10 +368,4304 @@
 SWAN_INPUT: Meteofiles specified in group General used for domain 1
  Done reading input
   Initialising grids and grid mappings
-Error in meteo module: File wind_skagit.amu does not exist
-Stopping WAVE computation
-48 hour file doesn't exist yet for 20170726, 18Z
-48 hour file doesn't exist yet for 20170726, 12Z
+  Start loop over SWAN grids, time =           0.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  0                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time           0.000
+  Time written          0
+  Start loop over SWAN grids, time =          60.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  1                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time          60.000
+  Time written         60
+  Start loop over SWAN grids, time =         120.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  2                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         120.000
+  Time written        120
+  Start loop over SWAN grids, time =         180.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  3                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         180.000
+  Time written        180
+  Start loop over SWAN grids, time =         240.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  4                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         240.000
+  Time written        240
+  Start loop over SWAN grids, time =         300.000
+  Allocate input fields
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.38 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  23.76 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  10.14 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  13.74 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  19.84 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  42.72 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  75.91 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  97.91 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.38 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.33 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  29.26 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  10.89 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  13.48 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  21.85 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  40.81 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  78.71 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  97.87 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  98.90 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  16.25 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  32.94 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  10.64 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  11.41 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  16.41 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  42.61 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  85.79 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.81 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.59 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  28.53 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   9.68 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   9.56 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  13.12 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  42.46 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  81.89 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  99.27 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.54 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  30.45 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   9.95 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  10.16 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  13.44 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  38.31 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  88.06 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  99.05 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  10.27 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  27.44 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   9.17 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   9.66 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  13.18 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  41.88 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  90.63 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.56 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  5                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         300.000
+  Time written        300
+  Start loop over SWAN grids, time =         360.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  6                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         360.000
+  Time written        360
+  Start loop over SWAN grids, time =         420.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  7                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         420.000
+  Time written        420
+  Start loop over SWAN grids, time =         480.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  8                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         480.000
+  Time written        480
+  Start loop over SWAN grids, time =         540.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay  9                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         540.000
+  Time written        540
+  Start loop over SWAN grids, time =         600.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 10                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  10.98 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  25.78 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  12.10 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   9.68 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  16.75 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  46.28 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  94.96 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.14 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  11.29 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  29.13 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  16.49 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   8.72 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  18.85 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  49.52 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  93.67 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.14 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.85 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  33.56 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  25.05 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   8.69 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  21.09 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  48.21 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  92.34 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  97.32 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.12 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.71 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  40.84 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  28.57 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   9.76 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  19.37 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  54.57 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  89.92 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.82 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  14.14 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  46.27 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  33.42 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  12.65 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.84 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  55.25 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  85.07 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.45 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         600.000
+  Time written        600
+  Start loop over SWAN grids, time =         660.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 11                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         660.000
+  Time written        660
+  Start loop over SWAN grids, time =         720.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 12                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         720.000
+  Time written        720
+  Start loop over SWAN grids, time =         780.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 13                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         780.000
+  Time written        780
+  Start loop over SWAN grids, time =         840.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 14                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         840.000
+  Time written        840
+  Start loop over SWAN grids, time =         900.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 15                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         900.000
+  Time written        900
+  Start loop over SWAN grids, time =         960.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 16                                                                                                                                                                                                                                                 
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.78 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  44.11 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  31.34 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  14.34 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  21.35 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  54.88 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  78.49 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.19 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.95 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  40.47 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  33.40 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  20.61 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  23.88 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  48.04 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  74.73 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.20 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.86 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  41.49 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  36.57 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  20.82 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.73 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  41.77 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  66.10 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  94.02 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.35 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.13 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  41.06 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  37.90 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  18.91 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.17 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  43.40 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  61.77 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  93.24 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  98.75 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.28 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  41.24 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  38.07 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  19.72 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  18.79 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  41.27 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  61.80 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  92.00 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.24 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  11.73 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  46.10 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  41.66 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  21.19 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  18.90 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  45.07 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  64.02 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  93.03 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.36 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time         960.000
+  Time written        960
+  Start loop over SWAN grids, time =        1020.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 17                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1020.000
+  Time written       1020
+  Start loop over SWAN grids, time =        1080.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 18                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1080.000
+  Time written       1080
+  Start loop over SWAN grids, time =        1140.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 19                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1140.000
+  Time written       1140
+  Start loop over SWAN grids, time =        1200.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 20                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1200.000
+  Time written       1200
+  Start loop over SWAN grids, time =        1260.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 21                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1260.000
+  Time written       1260
+  Start loop over SWAN grids, time =        1320.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 22                                                                                                                                                                                                                                                 
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.34 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  52.20 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  46.59 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  21.01 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  18.76 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  49.39 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  67.79 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  97.18 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  98.45 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  16.37 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  58.03 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  49.85 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  17.78 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  19.19 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  49.72 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  73.23 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  96.45 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.24 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  24.45 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  56.25 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  50.70 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  16.55 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  15.66 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  48.54 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  72.17 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  95.42 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  98.48 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  29.78 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  51.30 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  49.11 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  14.37 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  12.89 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  48.97 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  75.78 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  95.50 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  97.89 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  98.18 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  29.18 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  45.64 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  39.08 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  12.73 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  16.54 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  52.82 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  80.03 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  96.36 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  97.70 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  97.94 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  98.12 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  17.04 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  36.85 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  20.10 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  16.49 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  34.92 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  53.79 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  89.52 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  95.45 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  96.16 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  98.59 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1320.000
+  Time written       1320
+  Start loop over SWAN grids, time =        1380.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 23                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1380.000
+  Time written       1380
+  Start loop over SWAN grids, time =        1440.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 24                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1440.000
+  Time written       1440
+  Start loop over SWAN grids, time =        1500.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 25                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1500.000
+  Time written       1500
+  Start loop over SWAN grids, time =        1560.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 26                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1560.000
+  Time written       1560
+  Start loop over SWAN grids, time =        1620.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 27                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1620.000
+  Time written       1620
+  Start loop over SWAN grids, time =        1680.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 28                                                                                                                                                                                                                                                 
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   3.78 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   7.25 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   2.64 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   6.72 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  35.16 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  71.67 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  93.55 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  93.08 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  94.14 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  93.97 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  95.78 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  97.44 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  98.05 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   4.80 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   8.50 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   9.14 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  12.40 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  35.58 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  72.71 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  81.93 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  84.11 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  86.73 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  97.84 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  97.14 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  99.40 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.01 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  13.98 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   6.89 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   4.58 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   8.62 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  25.94 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  45.02 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  78.71 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  78.26 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  80.40 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  93.03 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  87.59 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  89.25 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  89.10 % of wet grid points ( 98.00 % required)
+
+ iteration   15; sweep 1
++iteration   15; sweep 2
++iteration   15; sweep 3
++iteration   15; sweep 4
+ accuracy OK in  92.61 % of wet grid points ( 98.00 % required)
+
+ iteration   16; sweep 1
++iteration   16; sweep 2
++iteration   16; sweep 3
++iteration   16; sweep 4
+ accuracy OK in  93.50 % of wet grid points ( 98.00 % required)
+
+ iteration   17; sweep 1
++iteration   17; sweep 2
++iteration   17; sweep 3
++iteration   17; sweep 4
+ accuracy OK in  94.69 % of wet grid points ( 98.00 % required)
+
+ iteration   18; sweep 1
++iteration   18; sweep 2
++iteration   18; sweep 3
++iteration   18; sweep 4
+ accuracy OK in  91.81 % of wet grid points ( 98.00 % required)
+
+ iteration   19; sweep 1
++iteration   19; sweep 2
++iteration   19; sweep 3
++iteration   19; sweep 4
+ accuracy OK in  92.93 % of wet grid points ( 98.00 % required)
+
+ iteration   20; sweep 1
++iteration   20; sweep 2
++iteration   20; sweep 3
++iteration   20; sweep 4
+ accuracy OK in  93.76 % of wet grid points ( 98.00 % required)
+
+ iteration   21; sweep 1
++iteration   21; sweep 2
++iteration   21; sweep 3
++iteration   21; sweep 4
+ accuracy OK in  94.16 % of wet grid points ( 98.00 % required)
+
+ iteration   22; sweep 1
++iteration   22; sweep 2
++iteration   22; sweep 3
++iteration   22; sweep 4
+ accuracy OK in  94.37 % of wet grid points ( 98.00 % required)
+
+ iteration   23; sweep 1
++iteration   23; sweep 2
++iteration   23; sweep 3
++iteration   23; sweep 4
+ accuracy OK in  94.56 % of wet grid points ( 98.00 % required)
+
+ iteration   24; sweep 1
++iteration   24; sweep 2
++iteration   24; sweep 3
++iteration   24; sweep 4
+ accuracy OK in  94.40 % of wet grid points ( 98.00 % required)
+
+ iteration   25; sweep 1
++iteration   25; sweep 2
++iteration   25; sweep 3
++iteration   25; sweep 4
+ accuracy OK in  94.87 % of wet grid points ( 98.00 % required)
+
+ iteration   26; sweep 1
++iteration   26; sweep 2
++iteration   26; sweep 3
++iteration   26; sweep 4
+ accuracy OK in  95.64 % of wet grid points ( 98.00 % required)
+
+ iteration   27; sweep 1
++iteration   27; sweep 2
++iteration   27; sweep 3
++iteration   27; sweep 4
+ accuracy OK in  94.11 % of wet grid points ( 98.00 % required)
+
+ iteration   28; sweep 1
++iteration   28; sweep 2
++iteration   28; sweep 3
++iteration   28; sweep 4
+ accuracy OK in  95.65 % of wet grid points ( 98.00 % required)
+
+ iteration   29; sweep 1
++iteration   29; sweep 2
++iteration   29; sweep 3
++iteration   29; sweep 4
+ accuracy OK in  94.25 % of wet grid points ( 98.00 % required)
+
+ iteration   30; sweep 1
++iteration   30; sweep 2
++iteration   30; sweep 3
++iteration   30; sweep 4
+ accuracy OK in  94.75 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  12.72 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   8.07 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   5.25 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  13.03 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  27.08 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  42.55 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  83.13 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  79.87 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  81.32 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  93.73 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  93.87 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  95.59 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  96.50 % of wet grid points ( 98.00 % required)
+
+ iteration   15; sweep 1
++iteration   15; sweep 2
++iteration   15; sweep 3
++iteration   15; sweep 4
+ accuracy OK in  97.91 % of wet grid points ( 98.00 % required)
+
+ iteration   16; sweep 1
++iteration   16; sweep 2
++iteration   16; sweep 3
++iteration   16; sweep 4
+ accuracy OK in  97.26 % of wet grid points ( 98.00 % required)
+
+ iteration   17; sweep 1
++iteration   17; sweep 2
++iteration   17; sweep 3
++iteration   17; sweep 4
+ accuracy OK in  97.13 % of wet grid points ( 98.00 % required)
+
+ iteration   18; sweep 1
++iteration   18; sweep 2
++iteration   18; sweep 3
++iteration   18; sweep 4
+ accuracy OK in  97.19 % of wet grid points ( 98.00 % required)
+
+ iteration   19; sweep 1
++iteration   19; sweep 2
++iteration   19; sweep 3
++iteration   19; sweep 4
+ accuracy OK in  96.83 % of wet grid points ( 98.00 % required)
+
+ iteration   20; sweep 1
++iteration   20; sweep 2
++iteration   20; sweep 3
++iteration   20; sweep 4
+ accuracy OK in  97.70 % of wet grid points ( 98.00 % required)
+
+ iteration   21; sweep 1
++iteration   21; sweep 2
++iteration   21; sweep 3
++iteration   21; sweep 4
+ accuracy OK in  97.17 % of wet grid points ( 98.00 % required)
+
+ iteration   22; sweep 1
++iteration   22; sweep 2
++iteration   22; sweep 3
++iteration   22; sweep 4
+ accuracy OK in  97.85 % of wet grid points ( 98.00 % required)
+
+ iteration   23; sweep 1
++iteration   23; sweep 2
++iteration   23; sweep 3
++iteration   23; sweep 4
+ accuracy OK in  96.97 % of wet grid points ( 98.00 % required)
+
+ iteration   24; sweep 1
++iteration   24; sweep 2
++iteration   24; sweep 3
++iteration   24; sweep 4
+ accuracy OK in  97.32 % of wet grid points ( 98.00 % required)
+
+ iteration   25; sweep 1
++iteration   25; sweep 2
++iteration   25; sweep 3
++iteration   25; sweep 4
+ accuracy OK in  97.95 % of wet grid points ( 98.00 % required)
+
+ iteration   26; sweep 1
++iteration   26; sweep 2
++iteration   26; sweep 3
++iteration   26; sweep 4
+ accuracy OK in  98.38 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.16 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   8.56 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  14.19 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   7.07 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  16.63 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  29.68 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  47.79 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  85.34 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  91.63 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  84.82 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  93.30 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  98.13 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  11.32 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  21.16 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  10.76 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  28.10 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  36.60 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  53.37 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  87.71 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  92.07 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  83.25 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  93.43 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  96.62 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  98.82 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1680.000
+  Time written       1680
+  Start loop over SWAN grids, time =        1740.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 29                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1740.000
+  Time written       1740
+  Start loop over SWAN grids, time =        1800.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 30                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1800.000
+  Time written       1800
+  Start loop over SWAN grids, time =        1860.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 31                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1860.000
+  Time written       1860
+  Start loop over SWAN grids, time =        1920.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 32                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1920.000
+  Time written       1920
+  Start loop over SWAN grids, time =        1980.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 33                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        1980.000
+  Time written       1980
+  Start loop over SWAN grids, time =        2040.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 34                                                                                                                                                                                                                                                 
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  14.93 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  15.25 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   6.19 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  17.55 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  33.05 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  55.09 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  89.89 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  92.59 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  90.15 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  97.10 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  97.70 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  99.32 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  14.38 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  13.39 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   6.02 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  13.38 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  35.41 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  57.11 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  87.52 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  80.84 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  93.28 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  95.43 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  97.13 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  95.59 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  98.16 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   0.52 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   1.45 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   1.12 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   1.83 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  29.22 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  71.21 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  78.76 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  82.76 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  81.87 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  87.76 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  86.66 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  91.54 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  96.27 % of wet grid points ( 98.00 % required)
+
+ iteration   15; sweep 1
++iteration   15; sweep 2
++iteration   15; sweep 3
++iteration   15; sweep 4
+ accuracy OK in  96.21 % of wet grid points ( 98.00 % required)
+
+ iteration   16; sweep 1
++iteration   16; sweep 2
++iteration   16; sweep 3
++iteration   16; sweep 4
+ accuracy OK in  96.24 % of wet grid points ( 98.00 % required)
+
+ iteration   17; sweep 1
++iteration   17; sweep 2
++iteration   17; sweep 3
++iteration   17; sweep 4
+ accuracy OK in  98.10 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   1.83 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   1.99 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   2.01 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   2.99 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  24.75 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  68.40 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  87.50 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  95.08 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  91.00 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  81.02 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  93.94 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  91.49 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  94.92 % of wet grid points ( 98.00 % required)
+
+ iteration   15; sweep 1
++iteration   15; sweep 2
++iteration   15; sweep 3
++iteration   15; sweep 4
+ accuracy OK in  92.19 % of wet grid points ( 98.00 % required)
+
+ iteration   16; sweep 1
++iteration   16; sweep 2
++iteration   16; sweep 3
++iteration   16; sweep 4
+ accuracy OK in  97.69 % of wet grid points ( 98.00 % required)
+
+ iteration   17; sweep 1
++iteration   17; sweep 2
++iteration   17; sweep 3
++iteration   17; sweep 4
+ accuracy OK in  97.78 % of wet grid points ( 98.00 % required)
+
+ iteration   18; sweep 1
++iteration   18; sweep 2
++iteration   18; sweep 3
++iteration   18; sweep 4
+ accuracy OK in  99.14 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   1.69 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in   6.17 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in   2.55 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in   4.96 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  25.78 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  65.86 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  85.05 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  96.13 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  96.01 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  94.75 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  97.11 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  95.56 % of wet grid points ( 98.00 % required)
+
+ iteration   14; sweep 1
++iteration   14; sweep 2
++iteration   14; sweep 3
++iteration   14; sweep 4
+ accuracy OK in  97.83 % of wet grid points ( 98.00 % required)
+
+ iteration   15; sweep 1
++iteration   15; sweep 2
++iteration   15; sweep 3
++iteration   15; sweep 4
+ accuracy OK in  98.07 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in   9.69 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  26.74 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  12.83 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  10.54 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.44 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  56.28 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  88.39 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  92.23 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  90.94 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  95.96 % of wet grid points ( 98.00 % required)
+
+ iteration   12; sweep 1
++iteration   12; sweep 2
++iteration   12; sweep 3
++iteration   12; sweep 4
+ accuracy OK in  97.19 % of wet grid points ( 98.00 % required)
+
+ iteration   13; sweep 1
++iteration   13; sweep 2
++iteration   13; sweep 3
++iteration   13; sweep 4
+ accuracy OK in  99.26 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2040.000
+  Time written       2040
+  Start loop over SWAN grids, time =        2100.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 35                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2100.000
+  Time written       2100
+  Start loop over SWAN grids, time =        2160.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 36                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2160.000
+  Time written       2160
+  Start loop over SWAN grids, time =        2220.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 37                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2220.000
+  Time written       2220
+  Start loop over SWAN grids, time =        2280.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 38                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2280.000
+  Time written       2280
+  Start loop over SWAN grids, time =        2340.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 39                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2340.000
+  Time written       2340
+  Start loop over SWAN grids, time =        2400.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 40                                                                                                                                                                                                                                                 
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  26.37 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  47.20 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  48.72 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  18.30 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  24.62 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  53.31 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  87.09 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  96.93 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  97.55 % of wet grid points ( 98.00 % required)
+
+ iteration   11; sweep 1
++iteration   11; sweep 2
++iteration   11; sweep 3
++iteration   11; sweep 4
+ accuracy OK in  99.28 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  16.00 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  50.63 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  43.10 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  17.57 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  23.77 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  56.22 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  80.46 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  98.37 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  15.96 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  48.10 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  42.76 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  21.21 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  21.56 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  47.90 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  66.26 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  95.48 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.32 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  15.11 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  41.08 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  38.72 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  19.98 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  18.22 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  40.24 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  56.35 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  89.31 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.03 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  15.07 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  45.48 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  43.31 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  21.78 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.22 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  43.79 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  60.27 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  91.26 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.39 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  14.24 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  50.42 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  45.99 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  22.33 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  20.47 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  44.11 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  63.90 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  92.65 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.23 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2400.000
+  Time written       2400
+  Start loop over SWAN grids, time =        2460.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 41                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2460.000
+  Time written       2460
+  Start loop over SWAN grids, time =        2520.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 42                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2520.000
+  Time written       2520
+  Start loop over SWAN grids, time =        2580.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 43                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2580.000
+  Time written       2580
+  Start loop over SWAN grids, time =        2640.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 44                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2640.000
+  Time written       2640
+  Start loop over SWAN grids, time =        2700.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 45                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2700.000
+  Time written       2700
+  Start loop over SWAN grids, time =        2760.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 46                                                                                                                                                                                                                                                 
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  16.14 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  54.80 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  47.70 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  21.12 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  18.80 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  48.50 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  61.52 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  94.53 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.16 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+swan.sh is /home/crosby/delft3d_repository/bin/lnx64/swan/scripts/swan.sh
+Using swan executable /home/crosby/delft3d_repository/bin/lnx64/swan/bin/swan_4072ABCDE_del_l64_i11_omp.exe
+ 
+SWAN batchfile executed for Delft3D
+Performing computation for: bbay.swn
+
+ SWAN is preparing computation
+
+ Number of threads during execution of parallel region =  8
+
+ iteration    1; sweep 1
++iteration    1; sweep 2
++iteration    1; sweep 3
++iteration    1; sweep 4
+ accuracy OK in   0.00 % of wet grid points ( 98.00 % required)
+
+ iteration    2; sweep 1
++iteration    2; sweep 2
++iteration    2; sweep 3
++iteration    2; sweep 4
+ accuracy OK in  18.84 % of wet grid points ( 98.00 % required)
+
+ iteration    3; sweep 1
++iteration    3; sweep 2
++iteration    3; sweep 3
++iteration    3; sweep 4
+ accuracy OK in  54.22 % of wet grid points ( 98.00 % required)
+
+ iteration    4; sweep 1
++iteration    4; sweep 2
++iteration    4; sweep 3
++iteration    4; sweep 4
+ accuracy OK in  48.65 % of wet grid points ( 98.00 % required)
+
+ iteration    5; sweep 1
++iteration    5; sweep 2
++iteration    5; sweep 3
++iteration    5; sweep 4
+ accuracy OK in  19.50 % of wet grid points ( 98.00 % required)
+
+ iteration    6; sweep 1
++iteration    6; sweep 2
++iteration    6; sweep 3
++iteration    6; sweep 4
+ accuracy OK in  19.76 % of wet grid points ( 98.00 % required)
+
+ iteration    7; sweep 1
++iteration    7; sweep 2
++iteration    7; sweep 3
++iteration    7; sweep 4
+ accuracy OK in  47.81 % of wet grid points ( 98.00 % required)
+
+ iteration    8; sweep 1
++iteration    8; sweep 2
++iteration    8; sweep 3
++iteration    8; sweep 4
+ accuracy OK in  68.98 % of wet grid points ( 98.00 % required)
+
+ iteration    9; sweep 1
++iteration    9; sweep 2
++iteration    9; sweep 3
++iteration    9; sweep 4
+ accuracy OK in  94.97 % of wet grid points ( 98.00 % required)
+
+ iteration   10; sweep 1
++iteration   10; sweep 2
++iteration   10; sweep 3
++iteration   10; sweep 4
+ accuracy OK in  99.28 % of wet grid points ( 98.00 % required)
+
++SWAN is processing output request    1
++SWAN is processing output request    2
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(4) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2760.000
+  Time written       2760
+  Start loop over SWAN grids, time =        2820.000
+  Allocate input fields
+  Allocate and read SWAN depth
+  Write SWAN depth file
+  Write SWAN wind file
+  Deallocate input fields
+  Write SWAN input
+<<Run SWAN...
+ swan.sh bbay 47                                                                                                                                                                                                                                                 
+>>...End of SWAN run
+  Allocate output fields
+  Read SWAN output
+  WARNING: Found negative value(s) for dissip(2) in swanout file;
+           value(s) set to zero
+  Write WAVE map file, nest          1 time        2820.000
+  Time written       2820
+Delft3D-WAVE finished normally.
+48 hour file doesn't exist yet for 20170727, 18Z
 Current offset to GMT is 7 (method1)
 Current offset to GMT is 7 (method2)
 Dowloading hrdps forecast hour 00
@@ -44,6 +4698,7 @@ Dowloading hrdps forecast hour 26
 Dowloading hrdps forecast hour 27
 Dowloading hrdps forecast hour 28
 Dowloading hrdps forecast hour 29
+Could not download http://dd.weather.gc.ca/model_hrdps/west/grib2/12/029/CMC_hrdps_west_VGRD_TGL_10_ps2.5km_2017072712_P029-00.grib2, will pause and try again
 Dowloading hrdps forecast hour 30
 Dowloading hrdps forecast hour 31
 Dowloading hrdps forecast hour 32
@@ -62,11 +4717,9 @@ Dowloading hrdps forecast hour 44
 Dowloading hrdps forecast hour 45
 Dowloading hrdps forecast hour 46
 Dowloading hrdps forecast hour 47
-Making wind plots for BBay
-Syncing google drive BellinghamBay Folder
-Writing D3D wind files to ../ModelRuns/skagit_wave_50m/wind_skagit.amu
-('Nx, Ny', 415, 490)
+Writing D3D wind files to ../ModelRuns/bbay_150m/wind_bbay.amu
+('Nx, Ny', 111, 177)
 Beginning D3D model run
-Plotting
-Entering plotting function for BBay
-('Grid(Nx, Ny): ', 415, 490)
+Making wind plots for BBay
+Making Wind and Wave plots BBay
+('Nx, Ny', 111, 177)

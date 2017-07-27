@@ -53,14 +53,14 @@ matplotlib.use('Agg')
 
 # Import custom libaraies
 import op_functions
-import crop_functions
+#import crop_functions
 import d3d_functions
 import misc_functions
 import plot_functions
+import plot_functions_wave
 import get_param
 
 # Import standard libraries
-import numpy as np
 import os
 import subprocess
 import shutil
@@ -81,7 +81,8 @@ google_drive = '../GoogleDrive'
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
-param = get_param.get_param_skagit()
+#param = get_param.get_param_skagit()
+param = get_param.get_param_bbay()
 
 # Determine offset from local time (PST/PDT) to GMT +
 print 'Current offset to GMT is %d (method1)' % op_functions.get_gmt_offset()
@@ -90,17 +91,55 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 # Start timer
 start_time = time.time()
 
-# Download raw grib files
-test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}{4:02d}_P047-00.grib2'.format(param['fol_wind_grib'],
-    param['folname_grib_prefix'],date_string,param['hrdps_PrefixP'],zulu_hour)
-if os.path.isfile(test_file):
-    print 'Grib files already downloaded, skipping'
-else:
-    op_functions.get_hrdps(date_string, zulu_hour, param)
+## Download raw grib files
+#test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}{4:02d}_P047-00.grib2'.format(param['fol_wind_grib'],
+#    param['folname_grib_prefix'],date_string,param['hrdps_PrefixP'],zulu_hour)
+#if os.path.isfile(test_file):
+#    print 'Grib files already downloaded, skipping'
+#else:
+#    op_functions.get_hrdps(date_string, zulu_hour, param)
+#
+## Remove all files from model folder
+#misc_functions.clean_folder(param['fol_model'])
+#
+## Create D3D amuv files
+#d3d_functions.write_amuv(date_string,zulu_hour,param)
+#
+## Get tide predictions for forecast
+#tide = op_functions.get_tides(date_string, zulu_hour, param)
+#
+## Write mdw file to model folder
+#d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
+#
+## Copy files to model folder 
+#for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+#    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+## Copy location files to model folder
+#for fname in param['output_locs']:
+#   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
+#
+## Make run file executeable (when copying it loses this property)
+#import stat
+#myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
+#st = os.stat(myfile)
+#os.chmod(myfile, st.st_mode | stat.S_IEXEC)
+#
+## Run Model 
+#print 'Beginning D3D model run'
+#os.chdir(param['fol_model'])
+#if not os.path.isdir('temp'):
+#    os.mkdir('temp')  # Add temp directory for outputing raw swan files
+#subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
+#os.chdir('../../SkagitOperational')
+#
+## Make Wind Plots for BBay
+#print 'Making wind plots for BBay'
+#plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
 
-# Make Wind Plots for BBay
-print 'Making wind plots for BBay'
-plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
+# Make Bbay Wind & Wave Plots
+print 'Making Wind and Wave plots BBay'
+plot_functions_wave.plot_bbay_wind_wave(date_string, zulu_hour, param)
+
 
 # Sync Bbay Plots to Google Drive Folder       
 print 'Syncing google drive BellinghamBay Folder'
@@ -109,48 +148,15 @@ os.chdir(google_drive)
 err = subprocess.check_call(griveCommand, shell=True)
 os.chdir('../SkagitOperational')
 
-#(X, Y, U10, V10)= op_functions.read_hrdps_grib(date_string, zulu_hour, param)
 
-# Parse grib, crop to region, and store
-#test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}_{4:02d}z_47.dat'.format(param['fol_wind_crop'],
-#    param['folname_crop_prefix'],date_string,param['fname_prefix_wind'],zulu_hour)
-#if os.path.isfile(test_file):
-#    print 'Winds already processed and cropped, skipping'
-#else:
-#    crop_functions.region_crop(date_string, zulu_hour, param)
+# End timer
+print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))
 
-# Remove all files from model folder
-misc_functions.clean_folder(param['fol_model'])
 
-# Create D3D amuv files
-d3d_functions.write_amuv(date_string,zulu_hour,param)
+import sys
+sys.exit()
 
-# Get tide predictions for forecast
-tide = op_functions.get_tides(date_string, zulu_hour, param)
 
-# Write mdw file to model folder
-d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
-
-# Copy files to model folder 
-for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
-    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
-# Copy location files to model folder
-for fname in param['output_locs']:
-   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
-
-# Make run file executeable (when copying it loses this property)
-import stat
-myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
-st = os.stat(myfile)
-os.chmod(myfile, st.st_mode | stat.S_IEXEC)
-
-# Run Model 
-print 'Beginning D3D model run'
-os.chdir(param['fol_model'])
-if not os.path.isdir('temp'):
-    os.mkdir('temp')  # Add temp directory for outputing raw swan files
-subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
-os.chdir('../../SkagitOperational')
 
 # Plot 
 print 'Plotting'
@@ -169,8 +175,6 @@ os.chdir(google_drive)
 err = subprocess.check_call(griveCommand, shell=True)
 os.chdir('../SkagitOperational')
 
-# End timer
-print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))
 
 
 
@@ -181,7 +185,15 @@ print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/6
 
 
 
+#(X, Y, U10, V10)= op_functions.read_hrdps_grib(date_string, zulu_hour, param)
 
+#Parse grib, crop to region, and store
+#test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}_{4:02d}z_47.dat'.format(param['fol_wind_crop'],
+#    param['folname_crop_prefix'],date_string,param['fname_prefix_wind'],zulu_hour)
+#if os.path.isfile(test_file):
+#    print 'Winds already processed and cropped, skipping'
+#else:
+#    crop_functions.region_crop(date_string, zulu_hour, param)
 
 
 

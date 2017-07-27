@@ -77,13 +77,12 @@ def get_param_bbay():
     # Length of forecast
     param['num_forecast_hours']     = 48    # numer of files [hours]
     param['crop_bounds']            = np.asarray([[270,117],[288,141]]) # Bellingham Bay
+    param['plot_bounds']            = [[48.58, 48.785],[-122.645, -122.47]]  #[[48.64, 48.785],[-122.65, -122.47]]
     param['tide_file']              = 'tide_pred_9449211_xtide.txt' # Set tide file to use
     
     # Set some constants for creating amu/avu files
-    param['line_meteo_grid_size']   = 2     # Line number in meteo grid with Nx, Ny
-    param['line_header_skip']       = 4     # Number of header lines in meteo file
-    param['xLL']                    = 526108.0  # lower left corner of SWAN computational grid
-    param['yLL']                    = 5343228.0
+    param['line_meteo_grid_size']   = 1     # Line number in meteo grid with Nx, Ny (Actually line_number - 1, since python starts at 0)
+    param['line_header_skip']       = 3     # Number of header lines in meteo file
     
     # Set locations
     param['fol_model']              = '../ModelRuns/bbay_150m'
@@ -91,21 +90,23 @@ def get_param_bbay():
     param['fol_wind_crop']          = '../Data/crop/hrdps'
     param['fol_grid']               = '../Grids/delft3d/bbay'
     param['fol_plots']              = '../Plots/bbay'
+    param['fol_google']             = '../GoogleDrive'
         
     # Set file names and prefixes
     param['folname_crop_prefix']    = 'hrdps_crop_'
     param['folname_grib_prefix']    = 'hrdps_grib_'
-    param['folname_google_drive']   = 'BellinghamBay'
+    param['folname_google']         = 'BellinghamBay'
     param['fname_prefix_wind']      = 'wind_crop_' 
-    param['fname_meteo_grid']       = 'bbay_150m.grd'
-    param['fname_meteo_enc']        = 'bbay_150m.enc'
-    param['fname_grid']             = 'bbay_150m.grd'
-    param['fname_dep']              = 'bbay_150m.dep'
-    param['fname_enc']              = 'bbay_150m.enc'
+    param['fname_meteo_grid']       = 'Bbay_150m.grd'
+    param['fname_meteo_enc']        = 'Bbay_150m.enc'
+    param['fname_grid']             = 'Bbay_150m.grd'
+    param['fname_dep']              = 'Bbay_150m.dep'
+    param['fname_enc']              = 'Bbay_150m.enc'
     param['wind_u_name']            = 'wind_bbay.amu'    
     param['wind_v_name']            = 'wind_bbay.amv'
     param['fname_mdw']              = 'bbay.mdw'
     param['run_script']             = 'run_wave.sh'
+    param['fname_prefix_plot']      = 'BellinghamBay_'
     
     # Set Output Locs
     param['output_locs']            = []

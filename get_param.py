@@ -13,7 +13,7 @@ import op_functions
 import numpy as np
 
 
-def get_param_skagit():   
+def get_param_skagit():     
     # Model parameters contained in this dictionary, paths, file names, etc
     param = {}
     
@@ -34,6 +34,7 @@ def get_param_skagit():
     param['fol_wind_crop']          = '../Data/crop/hrdps'
     param['fol_grid']               = '../Grids/delft3d/skagit'
     param['fol_plots']              = '../Plots/skagit_50m'
+    param['fol_google']             = '../GoogleDrive'
         
     # Set file names and prefixes
     param['folname_crop_prefix']    = 'hrdps_crop_'
@@ -125,5 +126,10 @@ def get_param_bbay():
     
     # Set GMT offset to local time
     param['gmt_offset']             = op_functions.get_gmt_offset_2()
+    
+    # Set reat-time wind observation station to compare with
+    param['ndbc_sta_id']            = '46118'
+    param['ndbc_lat']               = 48.724
+    param['ndbc_lon']               = 122.576
     
     return param

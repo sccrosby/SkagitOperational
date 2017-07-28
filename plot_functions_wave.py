@@ -167,61 +167,29 @@ def load_hsig_pred(param,Nx,Ny):
         Uhsig.append(uhsig)
         Vhsig.append(vhsig)
     return (Hsig, Uhsig, Vhsig, maxHsig)
-
-def plot_bbay_wind_wave(date_string, zulu_hour, param):
-      
-    gmt_off = op_functions.get_gmt_offset()
-    ms2mph = 2.237
     
-    # Initialize    
-    forecast_count = param['num_forecast_hours'] #Number of forecast hours
-    hrdps_lamwest_file = param['hrdps_lamwest_file']
-    hrdps_rotation_file = param['hrdps_rotation_file']
+def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
+    ms2mph = 2.237    
+    
+    # Grib cropping bounds (indices)
+    bounds = param['crop_bounds'] 
+    
+    # file locations    
     grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
     prefix_uwnd = param['hrdps_PrefixU'] 
     prefix_vwnd = param['hrdps_PrefixV'] 
     
-    # Grib cropping bounds (indices)
-    bounds = param['crop_bounds']
-    
-    # For Trimming files & plots (lat/lons)
-    lat_bounds = param['plot_bounds'][0]
-    lon_bounds = param['plot_bounds'][1]
-
-    
-    #----------------------- Load up HRDP Land Mask----------------------------------------
-    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
-    
-    #------------------------------- Load lat/lon positions of hrdps ---------------------------------
-    (degLat,degLon) = load_hrdps_lamwest_locs(Nx,Ny,hrdps_lamwest_file,bounds)
-    
-    #---------------------------- Load rotations---------------------
-    Theta = op_functions.load_rotations(hrdps_rotation_file,Ny,Nx)
+    # Load rotations
+    Theta = op_functions.load_rotations(param['hrdps_rotation_file'],Ny,Nx)
     Theta = Theta[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
     Nyr = np.shape(Theta)[0]
-    Nxr = np.shape(Theta)[1]
+    Nxr = np.shape(Theta)[1]    
     
-    #---------------------------- Load bathy ----------------------------------
-    (bathy_elv, bathy_lat, bathy_lon) = load_bathy_nc(param)
-       
-    #--------------------------- Load D3D Grid --------------------------------
-    x,y,nx,ny = load_model_grid(param)   
-
-    #--------------------------- Load Hsig Pred--------------------------------
-    (Hsig, Uhsig, Vhsig, max_hsig) = load_hsig_pred(param,nx,ny)
-    
-    #-------------Convert Model grid from utm to lat/lon ----------------------        
-    p = pyproj.Proj(proj='utm', zone=10, ellps='WGS84')
-    m_lon, m_lat = p(x,y,inverse=True) 
-    
-  
-    # ------------ Load in All Wind Grib Data --------------------------------
-    # Will allow setting of max colorbar to be constant throughout
     max_speed = 0
     U10 = []
     V10 = []
     Speed = []
-    for hour in range(forecast_count):
+    for hour in range(param['num_forecast_hours']):
         #Input grib file names            
         UwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_uwnd, date_string, zulu_hour, hour)
         VwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_vwnd, date_string, zulu_hour, hour)
@@ -255,13 +223,55 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
         new_max = np.max(speed)
         if new_max > max_speed:
             max_speed = new_max
-        
-       
+              
         # Save all varaibles into list of arrays        
         U10.append(u10)
         V10.append(v10)
         Speed.append(speed)
+        
+    return (Speed,U10,V10,max_speed)
+
+
+def plot_bbay_wind_wave(date_string, zulu_hour, param):
+    # Get time offset  
+    gmt_off = op_functions.get_gmt_offset()
     
+    # Initialize    
+    forecast_count = param['num_forecast_hours'] #Number of forecast hours
+    hrdps_lamwest_file = param['hrdps_lamwest_file']
+    
+    # Grib cropping bounds (indices)
+    bounds = param['crop_bounds']
+    
+    # For Trimming files & plots (lat/lons)
+    lat_bounds = param['plot_bounds'][0]
+    lon_bounds = param['plot_bounds'][1]
+
+    
+    #----------------------- Load up HRDP Land Mask----------------------------------------
+    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
+    
+    #------------------------------- Load lat/lon positions of hrdps ---------------------------------
+    (degLat,degLon) = load_hrdps_lamwest_locs(Nx,Ny,hrdps_lamwest_file,bounds)
+        
+    #---------------------------- Load bathy ----------------------------------
+    (bathy_elv, bathy_lat, bathy_lon) = load_bathy_nc(param)
+       
+    #--------------------------- Load D3D Grid --------------------------------
+    x,y,nx,ny = load_model_grid(param)   
+
+    #--------------------------- Load Hsig Pred--------------------------------
+    (Hsig, Uhsig, Vhsig, max_hsig) = load_hsig_pred(param,nx,ny)
+    
+    #-------------Convert Model grid from utm to lat/lon ----------------------        
+    p = pyproj.Proj(proj='utm', zone=10, ellps='WGS84')
+    m_lon, m_lat = p(x,y,inverse=True) 
+    
+  
+    # ------------ Load in All Wind Grib Data --------------------------------
+    (Speed,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+
+        
     # --------------------- Set wind speed max ------------------------
     if max_speed < 15:
         max_speed_plot = 15

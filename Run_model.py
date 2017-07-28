@@ -76,8 +76,6 @@ import time
 # OPTION 2: Select most recent available forecast
 (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
 
-# ------------------------ SET GOOGLE DRIVE FOLDER ----------------------------
-google_drive = '../GoogleDrive'
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
@@ -91,50 +89,50 @@ print 'Current offset to GMT is %d (method2)' % op_functions.get_gmt_offset_2()
 # Start timer
 start_time = time.time()
 
-## Download raw grib files
-#test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}{4:02d}_P047-00.grib2'.format(param['fol_wind_grib'],
-#    param['folname_grib_prefix'],date_string,param['hrdps_PrefixP'],zulu_hour)
-#if os.path.isfile(test_file):
-#    print 'Grib files already downloaded, skipping'
-#else:
-#    op_functions.get_hrdps(date_string, zulu_hour, param)
-#
-## Remove all files from model folder
-#misc_functions.clean_folder(param['fol_model'])
-#
-## Create D3D amuv files
-#d3d_functions.write_amuv(date_string,zulu_hour,param)
-#
-## Get tide predictions for forecast
-#tide = op_functions.get_tides(date_string, zulu_hour, param)
-#
-## Write mdw file to model folder
-#d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
-#
-## Copy files to model folder 
-#for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
-#    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
-## Copy location files to model folder
-#for fname in param['output_locs']:
-#   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
-#
-## Make run file executeable (when copying it loses this property)
-#import stat
-#myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
-#st = os.stat(myfile)
-#os.chmod(myfile, st.st_mode | stat.S_IEXEC)
-#
-## Run Model 
-#print 'Beginning D3D model run'
-#os.chdir(param['fol_model'])
-#if not os.path.isdir('temp'):
-#    os.mkdir('temp')  # Add temp directory for outputing raw swan files
-#subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
-#os.chdir('../../SkagitOperational')
-#
-## Make Wind Plots for BBay
-#print 'Making wind plots for BBay'
-#plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
+# Download raw grib files
+test_file = '{0:s}/{1:s}{2:s}/{3:s}{2:s}{4:02d}_P047-00.grib2'.format(param['fol_wind_grib'],
+    param['folname_grib_prefix'],date_string,param['hrdps_PrefixP'],zulu_hour)
+if os.path.isfile(test_file):
+    print 'Grib files already downloaded, skipping'
+else:
+    op_functions.get_hrdps(date_string, zulu_hour, param)
+
+# Remove all files from model folder
+misc_functions.clean_folder(param['fol_model'])
+
+# Create D3D amuv files
+d3d_functions.write_amuv(date_string,zulu_hour,param)
+
+# Get tide predictions for forecast
+tide = op_functions.get_tides(date_string, zulu_hour, param)
+
+# Write mdw file to model folder
+d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
+
+# Copy files to model folder 
+for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+    shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+# Copy location files to model folder
+for fname in param['output_locs']:
+   shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
+
+# Make run file executeable (when copying it loses this property)
+import stat
+myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
+st = os.stat(myfile)
+os.chmod(myfile, st.st_mode | stat.S_IEXEC)
+
+# Run Model 
+print 'Beginning D3D model run'
+os.chdir(param['fol_model'])
+if not os.path.isdir('temp'):
+    os.mkdir('temp')  # Add temp directory for outputing raw swan files
+subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
+os.chdir('../../SkagitOperational')
+
+# Make Wind Plots for BBay
+print 'Making wind plots for BBay'
+plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
 
 # Make Bbay Wind & Wave Plots
 print 'Making Wind and Wave plots BBay'
@@ -144,7 +142,7 @@ plot_functions_wave.plot_bbay_wind_wave(date_string, zulu_hour, param)
 # Sync Bbay Plots to Google Drive Folder       
 print 'Syncing google drive BellinghamBay Folder'
 griveCommand = 'grive -s {:s}/'.format('BellinghamBay')
-os.chdir(google_drive)
+os.chdir(param['fol_google'])
 err = subprocess.check_call(griveCommand, shell=True)
 os.chdir('../SkagitOperational')
 
@@ -166,12 +164,12 @@ plot_functions.plot_skagit_hsig(date_string, zulu_hour, max_wind, tide, param)
 # Copy files and Google Drive Folder
 for hour in range(param['num_forecast_hours']):
     fname_src = '{0:s}/wind_wave_skagit{1:s}_{2:02d}z_{3:02d}.png'.format(param['fol_plots'], date_string, zulu_hour, hour)
-    fname_dest = '{:s}/{:s}/wind_wave_skagit_latest_{:02d}.png'.format(google_drive, param['folname_google_drive'], hour)
+    fname_dest = '{:s}/{:s}/wind_wave_skagit_latest_{:02d}.png'.format(param['fol_google'], param['folname_google_drive'], hour)
     shutil.copyfile(fname_src,fname_dest)
     
 # Sync Google Drive Folder       
 griveCommand = 'grive -s {:s}/'.format(param['folname_google_drive'])
-os.chdir(google_drive)
+os.chdir(param['fol_google'])
 err = subprocess.check_call(griveCommand, shell=True)
 os.chdir('../SkagitOperational')
 

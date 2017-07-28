@@ -386,7 +386,7 @@ def write_mdw(dateString, zulu_hour, tides, param):
     mdwFile.write('   WaveSetup            = false\n')
     mdwFile.write('   BedFriction          = jonswap\n')
     mdwFile.write('   BedFricCoef          =  6.7000002e-002\n')
-    mdwFile.write('   Diffraction          = false\n')
+    mdwFile.write('   Diffraction          = true\n')
     mdwFile.write('   DiffracCoef          =  2.0000000e-001\n')
     mdwFile.write('   DiffracSteps         = 5\n')
     mdwFile.write('   DiffracProp          = true\n')

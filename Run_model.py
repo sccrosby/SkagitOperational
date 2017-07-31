@@ -136,7 +136,7 @@ plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
 
 # Make Bbay Wind & Wave Plots
 print 'Making Wind and Wave plots BBay'
-plot_functions_wave.plot_bbay_wind_wave(date_string, zulu_hour, param)
+plot_functions_wave.plot_bbay_wind_wave_obs(date_string, zulu_hour, param)
 
 
 # Sync Bbay Plots to Google Drive Folder       

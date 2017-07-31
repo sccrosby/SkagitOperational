@@ -130,6 +130,6 @@ def get_param_bbay():
     # Set reat-time wind observation station to compare with
     param['ndbc_sta_id']            = '46118'
     param['ndbc_lat']               = 48.724
-    param['ndbc_lon']               = 122.576
+    param['ndbc_lon']               = -122.576
     
     return param

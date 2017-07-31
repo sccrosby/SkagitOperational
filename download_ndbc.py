@@ -13,6 +13,8 @@ from datetime import datetime
 
 # Functions returns time (UTC), speed (m/s), and direction (deg)
 def get_ndbc_realtime(station_id):
+    ms2mph = 2.237  
+    
     # Download data to file first
     url = 'http://www.ndbc.noaa.gov/data/realtime2/{:s}.txt'.format(station_id)
     open('data.txt','wb').write(urllib.urlopen(url).read())
@@ -33,7 +35,7 @@ def get_ndbc_realtime(station_id):
                 speed[i] = float('NaN')
             else:    
                 direction[i] = int(line[5])        
-                speed[i] = float(line[6])
+                speed[i] = ms2mph*float(line[6])
     
     # Delete data file
     os.remove('data.txt')

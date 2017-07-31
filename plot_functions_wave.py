@@ -331,7 +331,7 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
         CS = ax1.contourf(hr3_lon, hr3_lat, hr3_speed, levels=np.linspace(0, max_speed_plot, 16))
         ax1.contour(bathy_lon,bathy_lat,bathy_elv,levels=[0],colors='k') #[0, 50, 100, 500, 750, 1000]
         #plt.quiver(degreesLon,degreesLat,U10[hour],V10[hour],color=(.5, .5, .5),units='width')
-        ax1.quiver(hr2_lon,hr2_lat,hr2_u10,hr2_v10,color=(.5, .5, .5),scale=40,scale_units='inches')
+        ax1.quiver(hr2_lon,hr2_lat,hr2_u10,hr2_v10,color=(.9, .9, .9),scale=40,scale_units='inches')
         ax1.contourf(bathy_lon,bathy_lat,bathy_elv,levels=[0, 5000],hatches=['...'],alpha=0)
         #cbar = plt.colorbar(CS, ax=ax1, orientation='horizontal')
         cbar = plt.colorbar(CS, cax=ax1c, orientation='horizontal', )        

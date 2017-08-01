@@ -75,8 +75,8 @@ import time
 # OPTION 2: Select most recent available forecast
 (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
 
-RUN_BBAY_WAVE   = False
-SYNC_GDRIVE     = False
+RUN_BBAY_WAVE   = True
+SYNC_GDRIVE     = True
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
@@ -138,7 +138,7 @@ plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
 
 # Make Bbay Wind & Wave Plots
 print 'Making Wind and Wave plots BBay'
-plot_functions.plot_bbay_wind_wave_obs(date_string, zulu_hour, param)
+plot_functions.plot_bbay_wind_wave(date_string, zulu_hour, param)
 
 if SYNC_GDRIVE:
     # Sync Bbay Plots to Google Drive Folder       

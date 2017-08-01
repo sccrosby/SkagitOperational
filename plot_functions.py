@@ -197,6 +197,7 @@ def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
     U10 = []
     V10 = []
     Speed = []
+    Dir= []
     for hour in range(param['num_forecast_hours']):
         #Input grib file names            
         UwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_uwnd, date_string, zulu_hour, hour)
@@ -225,7 +226,9 @@ def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
                 u10[j,i] = rot[0,0]
                 v10[j,i] = rot[0,1]
                 
-        speed = ms2mph*np.sqrt(u10**2 + v10**2)
+        speed = ms2mph*np.sqrt(u10**2 + v10**2)       
+        direction = 90.0 - np.arctan2(v10,v10)*180.0/np.pi + 180.0# Calc direction coming from in compass coords in 0-360 range
+
         
         # Keep track of max speed
         new_max = np.max(speed)
@@ -236,8 +239,9 @@ def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
         U10.append(u10)
         V10.append(v10)
         Speed.append(speed)
+        Dir.append(direction)
         
-    return (Speed,U10,V10,max_speed)
+    return (Speed,Dir,U10,V10,max_speed)
     
 def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback):
     # num_goback is the number of historic forecasts to load in
@@ -369,7 +373,7 @@ def plot_bbay_wind(date_string, zulu_hour, param):
     
    
     # ------------ Load in All Wind Grib Data --------------------------------
-    (Speed,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+    (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
 
     
     # Control wind speed colors
@@ -499,7 +503,7 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
     
   
     # ------------ Load in All Wind Grib Data --------------------------------
-    (Speed,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+    (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
 
         
     # --------------------- Set wind speed max ------------------------
@@ -650,8 +654,8 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     #m_lon, m_lat = p(x,y,inverse=True) 
     
     # ------------ Load in All Wind Grib Data --------------------------------
-    (Speed,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
-
+    (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+    
     # -------------------- Load Concatenated Hindcast ------------------------
     num_goback = 8;    
     (hind_time, hind_speed, hind_dir) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
@@ -665,7 +669,8 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     dist = np.add(np.square(np.array(degLon)-param['ndbc_lon']),np.square(np.array(degLat)-param['ndbc_lat']))
     (I_lon, I_lat) = np.where(dist == np.min(dist))
     ndbc_speed_pred = [s[I_lon, I_lat] for s in Speed]        
-        
+    ndbc_dir_pred = [wrapTo360(s[I_lon, I_lat]) for s in Dir]       
+    
     # -------------- Set wind speed plotting max ------------------------
     if max_speed < 15:
         max_speed_plot = 15
@@ -749,9 +754,9 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         ax2.set_ylabel('Wind Speed [mph]')
         ax2.legend(frameon=False, prop={'size':10})
         
-        ax2.plot(ndbc_time,ndbc_dir,'k.',label='Observations')        
-        ax2.plot(time_vec_local,ndbc_dir_pred,'b',label='Predictions')
-        ax2.plot(hind_time,hind_speed,'r',label='Hindcast')
+        ax3.plot(ndbc_time,ndbc_dir,'k.',label='Observations')        
+        ax3.plot(time_vec_local,ndbc_dir_pred,'b',label='Predictions')
+        ax3.plot(hind_time,hind_speed,'r',label='Hindcast')
                 
         y_top = ax2.get_ylim()
         ax2.plot([time_vec_local[hour],time_vec_local[hour]],[0,y_top[1]],color=(.5,.5,.5),zorder=0)

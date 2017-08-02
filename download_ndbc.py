@@ -12,15 +12,15 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Functions returns time (UTC), speed (m/s), and direction (deg)
-def get_ndbc_realtime(station_id):
+def get_ndbc_realtime(station_id,num_hours):
     ms2mph = 2.237  
     
     # Download data to file first
     url = 'http://www.ndbc.noaa.gov/data/realtime2/{:s}.txt'.format(station_id)
     open('data.txt','wb').write(urllib.urlopen(url).read())
     
-    # Read in and parse lastest 48 data points
-    num_lines = 48
+    # Read in and parse lastest num_hours
+    num_lines = num_hours
     time = []
     direction = np.zeros(num_lines)
     speed = np.zeros(num_lines)

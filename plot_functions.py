@@ -227,7 +227,7 @@ def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
                 v10[j,i] = rot[0,1]
                 
         speed = ms2mph*np.sqrt(u10**2 + v10**2)       
-        direction = 90.0 - np.arctan2(v10,v10)*180.0/np.pi + 180.0# Calc direction coming from in compass coords in 0-360 range
+        direction = 90.0 - np.arctan2(v10,u10)*180.0/np.pi + 180.0# Calc direction coming from in compass coords in 0-360 range
 
         
         # Keep track of max speed
@@ -307,7 +307,7 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
             # Calc Speed
             speed = ms2mph*np.sqrt(u10**2 + v10**2)
             # Calc direction coming from in compass coords in 0-360 range
-            direction = wrapTo360(90.0 - np.arctan2(u10,v10)*180.0/np.pi + 180.0)
+            direction = wrapTo360(90.0 - np.arctan2(v10,u10)*180.0/np.pi + 180.0)
             # Set time
             time = forecast_time + timedelta(hours=hour)
                               
@@ -662,7 +662,7 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     hind_time = [x - timedelta(hours=gmt_off) for x in hind_time] # Convert from UTC to local
 
     # ----------------Grab NDBC Data ------------------------------------------
-    (ndbc_time,ndbc_speed,ndbc_dir) = download_ndbc.get_ndbc_realtime(param['ndbc_sta_id'])
+    (ndbc_time,ndbc_speed,ndbc_dir) = download_ndbc.get_ndbc_realtime(param['ndbc_sta_id'],56)
     ndbc_time = [t - timedelta(hours=gmt_off) for t in ndbc_time] # Convert from UTC to local
 
     #----------------- Find closest model grid cell to ndbc ---------------------    
@@ -687,7 +687,7 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     #--------------------------------------------------------------------------
     #------------------------------Make Plots----------------------------------
     #--------------------------------------------------------------------------  
-    for hour in range(1): #range(forecast_count):
+    for hour in range(0): #range(forecast_count):
         # Local Time
         time_local = datetime.strptime('{:s}{:d}'.format(date_string,zulu_hour),'%Y%m%d%H')+timedelta(hours=(hour-gmt_off))
                       
@@ -713,8 +713,8 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         gs.update(left=0.075, right=0.98, top=0.95, bottom=0.075, wspace=0.1)
         ax1 = plt.subplot(gs[:-4,0])
         ax1c = plt.subplot(gs[-2,0])        
-        ax2 = plt.subplot(gs[:8,1])
-        ax3 = plt.subplot(gs[9:17,1])        
+        ax2 = plt.subplot(gs[2:9,1])
+        ax3 = plt.subplot(gs[10:17,1])        
         
         #plt.tight_layout()
         #ax2c = plt.subplot(gs[-8,1])
@@ -748,42 +748,49 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         
    
         
-        ax2.plot(ndbc_time,ndbc_speed,'k.',label='Observations')        
+        ax2.plot(ndbc_time,ndbc_speed,'k.-',label='Observations')        
         ax2.plot(time_vec_local,ndbc_speed_pred,'b',label='Predictions')
         ax2.plot(hind_time,hind_speed,'r',label='Hindcast')
         ax2.set_ylabel('Wind Speed [mph]')
-        ax2.legend(frameon=False, prop={'size':10})
-        
-        ax3.plot(ndbc_time,ndbc_dir,'k.',label='Observations')        
-        ax3.plot(time_vec_local,ndbc_dir_pred,'b',label='Predictions')
-        ax3.plot(hind_time,hind_speed,'r',label='Hindcast')
-                
+        ax2.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
         y_top = ax2.get_ylim()
         ax2.plot([time_vec_local[hour],time_vec_local[hour]],[0,y_top[1]],color=(.5,.5,.5),zorder=0)
 
+        
+        ax3.plot(ndbc_time,ndbc_dir,'k.-',label='Observations')        
+        ax3.plot(time_vec_local,ndbc_dir_pred,'b',label='Predictions')
+        ax3.plot(hind_time,hind_dir,'r',label='Hindcast')
+        ax3.set_ylabel('Wind Dir [deg]')
+        y_top = ax3.get_ylim()
+        ax3.plot([time_vec_local[hour],time_vec_local[hour]],[0,y_top[1]],color=(.5,.5,.5),zorder=0)
+
+
+        # Make x-axis nice 
         days = mdates.DayLocator()
         hours = mdates.HourLocator()
         days_fmt = mdates.DateFormatter('%m/%d %H:%M')
         ax2.xaxis.set_major_locator(days)
         ax2.xaxis.set_major_formatter(days_fmt)
         ax2.xaxis.set_minor_locator(hours)
-              
+        ax3.xaxis.set_major_locator(days)
+        ax3.xaxis.set_major_formatter(days_fmt)
+        ax3.xaxis.set_minor_locator(hours)              
 
         
-        fname = '{:s}/{:s}/{:s}WindWave'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'])
+        fname = '{:s}/{:s}/{:s}Wind_val'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'])
         fig.savefig('{:s}_{:02d}.png'.format(fname,hour),dpi=150)
         plt.close()
         
 #    # Use ffmpeg to make animation
 #    os.chdir('{:s}/{:s}/'.format(param['fol_google'],param['folname_google']))
-#    ffmpegCommand = r'ffmpeg -f image2 -r 1 -i {0:s}WindWave_%02d.png -vcodec mpeg4 -y -vb 700k {0:s}WindWave.mp4'.format(param['fname_prefix_plot'])    
+#    ffmpegCommand = r'ffmpeg -f image2 -r 1 -i {0:s}Wind_val_%02d.png -vcodec mpeg4 -y -vb 700k {0:s}Wind_val.mp4'.format(param['fname_prefix_plot'])    
 #    subprocess.check_call(ffmpegCommand, shell=True)
 #    os.chdir('../../SkagitOperational')
 #                
 #    # Move png files to image folder
 #    for hour in range(forecast_count):
-#        fname_src = '{:s}/{:s}/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
-#        fname_dest = '{:s}/{:s}/ImageFiles/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+#        fname_src = '{:s}/{:s}/{:s}Wind_val_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+#        fname_dest = '{:s}/{:s}/ImageFiles/{:s}Wind_val_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
 #        shutil.move(fname_src,fname_dest)               
 #     
      

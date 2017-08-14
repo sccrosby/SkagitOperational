@@ -11,8 +11,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-# Functions returns time (UTC), speed (m/s), and direction (deg)
 def get_ndbc_realtime(station_id,num_hours):
+# Returns time, speed [m/s], direction [deg], and pressure [kPa]
     ms2mph = 2.237  
     
     # Download data to file first
@@ -24,6 +24,7 @@ def get_ndbc_realtime(station_id,num_hours):
     time = []
     direction = np.zeros(num_lines)
     speed = np.zeros(num_lines)
+    slp = np.zeros(num_lines)
     with open('data.txt', 'r') as f:
         next(f) # Skip two header lines
         next(f)
@@ -36,21 +37,24 @@ def get_ndbc_realtime(station_id,num_hours):
             else:    
                 direction[i] = int(line[5])        
                 speed[i] = ms2mph*float(line[6])
+            slp[i] = float(line[12])/10 
     
     # Delete data file
-    os.remove('data.txt')
+    # os.remove('data.txt')
     
-    return (time,speed,direction)
+    return (time,speed,direction,slp)
 
 
 # Test setup for testing        
 if __name__ == '__main__':
     station_id = '46118'
-    (time,speed,direction) = get_ndbc_realtime(station_id)        
-    plt.subplot(211)        
+    (time,speed,direction,slp) = get_ndbc_realtime(station_id,48)        
+    plt.subplot(311)        
     plt.plot(time,speed)
-    plt.subplot(212)        
+    plt.subplot(312)        
     plt.plot(time,direction)
+    plt.subplot(313)        
+    plt.plot(time,slp)
     plt.show()
     plt.close()
 

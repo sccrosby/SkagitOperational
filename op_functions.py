@@ -96,16 +96,26 @@ def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_ou
             temp = webpage.read()
             fid.write(temp)
     except:
-        print 'Could not download {:s}, will pause and try again'.format(grib_url)
-        time.sleep(1)
-        try:
-            webpage = urllib2.urlopen(grib_url)
-            with open(outfile,'w') as fid:
-                temp = webpage.read()
-                fid.write(temp)
-        except:
+        print 'First download attempt failed, trying 10 more times'       
+        for i in range(10):        
+            time.sleep(1)        
+            try:
+                webpage = urllib2.urlopen(grib_url)
+                with open(outfile,'w') as fid:
+                    temp = webpage.read()
+                    fid.write(temp)
+                msg = 'working'
+                print 'Attempt {:d} {:s}'.format(i,msg)
+                break
+            except:
+                msg = 'failed'
+                print 'Attempt {:d} {:s}'.format(i,msg)
+                
+        if msg == 'failed':
             err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)
             raise ValueError(err_str)
+            
+
 
 # Small function to load rotations needed for HRDPS
 def load_rotations(hrdps_rotation_file,Ny,Nx):
@@ -182,8 +192,7 @@ def get_tides(datestring, zulu_hour, param):
     # Return 48-hour forecast of tides
     model_time = time[idx:idx+param['num_forecast_hours']]
     model_tide = tide[idx:idx+param['num_forecast_hours']]
-    
-    return model_tide    
+    return (model_time, model_tide)
 
 
 def tide_exc_prob(t_file, t_level, duration):
@@ -302,6 +311,17 @@ def read_hrdps_grib(date_string, zulu_hour, param):
     
     return (X, Y, U10, V10)
 
+
+if __name__ == '__main__':    
+    import get_param
+    import matplotlib.pyplot as plt
+    (date_string, zulu_hour) = latest_hrdps_forecast()
+    param = get_param.get_param_bbay()    
+    (model_time, model_tide) = get_tides(date_string, zulu_hour, param)
+    
+    plt.plot(model_time,model_tide)
+    plt.show()
+    plt.close()
     
 #    # Convert to Local Time
 #    model_time = [x-timedelta(hours=timeDifference) for x in model_time ]

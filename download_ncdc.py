@@ -18,15 +18,12 @@ import op_functions
 
 
 def get_ncdc_met(USAF, WBAN, Year, num_hours, St_name):
-
     # NOTE: PUT EVERYTHING ABOVE IN QUOTES, MUST BE STRINGS FOR INPUT VARIABLES
-
     # USAF: USAF number for station
     # WBAN: WBAN number for station
     # Year: Year of data retreival
     # NumHours: Number of hours in the past you want to go 
     # St_name: Station Name - Bham_Airport.txt for example
-
     # ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.txt search for other stations >> to view station list
        
     # Base URL
@@ -52,7 +49,7 @@ def get_ncdc_met(USAF, WBAN, Year, num_hours, St_name):
     save_file = St_name + '.txt'
     str_txt = 'java -classpath . ishJava' + ' ' + filename[:-3] + ' ' + save_file   
     os.system(str_txt)
-    os.remove(outFilename)  # Deletes the unnecessary file
+    #os.remove(outFilename)  # Deletes the unnecessary file
     
   
     # Parse to variables    
@@ -60,9 +57,9 @@ def get_ncdc_met(USAF, WBAN, Year, num_hours, St_name):
     wnddir = np.zeros(num_hours)  
     time = []
     with open(save_file, 'r') as f:
-        next(f) # Skip header
-        for i in range(num_hours):
-            row = next(f)
+        #next(f) # Skip header
+        i = 0
+        for row in reversed(f.readlines()):
 
             temp = row[13:25]
             time.append(datetime.strptime(temp,r'%Y%m%d%H%M'))
@@ -78,7 +75,10 @@ def get_ncdc_met(USAF, WBAN, Year, num_hours, St_name):
                 wndspd[i] = 'NaN'
             else:                               
                 wndspd[i] = int(row[30:33])
-                
+            i = i+1    
+            if i >= num_hours:
+                break
+            
     # Convert local time to UTC
     gmt2pst = op_functions.get_gmt_offset_2()
     time = [t-timedelta(hours=gmt2pst) for t in time]    

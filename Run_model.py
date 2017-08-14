@@ -69,18 +69,17 @@ import time
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
 # OPTION 1: Specifiy date and zulu hour
-# date_string = '20170601'
-# zulu_hour = 12
+#date_string = '20170814'
+#zulu_hour = 6
 
 # OPTION 2: Select most recent available forecast
 (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
 
 RUN_BBAY_WAVE   = True
+RUN_SKAGIT_WAVE = True
 SYNC_GDRIVE     = True
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
-
-#param = get_param.get_param_skagit()
 param = get_param.get_param_bbay()
 
 # Determine offset from local time (PST/PDT) to GMT +
@@ -98,6 +97,7 @@ if os.path.isfile(test_file):
 else:
     op_functions.get_hrdps(date_string, zulu_hour, param)
 
+
 if RUN_BBAY_WAVE:
     # Remove all files from model folder
     misc_functions.clean_folder(param['fol_model'])
@@ -106,7 +106,65 @@ if RUN_BBAY_WAVE:
     d3d_functions.write_amuv(date_string,zulu_hour,param)
     
     # Get tide predictions for forecast
-    tide = op_functions.get_tides(date_string, zulu_hour, param)
+    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
+    
+    # Write mdw file to model folder
+    d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
+    
+    # Copy files to model folder 
+    for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+        shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
+    # Copy location files to model folder
+    for fname in param['output_locs']:
+       shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],fname),'{0:s}/{1:s}'.format(param['fol_model'],fname))
+
+    # Make run file executeable (when copying it loses this property)
+    import stat
+    myfile = '{:s}/{:s}'.format(param['fol_model'],param['run_script'])
+    st = os.stat(myfile)
+    os.chmod(myfile, st.st_mode | stat.S_IEXEC)
+    
+    # Run Model 
+    print 'Beginning BBay D3D model run'
+    os.chdir(param['fol_model'])
+    if not os.path.isdir('temp'):
+        os.mkdir('temp')  # Add temp directory for outputing raw swan files
+    subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
+    os.chdir('../../SkagitOperational')
+    
+
+## Make Wind Plots for BBay
+print 'Making wind plots for BBay'
+plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
+
+# Make Bbay Wind & Wave Plots
+print 'Making Wind and Wave plots BBay'
+plot_functions.plot_bbay_wind_wave(date_string, zulu_hour, param)
+
+# Make Validation Plots
+print 'Making Validation Plots'
+plot_functions.plot_bbay_wind_val(date_string, zulu_hour, param)
+
+
+if SYNC_GDRIVE:
+    # Sync Bbay Plots to Google Drive Folder       
+    print 'Syncing google drive BellinghamBay Folder'
+    griveCommand = 'grive -s {:s}/'.format('BellinghamBay')
+    os.chdir(param['fol_google'])
+    err = subprocess.check_call(griveCommand, shell=True)
+    os.chdir('../SkagitOperational')
+
+# Run Skagit Model
+param = get_param.get_param_skagit_SC100m()
+if RUN_SKAGIT_WAVE:
+    # Remove all files from model folder
+    misc_functions.clean_folder(param['fol_model'])
+    
+    # Create D3D amuv files
+    d3d_functions.write_amuv(date_string,zulu_hour,param)
+    
+    # Get tide predictions for forecast
+    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
     
     # Write mdw file to model folder
     d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
@@ -125,28 +183,25 @@ if RUN_BBAY_WAVE:
     os.chmod(myfile, st.st_mode | stat.S_IEXEC)
     
     # Run Model 
-    print 'Beginning D3D model run'
+    print 'Beginning Skagit D3D model run'
     os.chdir(param['fol_model'])
     if not os.path.isdir('temp'):
         os.mkdir('temp')  # Add temp directory for outputing raw swan files
     subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
     os.chdir('../../SkagitOperational')
 
-# Make Wind Plots for BBay
-print 'Making wind plots for BBay'
-plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
-
-# Make Bbay Wind & Wave Plots
-print 'Making Wind and Wave plots BBay'
-plot_functions.plot_bbay_wind_wave(date_string, zulu_hour, param)
+# Make Skagit Wind & Wave Plots
+print 'Making Wind and Wave plots Skagit'
+plot_functions.plot_skagit_wind_wave(date_string, zulu_hour, param)
 
 if SYNC_GDRIVE:
-    # Sync Bbay Plots to Google Drive Folder       
-    print 'Syncing google drive BellinghamBay Folder'
+    # Sync Skagit Plots to Google Drive Folder       
+    print 'Syncing google drive SkagitPlots Folder'
     griveCommand = 'grive -s {:s}/'.format('BellinghamBay')
     os.chdir(param['fol_google'])
     err = subprocess.check_call(griveCommand, shell=True)
     os.chdir('../SkagitOperational')
+
 
 
 # End timer
@@ -155,7 +210,6 @@ print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/6
 
 import sys
 sys.exit()
-
 
 
 # Plot 

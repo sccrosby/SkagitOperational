@@ -18,8 +18,8 @@ from datetime import datetime, timedelta
 import op_functions
 
 # Start and stop
-start = datetime(2017,1,1)
-stop = datetime(2023,1,1)
+start = datetime(2016,1,1)
+stop = datetime(2017,1,1)
 
 # Set Station location & Info 
 # Skagit
@@ -32,6 +32,12 @@ location_str = "Bellingham, Bellingham Bay, Washington"
 sta_id = '9449211'
 mllw2navd88 = 0.1606 # [meters] Navd88 = MLLW - mllw2NAVD88
    
+
+# Port Susan
+#location_str = "Bellingham, Bellingham Bay, Washington"
+sta_id = '9448043'
+mllw2navd88 = 0.6489 # [meters] Navd88 = MLLW - mllw2NAVD88
+  
 #--------------------------GET FROM NOAA --------------------------------   
    
 # Build NOAA URLs     
@@ -65,6 +71,9 @@ with open('tide_pred_%s.txt' % sta_id,'w') as fid:
     for x,y in zip(tdate,tide):
         fid.write('%s %4.2f\n' % (x.strftime('%Y-%m-%d-%H-%M-%S'),y))
 
+
+import sys
+sys.exit()
 
 # ------------------------- GET FROM XTIDE ---------------------------------
 

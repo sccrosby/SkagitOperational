@@ -22,6 +22,7 @@ from datetime import datetime, timedelta
 # Custom libraries
 import op_functions 
 import download_ndbc
+import download_ncdc
 
 def wrapTo360(angle):
     while angle < 0 or angle >= 360:
@@ -175,6 +176,34 @@ def load_hsig_pred(param,Nx,Ny):
         Uhsig.append(uhsig)
         Vhsig.append(vhsig)
     return (Hsig, Uhsig, Vhsig, maxHsig)
+
+def load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny):
+    # Grib cropping bounds (indices)
+    bounds = param['crop_bounds'] 
+    
+    # file locations    
+    grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
+    prefix_p = param['hrdps_PrefixP'] 
+    
+    Slp = []
+    for hour in range(param['num_forecast_hours']):
+        #Input grib file names            
+        PwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_p, date_string, zulu_hour, hour)
+       
+        # Open grib
+        grbsp = pygrib.open(PwindFileName)
+        grbp  = grbsp.select(name='Pressure reduced to MSL')[0]
+        
+        slp = grbp.values # same as grb['values']
+        slp = np.asarray(slp)        
+        
+        slp = slp[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+              
+        # Save all varaibles into list of arrays        
+        Slp.append(slp)
+        
+    return Slp
+    
     
 def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
     ms2mph = 2.237    
@@ -243,7 +272,7 @@ def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
         
     return (Speed,Dir,U10,V10,max_speed)
     
-def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback):
+def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_lon, num_goback):
     # num_goback is the number of historic forecasts to load in
     ms2mph = 2.237    
     use_forecast = [2,3,4,5,6,7] #ignore first two hours (odd)
@@ -254,8 +283,8 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
     # Load locations
     (degLat,degLon) = load_hrdps_lamwest_locs(Nx,Ny,param['hrdps_lamwest_file'])
 
-    # Find close model grid cell to ndbc     
-    dist = np.add(np.square(np.array(degLon)-param['ndbc_lon']),np.square(np.array(degLat)-param['ndbc_lat']))
+    # Find closest model grid cell to ndbc     
+    dist = np.add(np.square(np.array(degLon)-pt_lon),np.square(np.array(degLat)-pt_lat))
     (I_lon, I_lat) = np.where(dist == np.min(dist))   
 
     # Load rotations for winds
@@ -265,9 +294,11 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
     # Set grib file name prefixes
     prefix_uwnd = param['hrdps_PrefixU'] 
     prefix_vwnd = param['hrdps_PrefixV']     
+    prefix_slp = param['hrdps_PrefixP']
 
     Speed = []
     Dir = []
+    Slp = []
     Time = []
     # Loop over forecasts (earliest first)
     for forecast in range(num_goback,0,-1):
@@ -284,20 +315,26 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
             #Input grib file names            
             UwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_uwnd, date_string_hindcast, zulu_hour_hindcast, hour)
             VwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_vwnd, date_string_hindcast, zulu_hour_hindcast, hour)
-            
+            PwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_slp, date_string_hindcast, zulu_hour_hindcast, hour)
+           
             # Open grib
             grbsu = pygrib.open(UwindFileName)
             grbu  = grbsu.select(name='10 metre U wind component')[0]
             grbsv = pygrib.open(VwindFileName)
-            grbv  = grbsv.select(name='10 metre V wind component')[0]           
+            grbv  = grbsv.select(name='10 metre V wind component')[0]    
+            grbsp = pygrib.open(PwindFileName)
+            grbp  = grbsp.select(name='Pressure reduced to MSL')[0]   
             u10 = grbu.values # same as grb['values']
             v10 = grbv.values
+            slp = grbp.values
             u10 = np.asarray(u10)
             v10 = np.asarray(v10)
+            slp = np.asarray(slp)
             
             # Select location
             u10 = u10[I_lon, I_lat]
             v10 = v10[I_lon, I_lat]
+            slp = slp[I_lon, I_lat]/1000 # Convert to kPa
             
             # Rotate to earth-relative
             rot = R.dot([u10.item(0),v10.item(0)])
@@ -314,9 +351,10 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
             # Append to growing array       
             Dir.append(direction)
             Speed.append(speed)
+            Slp.append(slp)
             Time.append(time)
 
-    return (Time, Speed, Dir)    
+    return (Time, Speed, Dir, Slp)    
     
     
 # Plot Bellingham Bay Winds (both Regional and Zoom)
@@ -458,15 +496,20 @@ def plot_bbay_wind(date_string, zulu_hour, param):
                 
     # Move png files to image folder
     for hour in range(forecast_count):
-        shutil.move('../GoogleDrive/BellinghamBay/Regional_Wind_HR{:02d}.png'.format(hour),
-                    '../GoogleDrive/BellinghamBay/ImageFiles/Regional_Wind_HR{:02d}.png'.format(hour))
-        shutil.move('../GoogleDrive/BellinghamBay/BBay_Wind_HR{:02d}.png'.format(hour),
-                    '../GoogleDrive/BellinghamBay/ImageFiles/BBay_Wind_HR{:02d}.png'.format(hour))
+        fname_src = '../GoogleDrive/BellinghamBay/Regional_Wind_HR{:02d}.png'.format(hour)
+        os.remove(fname_src)             
+        fname_src = '../GoogleDrive/BellinghamBay/BBay_Wind_HR{:02d}.png'.format(hour)
+        os.remove(fname_src)  
+#        shutil.move('../GoogleDrive/BellinghamBay/Regional_Wind_HR{:02d}.png'.format(hour),
+#                    '../GoogleDrive/BellinghamBay/ImageFiles/Regional_Wind_HR{:02d}.png'.format(hour))
+#        shutil.move('../GoogleDrive/BellinghamBay/BBay_Wind_HR{:02d}.png'.format(hour),
+#                    '../GoogleDrive/BellinghamBay/ImageFiles/BBay_Wind_HR{:02d}.png'.format(hour))
 
 
 def plot_bbay_wind_wave(date_string, zulu_hour, param):
     # Get time offset  
     gmt_off = op_functions.get_gmt_offset()
+    m2ft = 3.28084     
     
     # Initialize    
     forecast_count = param['num_forecast_hours'] #Number of forecast hours
@@ -505,7 +548,11 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
     # ------------ Load in All Wind Grib Data --------------------------------
     (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
 
-        
+    # ---------------------Load Tide ----------------------------------------
+    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
+    tide = [t*m2ft for t in tide]
+    tide_time = [t-timedelta(hours=gmt_off) for t in tide_time]
+    
     # --------------------- Set wind speed max ------------------------
     if max_speed < 15:
         max_speed_plot = 15
@@ -545,22 +592,24 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
         hr2_lat = scipy.ndimage.zoom(degLat,2)
         
         # Set up Plots 
-        fig = plt.figure(figsize=(8.,7.))
+        fig = plt.figure(figsize=(8.,8.))
 
         #ax1 = plt.subplot2grid((5, 2), (0, 0), rowspan=4)   # rows, columns, row, column (0 for first)
         #ax2 = plt.subplot2grid((5, 2), (0, 1), rowspan=4)
         #ax3 = plt.subplot2grid((5, 2), (4, 0), colspan=2, rowspan=1)
         
-        gs = gridspec.GridSpec(20,2)
-        gs.update(left=0.075, right=0.98, top=0.95, bottom=0.075, wspace=0.05)
-        ax1 = plt.subplot(gs[:-2,0])
-        ax2 = plt.subplot(gs[:-2,1])
-        ax1c = plt.subplot(gs[-1,0])
-        ax2c = plt.subplot(gs[-1,1])
+        gs = gridspec.GridSpec(25,2)
+        gs.update(left=0.075, right=0.98, top=0.95, bottom=0.005, wspace=0.05)
+        ax1 = plt.subplot(gs[:-8,0])
+        ax2 = plt.subplot(gs[:-8,1])
+        ax1c = plt.subplot(gs[-7,0])
+        ax2c = plt.subplot(gs[-7,1])
+        ax3 = plt.subplot(gs[-4:-1,:])
 
         ax1.set_axis_bgcolor('white')
-        ax2.set_axis_bgcolor('white') 
-        #ax3.set_axis_bgcolor('silver')        
+        ax2.set_axis_bgcolor('white')
+        
+        ax3.set_axis_bgcolor('white')        
                 
         # Plot Winds
         CS = ax1.contourf(hr3_lon, hr3_lat, hr3_speed, levels=np.linspace(0, max_speed_plot, 16))
@@ -600,6 +649,20 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
         CS.ax.set_yticks([48.6, 48.7])
         CS.ax.set_yticklabels([])     
         
+        ax3.plot(tide_time,tide,label='tide')
+        ax3.set_ylabel('Tide [ft]')
+        y_top = ax3.get_ylim()
+        ax3.plot([tide_time[hour],tide_time[hour]],[y_top[0],y_top[1]],color=(.5,.5,.5),zorder=0)
+        # Make x-axis nice 
+        days = mdates.DayLocator()
+        hours = mdates.HourLocator()
+        
+        days_fmt = mdates.DateFormatter('%m/%d %H:%M')
+        ax3.xaxis.set_major_locator(days)
+        ax3.xaxis.set_major_formatter(days_fmt)
+        ax3.xaxis.set_minor_locator(hours)
+        #ax3.tick_params(labelbottom='off')
+        
         fname = '{:s}/{:s}/{:s}WindWave'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'])
         fig.savefig('{:s}_{:02d}.png'.format(fname,hour),dpi=150)
         plt.close()
@@ -613,9 +676,10 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
     # Move png files to image folder
     for hour in range(forecast_count):
         fname_src = '{:s}/{:s}/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
-        fname_dest = '{:s}/{:s}/ImageFiles/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
-        shutil.move(fname_src,fname_dest)
-#                
+        os.remove(fname_src)        
+        #fname_dest = '{:s}/{:s}/ImageFiles/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+        #shutil.move(fname_src,fname_dest)
+                
                 
 def plot_bbay_wind_val(date_string, zulu_hour, param):
     # Get time offset  
@@ -653,23 +717,41 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     #p = pyproj.Proj(proj='utm', zone=10, ellps='WGS84')
     #m_lon, m_lat = p(x,y,inverse=True) 
     
-    # ------------ Load in All Wind Grib Data --------------------------------
+    # ------------ Load in All Wind & Pressure Grib Data --------------------------------
     (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+    Slp = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)
     
     # -------------------- Load Concatenated Hindcast ------------------------
     num_goback = 8;    
-    (hind_time, hind_speed, hind_dir) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
+    (hind_time, hind_speed, hind_dir, hind_slp) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, param['ndbc_lat'], param['ndbc_lon'], num_goback)
     hind_time = [x - timedelta(hours=gmt_off) for x in hind_time] # Convert from UTC to local
 
     # ----------------Grab NDBC Data ------------------------------------------
-    (ndbc_time,ndbc_speed,ndbc_dir) = download_ndbc.get_ndbc_realtime(param['ndbc_sta_id'],56)
+    (ndbc_time,ndbc_speed,ndbc_dir,ndbc_slp) = download_ndbc.get_ndbc_realtime(param['ndbc_sta_id'],56)
     ndbc_time = [t - timedelta(hours=gmt_off) for t in ndbc_time] # Convert from UTC to local
+    
+    # ----------------------GRab NCDC Data------------------------------------
+#    usaf = '727976'
+#    wban = '24217'
+#    year = '2017'
+#    hours = 48
+#    sta_name = 'bham_air'   
+#    ncdc_lat = 48.794
+#    ncdc_lon = -122.537
+#    (ncdc_time, ncdc_speed, ncdc_dir) = download_ncdc.get_ncdc_met(usaf, wban, year, hours, sta_name)
+#    ncdc_time = [t - timedelta(hours=gmt_off) for t in ncdc_time] # Convert from UTC to local
+
+    # ------------------------ Load concatenated hindcast at ndbc ------------------
+#    (hind_time, hind_speed2, hind_dir2) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, ncdc_lat, ncdc_lon, num_goback)
+#    hind_time = [x - timedelta(hours=gmt_off) for x in hind_time] # Convert from UTC to local
+
 
     #----------------- Find closest model grid cell to ndbc ---------------------    
     dist = np.add(np.square(np.array(degLon)-param['ndbc_lon']),np.square(np.array(degLat)-param['ndbc_lat']))
     (I_lon, I_lat) = np.where(dist == np.min(dist))
     ndbc_speed_pred = [s[I_lon, I_lat] for s in Speed]        
     ndbc_dir_pred = [wrapTo360(s[I_lon, I_lat]) for s in Dir]       
+    ndbc_slp_pred = [s[I_lon, I_lat]/1000 for s in Slp] # units in hPa
     
     # -------------- Set wind speed plotting max ------------------------
     if max_speed < 15:
@@ -687,7 +769,7 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     #--------------------------------------------------------------------------
     #------------------------------Make Plots----------------------------------
     #--------------------------------------------------------------------------  
-    for hour in range(0): #range(forecast_count):
+    for hour in range(forecast_count):
         # Local Time
         time_local = datetime.strptime('{:s}{:d}'.format(date_string,zulu_hour),'%Y%m%d%H')+timedelta(hours=(hour-gmt_off))
                       
@@ -710,11 +792,12 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         #ax3 = plt.subplot2grid((5, 2), (4, 0), colspan=2, rowspan=1)
         
         gs = gridspec.GridSpec(30,2)
-        gs.update(left=0.075, right=0.98, top=0.95, bottom=0.075, wspace=0.1)
+        gs.update(left=0.075, right=0.98, top=0.95, bottom=0.075, wspace=0.15, hspace=0.05)
         ax1 = plt.subplot(gs[:-4,0])
         ax1c = plt.subplot(gs[-2,0])        
-        ax2 = plt.subplot(gs[2:9,1])
-        ax3 = plt.subplot(gs[10:17,1])        
+        ax2 = plt.subplot(gs[2:10,1])
+        ax3 = plt.subplot(gs[11:19,1])        
+        ax4 = plt.subplot(gs[20:28,1])
         
         #plt.tight_layout()
         #ax2c = plt.subplot(gs[-8,1])
@@ -743,8 +826,7 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         CS.ax.set_xticklabels(['122.6$^\circ$W', '122.5$^\circ$W'])
         CS.ax.set_yticks([48.6, 48.7])
         CS.ax.set_yticklabels(['48.6$^\circ$N', '48.7$^\circ$N'])
-        #CS.ax.set_title('Init: {:s} Z{:02d} - FCST HR {:d}, Local Time: {:s}'.format(date_string,zulu_hour,hour,time_local.strftime('%b %d %I:%S%p')))              
-        plt.suptitle('Init: {:s} Z{:02d} - FCST HR {:d}, Local Time: {:s}'.format(date_string,zulu_hour,hour,time_local.strftime('%b %d %I:%S%p')))              
+        CS.ax.set_title('Init: {:s} Z{:02d} - FCST HR {:d}, Local Time: {:s}'.format(date_string,zulu_hour,hour,time_local.strftime('%b %d %I:%S%p')))              
         
    
         
@@ -755,7 +837,6 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         ax2.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
         y_top = ax2.get_ylim()
         ax2.plot([time_vec_local[hour],time_vec_local[hour]],[0,y_top[1]],color=(.5,.5,.5),zorder=0)
-
         
         ax3.plot(ndbc_time,ndbc_dir,'k.-',label='Observations')        
         ax3.plot(time_vec_local,ndbc_dir_pred,'b',label='Predictions')
@@ -763,43 +844,234 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
         ax3.set_ylabel('Wind Dir [deg]')
         y_top = ax3.get_ylim()
         ax3.plot([time_vec_local[hour],time_vec_local[hour]],[0,y_top[1]],color=(.5,.5,.5),zorder=0)
+        
+        ax4.plot(ndbc_time,ndbc_slp,'k.-',label='Observations')        
+        ax4.plot(time_vec_local,ndbc_slp_pred,'b',label='Predictions')
+        ax4.plot(hind_time,hind_slp,'r',label='Hindcast')
+        ax4.set_ylabel('Pressure [kPa]')
+        y_top = ax4.get_ylim()
+        ax4.plot([time_vec_local[hour],time_vec_local[hour]],[y_top[0],y_top[1]],color=(.5,.5,.5),zorder=0)
 
 
         # Make x-axis nice 
         days = mdates.DayLocator()
         hours = mdates.HourLocator()
+        
         days_fmt = mdates.DateFormatter('%m/%d %H:%M')
         ax2.xaxis.set_major_locator(days)
         ax2.xaxis.set_major_formatter(days_fmt)
         ax2.xaxis.set_minor_locator(hours)
+        ax2.tick_params(labelbottom='off')
+
         ax3.xaxis.set_major_locator(days)
         ax3.xaxis.set_major_formatter(days_fmt)
         ax3.xaxis.set_minor_locator(hours)              
+        ax3.tick_params(labelbottom='off')
 
-        
+        ax4.xaxis.set_major_locator(days)
+        ax4.xaxis.set_major_formatter(days_fmt)
+        ax4.xaxis.set_minor_locator(hours)              
+    
+ 
+       
         fname = '{:s}/{:s}/{:s}Wind_val'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'])
         fig.savefig('{:s}_{:02d}.png'.format(fname,hour),dpi=150)
         plt.close()
         
-#    # Use ffmpeg to make animation
-#    os.chdir('{:s}/{:s}/'.format(param['fol_google'],param['folname_google']))
-#    ffmpegCommand = r'ffmpeg -f image2 -r 1 -i {0:s}Wind_val_%02d.png -vcodec mpeg4 -y -vb 700k {0:s}Wind_val.mp4'.format(param['fname_prefix_plot'])    
-#    subprocess.check_call(ffmpegCommand, shell=True)
-#    os.chdir('../../SkagitOperational')
-#                
-#    # Move png files to image folder
-#    for hour in range(forecast_count):
-#        fname_src = '{:s}/{:s}/{:s}Wind_val_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
-#        fname_dest = '{:s}/{:s}/ImageFiles/{:s}Wind_val_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
-#        shutil.move(fname_src,fname_dest)               
-#     
+    # Use ffmpeg to make animation
+    os.chdir('{:s}/{:s}/'.format(param['fol_google'],param['folname_google']))
+    ffmpegCommand = r'ffmpeg -f image2 -r 1 -i {0:s}Wind_val_%02d.png -vcodec mpeg4 -y -vb 700k {0:s}Wind_val.mp4'.format(param['fname_prefix_plot'])    
+    subprocess.check_call(ffmpegCommand, shell=True)
+    os.chdir('../../SkagitOperational')
+                
+    # Move png files to image folder
+    for hour in range(forecast_count):
+        fname_src = '{:s}/{:s}/{:s}Wind_val_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+        #fname_dest = '{:s}/{:s}/ImageFiles/{:s}Wind_val_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+        os.remove(fname_src)        
+        #shutil.move(fname_src,fname_dest)               
      
      
+def plot_skagit_wind_wave(date_string, zulu_hour, param):
+    # Get time offset  
+    gmt_off = op_functions.get_gmt_offset()
+    m2ft = 3.28084     
+    
+    # Initialize    
+    forecast_count = param['num_forecast_hours'] #Number of forecast hours
+    hrdps_lamwest_file = param['hrdps_lamwest_file']
+    
+    # Grib cropping bounds (indices)
+    bounds = param['crop_bounds']
+    
+    # For Trimming files & plots (lat/lons)
+    lat_bounds = param['plot_bounds'][0]
+    lon_bounds = param['plot_bounds'][1]
+
+    
+    #----------------------- Load up HRDP Land Mask----------------------------------------
+    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
+    
+    #------------------------------- Load lat/lon positions of hrdps ---------------------------------
+    (degLat,degLon) = load_hrdps_lamwest_locs(Nx,Ny,hrdps_lamwest_file)
+    degLat = degLat[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    degLon = degLon[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+        
+    #---------------------------- Load bathy ----------------------------------
+    (bathy_elv, bathy_lat, bathy_lon) = load_bathy_nc(param)
+       
+    #--------------------------- Load D3D Grid --------------------------------
+    x,y,nx,ny = load_model_grid(param)   
+
+    #--------------------------- Load Hsig Pred--------------------------------
+    (Hsig, Uhsig, Vhsig, max_hsig) = load_hsig_pred(param,nx,ny)
+    
+    #-------------Convert Model grid from utm to lat/lon ----------------------        
+    p = pyproj.Proj(proj='utm', zone=10, ellps='WGS84')
+    m_lon, m_lat = p(x,y,inverse=True) 
+    
+  
+    # ------------ Load in All Wind Grib Data --------------------------------
+    (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+
+    # ---------------------Load Tide ----------------------------------------
+    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
+    tide = [t*m2ft for t in tide]
+    tide_time = [t-timedelta(hours=gmt_off) for t in tide_time]
+    
+    # --------------------- Set wind speed max ------------------------
+    if max_speed < 15:
+        max_speed_plot = 15
+    elif max_speed < 30:
+        max_speed_plot = 30
+    elif max_speed < 45:
+        max_speed_plot = 45
+    else:
+        max_speed_plot = 60
+    
+    if max_hsig < 1:
+        max_hsig_plot = 1
+        bins_hsig_plot = 21
+    elif max_hsig < 3:
+        max_hsig_plot = 3
+        bins_hsig_plot = 31
+    else:
+        max_hsig_plot = 6
+        bins_hsig_plot = 31
+    
+    #--------------------------------------------------------------------------
+    #------------------------------Make Plots----------------------------------
+    #--------------------------------------------------------------------------
+    for hour in range(forecast_count):
+        # Local Time
+        time_local = datetime.strptime('{:s}{:d}'.format(date_string,zulu_hour),'%Y%m%d%H')+timedelta(hours=(hour-gmt_off))
+        
+        # Interp onto high res grid to smooth 3x        
+        hr3_speed = scipy.ndimage.zoom(Speed[hour],3)
+        hr3_lon = scipy.ndimage.zoom(degLon,3)
+        hr3_lat = scipy.ndimage.zoom(degLat,3)
+ 
+        # Interp onto high res grid to smooth 2x        
+        hr2_u10 = scipy.ndimage.zoom(U10[hour],2)
+        hr2_v10 = scipy.ndimage.zoom(V10[hour],2)
+        hr2_lon = scipy.ndimage.zoom(degLon,2)
+        hr2_lat = scipy.ndimage.zoom(degLat,2)
+        
+        # Set up Plots 
+        fig = plt.figure(figsize=(10.,6.))
+
+        #ax1 = plt.subplot2grid((5, 2), (0, 0), rowspan=4)   # rows, columns, row, column (0 for first)
+        #ax2 = plt.subplot2grid((5, 2), (0, 1), rowspan=4)
+        #ax3 = plt.subplot2grid((5, 2), (4, 0), colspan=2, rowspan=1)
+        
+        gs = gridspec.GridSpec(25,2)
+        gs.update(left=0.075, right=0.98, top=0.95, bottom=0.005, wspace=0.05)
+        ax1 = plt.subplot(gs[:-8,0])
+        ax2 = plt.subplot(gs[:-8,1])
+        ax1c = plt.subplot(gs[-7,0])
+        ax2c = plt.subplot(gs[-7,1])
+        ax3 = plt.subplot(gs[-4:-1,:])
+
+        ax1.set_axis_bgcolor('white')
+        ax2.set_axis_bgcolor('white')
+        
+        ax3.set_axis_bgcolor('white')        
+                
+        # Plot Winds
+        CS = ax1.contourf(hr3_lon, hr3_lat, hr3_speed, levels=np.linspace(0, max_speed_plot, 16))
+        ax1.contour(bathy_lon,bathy_lat,bathy_elv,levels=[0],colors='k') #[0, 50, 100, 500, 750, 1000]
+        #plt.quiver(degreesLon,degreesLat,U10[hour],V10[hour],color=(.5, .5, .5),units='width')
+        ax1.quiver(hr2_lon,hr2_lat,hr2_u10,hr2_v10,color=(.9, .9, .9),width=0.004,scale=40,scale_units='inches')
+        ax1.contourf(bathy_lon,bathy_lat,bathy_elv,levels=[0, 5000],hatches=['...'],alpha=0)
+        #cbar = plt.colorbar(CS, ax=ax1, orientation='horizontal')
+        cbar = plt.colorbar(CS, cax=ax1c, orientation='horizontal', )        
+        cbar.ax.set_xlabel('Wind Speed [mph]')
+        CS.ax.ticklabel_format(useOffset=False)
+        CS.ax.get_xaxis().get_major_formatter().set_scientific(False)
+        CS.ax.set_ylim(lat_bounds[0], lat_bounds[1])
+        CS.ax.set_xlim(lon_bounds[0], lon_bounds[1])
+        CS.ax.set_xticks([-122.6, -122.5, -122.4])
+        CS.ax.set_xticklabels(['122.6$^\circ$W', '122.5$^\circ$W', '122.4$^\circ$W'])
+        CS.ax.set_yticks([48.3, 48.4])
+        CS.ax.set_yticklabels(['48.3$^\circ$N', '48.4$^\circ$N'])
+        #CS.ax.set_title('Init: {:s} Z{:02d} - FCST HR {:d}, Local Time: {:s}'.format(date_string,zulu_hour,hour,time_local.strftime('%b %d %I:%S%p')))              
+        plt.suptitle('Init: {:s} {:02d}:00     Forecast Time: {:s} PDT'.format(date_string,zulu_hour,time_local.strftime('%b %d %I:%S%p')))              
+        
+        quiver_skip = 6
+        CS = ax2.contourf(m_lon, m_lat, Hsig[hour], levels=np.linspace(0, max_hsig_plot, bins_hsig_plot))  
+        ax2.contour(bathy_lon,bathy_lat,bathy_elv,levels=[0],colors='k') #[0, 50, 100, 500, 750, 1000]
+        ax2.quiver(m_lon[::quiver_skip,::quiver_skip], m_lat[::quiver_skip,::quiver_skip],
+                   Uhsig[hour][::quiver_skip,::quiver_skip],Vhsig[hour][::quiver_skip,::quiver_skip]
+                   ,color=(.9, .9, .9),width=0.004)#,scale=2,scale_units='inches')
+        ax2.contourf(bathy_lon,bathy_lat,bathy_elv,levels=[0, 5000],hatches=['...'],alpha=0)
+        cbar = plt.colorbar(CS, cax=ax2c, orientation='horizontal')
+        cbar.ax.set_xlabel('Wave Height [ft]')
+        CS.ax.ticklabel_format(useOffset=False)
+        CS.ax.get_xaxis().get_major_formatter().set_scientific(False)
+        CS.ax.set_ylim(lat_bounds[0], lat_bounds[1])
+        CS.ax.set_xlim(lon_bounds[0], lon_bounds[1])
+        CS.ax.set_xticks([-122.6, -122.5, -122.4])
+        CS.ax.set_xticklabels(['122.6$^\circ$W', '122.5$^\circ$W', '122.4$^\circ$W'])
+        CS.ax.set_yticks([48.3, 48.4])
+        CS.ax.set_yticklabels([])     
+        
+        ax3.plot(tide_time,tide,label='tide')
+        ax3.set_ylabel('Tide [ft]')
+        y_top = ax3.get_ylim()
+        ax3.plot([tide_time[hour],tide_time[hour]],[y_top[0],y_top[1]],color=(.5,.5,.5),zorder=0)
+        # Make x-axis nice 
+        days = mdates.DayLocator()
+        hours = mdates.HourLocator()
+        
+        days_fmt = mdates.DateFormatter('%m/%d %H:%M')
+        ax3.xaxis.set_major_locator(days)
+        ax3.xaxis.set_major_formatter(days_fmt)
+        ax3.xaxis.set_minor_locator(hours)
+        #ax3.tick_params(labelbottom='off')
+        
+        fname = '{:s}/{:s}/{:s}WindWave'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'])
+        fig.savefig('{:s}_{:02d}.png'.format(fname,hour),dpi=150)
+        plt.close()
+        
+    # Use ffmpeg to make animation
+    os.chdir('{:s}/{:s}/'.format(param['fol_google'],param['folname_google']))
+    ffmpegCommand = r'ffmpeg -f image2 -r 1 -i {0:s}WindWave_%02d.png -vcodec mpeg4 -y -vb 700k {0:s}WindWave.mp4'.format(param['fname_prefix_plot'])    
+    subprocess.check_call(ffmpegCommand, shell=True)
+    os.chdir('../../SkagitOperational')
+                
+    # Move png files to image folder
+    for hour in range(forecast_count):
+        fname_src = '{:s}/{:s}/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+        os.remove(fname_src)        
+        #fname_dest = '{:s}/{:s}/ImageFiles/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
+        #shutil.move(fname_src,fname_dest) 
+
+    
 # Use for debugging     
 if __name__ == '__main__':    
     import get_param
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
-    param = get_param.get_param_bbay()    
+    param = get_param.get_param_skagit_SC100m()    
     Nx = 685  
     Ny = 485
     num_goback = 4 #Number of forecasts to go back to
@@ -811,16 +1083,16 @@ if __name__ == '__main__':
     # -------------------- TEST FUNCTIONS ----------------------------    
     #plot_bbay_wind_wave(date_string, zulu_hour, param)
     #plot_bbay_wind(date_string, zulu_hour, param)
-    plot_bbay_wind_val(date_string, zulu_hour, param)
+    #plot_bbay_wind_val(date_string, zulu_hour, param)
+    plot_skagit_wind_wave(date_string, zulu_hour, param)
     
     
     # Test hindcast loading and concatenating
-#
-#    (Time, Speed, Dir) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, num_goback)
-#    plt.plot(Time,Speed)
+#    (Time, Speed, Dir, slp) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, param['ndbc_lat'], param['ndbc_lon'], num_goback)
+#    plt.plot(Time,slp)
 #    plt.show()
 #    plt.close()
-#    
+
     
     
     

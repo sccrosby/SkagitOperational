@@ -19,7 +19,7 @@ import op_functions
 
 # Start and stop
 start = datetime(2016,1,1)
-stop = datetime(2017,1,1)
+stop = datetime(2018,1,1)
 
 # Set Station location & Info 
 # Skagit

@@ -46,11 +46,11 @@ param['num_forecast_hours'] = 1
 start_time = time.time()
 
 
-for tide_level in [4]:#np.arange(0,6,.5): # [m] NAVD88
+for tide_level in [5]:#np.arange(0,6,.5): # [m] NAVD88
     
-    for wind_speed in [15]: #[m/s]
+    for wind_speed in [15]:#[12.5, 17.5, 22.5]: #[10, 15, 20, 25]:#[18]: #[m/s]
         
-        for wind_dir in np.arange(0,355,5):#[180]: #[135, 255, 15]:  #deg, arriving from, compass coord
+        for wind_dir in np.arange(0,355,5):#[135, 180]: #[180]: #[135, 255, 15]:  #deg, arriving from, compass coord
         
             # Functions expecting a list of water/tide levels
             tide = [tide_level]        
@@ -84,7 +84,7 @@ for tide_level in [4]:#np.arange(0,6,.5): # [m] NAVD88
             subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
             
             # Make dir for output
-            out_fol = '../../Output/skagit_t{:02d}_s{:d}_d{:d}'.format(int(tide_level*10),wind_speed,wind_dir)
+            out_fol = '../../Output/skagit_t{:02d}_s{:d}_d{:d}'.format(int(tide_level*10),int(round(wind_speed)),wind_dir)
             os.mkdir(out_fol)
             
             # Create list of files to save

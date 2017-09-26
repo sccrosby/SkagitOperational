@@ -288,7 +288,7 @@ def write_amuv_homog(dateString, zulu_hour, param, wind_speed, wind_dir):
     #-----------------------Load and write winds from grib --------------------
     hyphenatedString = time_obj.strftime('%Y-%m-%d')
 
-    print 'Creating amuv with wind speed {0:d} m/s and direction {1:d} deg'.format(wind_speed,wind_dir)    
+    print 'Creating amuv with wind speed {0:f} m/s and direction {1:d} deg'.format(wind_speed,wind_dir)    
     
     wind_dir = 90 - wind_dir #Switch to cartesian
     wind_dir = wind_dir + 180 #Switch from coming-from, to going-to
@@ -407,7 +407,7 @@ def write_mdw(dateString, zulu_hour, tides, param):
     mdwFile.write('[Output]\n')
     mdwFile.write('   TestOutputLevel      = 0\n')
     mdwFile.write('   TraceCalls           = false\n')
-    mdwFile.write('   UseHotFile           = false\n')
+    mdwFile.write('   UseHotFile           = true\n')
     mdwFile.write('   Int2KeepHotfile      = 180.0\n')
     mdwFile.write('   WriteCOM             = false\n')
     mdwFile.write('   COMWriteInterval     = 60\n')

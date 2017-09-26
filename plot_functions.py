@@ -1033,8 +1033,7 @@ def plot_skagit_wind_wave(date_string, zulu_hour, param):
         CS.ax.set_xticks([-122.6, -122.5, -122.4])
         CS.ax.set_xticklabels(['122.6$^\circ$W', '122.5$^\circ$W', '122.4$^\circ$W'])
         CS.ax.set_yticks([48.3, 48.4])
-        CS.ax.set_yticklabels([])     
-        
+        CS.ax.set_yticklabels([])             
         ax3.plot(tide_time,tide,label='tide')
         ax3.set_ylabel('Tide [ft]')
         y_top = ax3.get_ylim()

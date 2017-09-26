@@ -69,7 +69,7 @@ import time
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
 # OPTION 1: Specifiy date and zulu hour
-#date_string = '20170814'
+#date_string = '20170926'
 #zulu_hour = 6
 
 # OPTION 2: Select most recent available forecast
@@ -78,6 +78,10 @@ import time
 RUN_BBAY_WAVE   = True
 RUN_SKAGIT_WAVE = True
 SYNC_GDRIVE     = True
+
+#RUN_BBAY_WAVE   = False
+#RUN_SKAGIT_WAVE = False
+#SYNC_GDRIVE     = False
 
 # ---------------------- INITIALIZE MODEL -------------------------------------
 param = get_param.get_param_bbay()

@@ -2,6 +2,7 @@ import urllib
 import json
 import os.path
 from weather_scrubbing_function import weatherlink_scrubber
+import pandas as pd
 
 # This is code to grab real time meteorological observation data from stations found at https://www.weatherlink.com/map.php
 # Lat Lon bounds can be adjusted to choose areas of interest.
@@ -73,6 +74,7 @@ if not os.path.isfile(fname):
     print('Metadata File Created')
 
 
-
+# Create a pandas dataframe from the CSV file of the
+df = pd.read_csv(fname, header=0, sep=',')
 
 

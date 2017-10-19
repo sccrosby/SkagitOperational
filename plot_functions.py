@@ -1070,7 +1070,8 @@ def plot_skagit_wind_wave(date_string, zulu_hour, param):
 if __name__ == '__main__':    
     import get_param
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
-    param = get_param.get_param_skagit_SC100m()    
+    #param = get_param.get_param_skagit_SC100m()       
+    param = get_param.get_param_skagitE_200m()    
     Nx = 685  
     Ny = 485
     num_goback = 4 #Number of forecasts to go back to

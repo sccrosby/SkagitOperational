@@ -10,6 +10,7 @@ import urllib
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
+import time as tm
 
 def get_ndbc_realtime(station_id,num_hours):
 # Returns time, speed [m/s], direction [deg], and pressure [kPa]
@@ -17,7 +18,26 @@ def get_ndbc_realtime(station_id,num_hours):
     
     # Download data to file first
     url = 'http://www.ndbc.noaa.gov/data/realtime2/{:s}.txt'.format(station_id)
-    open('data.txt','wb').write(urllib.urlopen(url).read())
+    try: 
+        open('data.txt','wb').write(urllib.urlopen(url).read())
+    except:
+        print 'First NDBC download attempt failed, trying again'
+        for i in range(5):        
+            tm.sleep(1)
+            try: 
+                open('data.txt','wb').write(urllib.urlopen(url).read())
+                print 'NDBC download success'
+                msg = 'working'
+                break
+            except:
+                'Failed again, attemp #{:d}'.format(i)
+                msg = 'failed'
+                
+        if msg == 'failed':       
+            err_str = 'Could not open ndbc url, check {:s}'.format(url)
+            with open('Errfile.txt','w') as f:
+                f.write(err_str)
+            raise ValueError(err_str)
     
     # Read in and parse lastest num_hours
     num_lines = num_hours
@@ -45,10 +65,11 @@ def get_ndbc_realtime(station_id,num_hours):
     return (time,speed,direction,slp)
 
 
-# Test setup for testing        
+# Setup for stand-alone testing        
 if __name__ == '__main__':
     station_id = '46118'
-    (time,speed,direction,slp) = get_ndbc_realtime(station_id,48)        
+    (time,speed,direction,slp) = get_ndbc_realtime(station_id,48)   
+    print 'Working, speed = {:4.2f} m/s'.format(speed[0])     
     plt.subplot(311)        
     plt.plot(time,speed)
     plt.subplot(312)        

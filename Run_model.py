@@ -47,7 +47,8 @@ Documents/
 # Note, it's possible that forecast 48 is avialable several mintues before 043, crashing the program
 
 # Needed for use with crontab, By default matplotlib uses x-windows, see https://stackoverflow.com/questions/2801882/generating-a-png-with-matplotlib-when-display-is-undefined
-# To test crontab in its environment, use env -i sh -c './run_script.sh'
+# To test crontab in its environment, use: env -i sh -c './run_script.sh'
+
 import matplotlib
 matplotlib.use('Agg')
 
@@ -69,7 +70,7 @@ import time
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
 # OPTION 1: Specifiy date and zulu hour
-#date_string = '20170926'
+#date_string = '20171016'
 #zulu_hour = 6
 
 # OPTION 2: Select most recent available forecast
@@ -100,7 +101,6 @@ if os.path.isfile(test_file):
     print 'Grib files already downloaded, skipping'
 else:
     op_functions.get_hrdps(date_string, zulu_hour, param)
-
 
 if RUN_BBAY_WAVE:
     # Remove all files from model folder
@@ -159,7 +159,8 @@ if SYNC_GDRIVE:
     os.chdir('../SkagitOperational')
 
 # Run Skagit Model
-param = get_param.get_param_skagit_SC100m()
+#param = get_param.get_param_skagit_SC100m()
+param = get_param.get_param_skagitE_200m()
 if RUN_SKAGIT_WAVE:
     # Remove all files from model folder
     misc_functions.clean_folder(param['fol_model'])

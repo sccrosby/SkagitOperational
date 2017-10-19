@@ -112,7 +112,9 @@ def download_grib(gribPrefixP, url, dateString, zulu_hour, forecast_hour, loc_ou
                 print 'Attempt {:d} {:s}'.format(i,msg)
                 
         if msg == 'failed':
-            err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)
+            err_str = 'Grib file not found, url is incorrect. Check url, {:s}'.format(grib_url)    
+            with open('Errfile.txt','w') as f:
+                f.write(err_str)            
             raise ValueError(err_str)
             
 

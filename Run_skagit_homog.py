@@ -8,8 +8,6 @@ min tide -0.56
 max tide 4.53
 
 
-
-
 @author: Crosby
 """
 
@@ -25,6 +23,7 @@ import subprocess
 import shutil
 import time
 
+# /home/crosby/Documents/openearthtools/matlab/applications/delft3d_matlab
 
 # ---------------------- SELECT DATE FOR MODEL RUN ----------------------------
 
@@ -45,12 +44,13 @@ param['num_forecast_hours'] = 1
 # Start timer
 start_time = time.time()
 
+# Stopped at tide_level = 1.75, wind_speed = 22.5, wind_dir = 200
 
-for tide_level in [5]:#np.arange(0,6,.5): # [m] NAVD88
+for tide_level in [4,4.25,4.5,4.75]: #np.arange(0,5,.25): # [m] NAVD88
     
-    for wind_speed in [15]:#[12.5, 17.5, 22.5]: #[10, 15, 20, 25]:#[18]: #[m/s]
+    for wind_speed in np.arange(2.5,30,2.5): #np.arange(2.5,30,2.5):#[10, 15, 20, 25]:#[18]: #[m/s]
         
-        for wind_dir in np.arange(0,355,5):#[135, 180]: #[180]: #[135, 255, 15]:  #deg, arriving from, compass coord
+        for wind_dir in np.arange(0,360,10):#[135, 180]: #[180]: #[135, 255, 15]:  #deg, arriving from, compass coord
         
             # Functions expecting a list of water/tide levels
             tide = [tide_level]        
@@ -66,7 +66,7 @@ for tide_level in [5]:#np.arange(0,6,.5): # [m] NAVD88
             #d3d_functions.make_test_loc(param)
             
             # Copy grid files to model folder 
-            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script']:
+            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','extract_script']:
                 shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))           
             # Copy location files to model folder
             for fname in param['output_locs']:
@@ -81,22 +81,21 @@ for tide_level in [5]:#np.arange(0,6,.5): # [m] NAVD88
             # Run Model 
             os.chdir(param['fol_model'])
             os.mkdir('temp')
+            print 'Running D3D model'
             subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
             
+            # Call Matlab script to extract variables of interest   
+            temp = '"{:s}"'.format(param['extract_script'])
+            call_str = "matlab -nodisplay -noFigureWindows -nosplash -nodesktop -r 'try run({:s});end;exit;'".format(temp)         
+            print call_str            
+            subprocess.check_call(call_str,shell=True)
+            
             # Make dir for output
-            out_fol = '../../Output/skagit_t{:02d}_s{:d}_d{:d}'.format(int(tide_level*10),int(round(wind_speed)),wind_dir)
-            os.mkdir(out_fol)
-            
-            # Create list of files to save
-            d3d_out_files = ['wavm-skagit_50m.dat', 'wavm-skagit_50m.def'] # for all files, use os.listdir(os.curdir)
-            for fname in param['output_locs']:
-                d3d_out_files.append(fname+'.tab')
-                #d3d_out_files.append(fname+'.sp1')
-                #d3d_out_files.append(fname+'.sp2')
-            
+            out_fol = '../../Output/skagit/'
+            out_mat = 'skagit_t{:02d}_s{:d}_d{:d}.mat'.format(int(tide_level*100),int(round(wind_speed)),wind_dir)
+                                   
             # Copy to Output
-            for f in d3d_out_files:
-                shutil.copyfile(f,'{:s}/{:s}'.format(out_fol,f))
+            shutil.copyfile('extract.mat','{:s}/{:s}'.format(out_fol,out_mat))
             
             # Go back to working directory        
             os.chdir('../../SkagitOperational')

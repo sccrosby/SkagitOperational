@@ -359,6 +359,9 @@ def write_mdw(dateString, zulu_hour, tides, param):
     mdwFile.write('   SimMode              = stationary\n')
     mdwFile.write('   DirConvention        = nautical\n')
     mdwFile.write('   ReferenceDate        = {0:s}\n'.format(time_obj.strftime('%Y-%m-%d')))
+    # If using obstacles add line to mdwfile    
+    if 'objfile' in param:
+        mdwFile.write('   ObstacleFile           = {0:s}\n'.format(param['objfile']))        
     mdwFile.write('   MeteoFile            = {0:s}\n'.format(param['wind_u_name']))
     mdwFile.write('   MeteoFile            = {0:s}\n'.format(param['wind_v_name']))
     for hour in range(param['num_forecast_hours']):

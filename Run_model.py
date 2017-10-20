@@ -13,7 +13,8 @@ Documents/
     Grids/
         delft3d/
             skagit/
-            bbay/
+            skagitE_200m/
+            bbay/            
         delftfm/
         suntans/
         
@@ -22,6 +23,8 @@ Documents/
             hrdps/
                 max_files/
                 hrdps_grib_xxxxx/            
+            davis_winds/
+            noaa_ww3/
         crop/
             hrdps/
                 hrdps_crop_xxxxx/
@@ -30,6 +33,7 @@ Documents/
     
     ModelRuns/
         skagit_wave_50m/
+        skagit_wave_100m/
         bbay_150m/
     
     Plots/
@@ -175,7 +179,7 @@ if RUN_SKAGIT_WAVE:
     d3d_functions.write_mdw(date_string, zulu_hour, tide, param)
     
     # Copy files to model folder 
-    for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','dike.obt','dike.pol']:
+    for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','objfile','objpoly']:
         shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))
     # Copy location files to model folder
     for fname in param['output_locs']:

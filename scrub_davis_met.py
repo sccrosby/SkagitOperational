@@ -14,6 +14,9 @@ from datetime import datetime
 import time
 #import pandas as pd
 
+import send_email_text
+
+
 # Run scrubber on all stations and save
 def run_scrub():
     # Start timer
@@ -33,9 +36,25 @@ def run_scrub():
     file_name = 'davisPS_{:s}'.format(now.strftime('%Y%m%d_%H%M'))
     
     # Read url of all the weatherlink stations and grab import to a variable
-    url = 'https://www.weatherlink.com/mapstations.json?noCache=13'
-    response = urllib.urlopen(url)
-    data = json.loads(response.read())
+    # Does not always work the first time, 6 attempts are made
+    url = 'https://www.weatherlink.com/mapstations.json?'
+    try:    
+        response = urllib.urlopen(url)
+        data = json.loads(response.read())        
+    except:
+        for i in range(5):
+            time.sleep(.1)
+            try: 
+                response = urllib.urlopen(url)
+                data = json.loads(response.read())  
+                msg = 'success'
+                break
+            except:
+                msg = 'fail'
+        if msg == 'fail':
+            alert = 'Could not open station list after several attempts'
+            send_email_text.send_email('schcrosby@gmail.com',alert)
+            raise Exception(alert)
     
     # Grab all of the stations within the bounds and add to a separate list
     url_data = [] # Libraries to house data
@@ -57,7 +76,12 @@ def run_scrub():
         for j in range(0, len(url_data)):
             # Combine the two dictionaries into one
             name = url_data[j]['uname']
-            cur_data = weatherlink_scrubber(name)
+            try: 
+                cur_data = weatherlink_scrubber(name)
+            except:
+                alert = 'weatherlink_scrubber failed on station {:s}'.format(name)
+                send_email_text.send_email('schcrosby@gmail.com',alert)
+                raise Exception(alert)
             temp_dict = url_data[j].copy()
             temp_dict.update(cur_data)
             # Find keys in dictionary
@@ -179,9 +203,6 @@ def weatherlink_scrubber(station_name):
     if slp_val in range(2000, 9999) or slp_val < 800:
         print('Error with Pressure, possibly units: %s' % station_name)
 
-
-
-
     ########################## Grab the Wind Speed ##########################
     spd = td_list[inds[1]+1].get_text()
 
@@ -227,8 +248,6 @@ def weatherlink_scrubber(station_name):
     if spd_val < 0 or spd_val > 90 and spd_val < 999:
         print('Error with speed value, possibly units: %s' % station_name)
 
-
-
     ########################## Grab the Wind Direction ##########################
     wnddir = td_list[inds[2]+1].get_text()
     if wnddir == 'n/a':
@@ -249,7 +268,6 @@ def weatherlink_scrubber(station_name):
     if wnddir_val > 360 and wnddir_val != 999:
         print('Error with wind direction: %s' % station_name)
 
-
     ########################## Grab the Time ##########################
     now = datetime.utcnow()
     cur_date = '%d/%d/%d %d:%d:%d' % (now.year, now.month, now.day, now.hour, now.minute, now.second)
@@ -265,7 +283,16 @@ def weatherlink_scrubber(station_name):
 #print(data)
 
 
-
+# Runs Main Script if used as stand-alone     
+if __name__ == '__main__':        
+    try:    
+        run_scrub()
+    except:
+        alert = 'run_scrub() failed for unknown reason'
+        send_email_text.send_email('schcrosby@gmail.com',alert)
+        raise Exception(alert)
+    
+    
 
 
 

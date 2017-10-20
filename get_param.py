@@ -235,6 +235,9 @@ def get_param_skagitE_200m():
 #    param['output_locs']            = ['skagit_FirIslandFarms.loc',
 #                                       'skagit_LT2.loc',
 #                                       'skagit_Snee2.loc']   
+    # Obstacles
+    param['objfile']                = 'dike.obt'
+    param['objpoly']                = 'dike.pol'   
                                        
     # HRDPS prefixes and url 
     param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 

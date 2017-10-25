@@ -1,6 +1,6 @@
-Skagit Operational Model Development
+Skagit Operational Model (Current name is antiquated, suggested new title, COSMOS_PS_Operational)
 
-Assumed File Structure
+Assumed file structure on local machine (or virtual machine)
 
 Documents/
     SkagitOperational/  (git repo)
@@ -34,28 +34,48 @@ Documents/
     
     GoogleDrive/
         SkagitPlots/
+        BellinghamBay/
                    
     openearthtools/ (svn repo)
 
-As we proceed try to 
--use functions as much as possible
--Emphasize generalization, methodology will be applied to many "local models"
--Include comments describing input/output and steps
--Utilize git branching and comment commits appropriately
--Keep large datasets (input/output) in seperate folders. Codes & Model should be independent and portable
+Notes:
+run_script.sh gets run by crontab 4x a day when we believe Env Canada has released their most recent MET predictions.
+run_script_scrub.sh gets run by crontab 48x a day to scrub MET info from Davis Weatherlink stations in PS.
+Current models run are D3D-Wave simulations for Bellingham Bay and Skagit Delta
+Plots and movies are generated of wind predictions and wave output
+Validation at Bellingham Bay buoy is included
 
-Work in progress includes
--Better treatment of Time Zones
--Pipe all running output to file rather than console (allows review of errors) (line 80-84 run_models)
--Get tides function should be run for next 10/100 years
--Remember utcCanada is the variable with the 6, 12, 18, 0 hour in it. Change variable names to improve readability
--Consider xTides vs downloading-manipulating text files served on web (NOAA, etc)
+Next Steps:
+Implement DefltFM-FLOW model for entire Puget-Sound domain (DFM-PS)
+Run DFM-PS on WWU cluster in 48-hour forecast mode 
+Couple D3D-Wave model domains including Skagit, BellinghamBay to DFM-PS
+Incorporate more validation work using NOAA buoy and weather stations as well as scrubbed Davis WeatherLink data
+Optimize data management including: Download and archiving of predictions and critical model outputs
 
-Larger improvements
--Reducing resolutoin of gridded meteo files. Will save space and have neglible impact on model
--Make switcht to Delft-FM to leverage varying grid spacing
-  - Will save computation time
-  - May allow higher resolution (25m) at shoreline
+Guidance:
+Emphasize repeatability, e.g. use Docker or similar for compiling
+Emphasize documentation/access, e.g. use Github or similar
+Emphasize modularity, e.g. generic functions that will apply to new future model domains of interest
+Emphasize optimization, e.g. speed test each component, identify bottlenecks, etc.
+
+Packages installed on Ubuntu
+sudo apt install wget byacc flex gfortran g++ libmpich-dev libnetcdf-dev
+sudo apt install libexpat1 libexpat1-dev libmpich-dev libmpich12 libnetcdff-dev
+sudo apt install libmpich-dev libmpich12 autoconf libtool uuid-dev
+sudo apt install subversion
+sudo apt install python-matplotlib python-pyproj 
+sudo apt install python-scipy python-netcdf4
+Sudo apt install python-gdal 
+sudo apt install git xtide montage graphicsmagick
+sudo apt install ffmpeg
+sudo apt install python-pip
+pip install pytz
+
+
+
+
+
+
 
 
 

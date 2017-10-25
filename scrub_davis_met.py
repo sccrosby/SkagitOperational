@@ -42,7 +42,7 @@ def run_scrub():
         response = urllib.urlopen(url)
         data = json.loads(response.read())        
     except:
-        for i in range(5):
+        for i in range(10):
             time.sleep(.1)
             try: 
                 response = urllib.urlopen(url)
@@ -78,19 +78,20 @@ def run_scrub():
             name = url_data[j]['uname']
             try: 
                 cur_data = weatherlink_scrubber(name)
+                temp_dict = url_data[j].copy()
+                temp_dict.update(cur_data)
+                # Find keys in dictionary
+                keys = temp_dict.keys()
+                # Write the data to CSV file
+                f.writelines('{},{},{},{},{},{},{}\n'
+                             .format(temp_dict[keys[3]], temp_dict[keys[5]],
+                                     temp_dict[keys[2]], temp_dict[keys[7]],
+                                     temp_dict[keys[1]], temp_dict[keys[6]], temp_dict[keys[4]]))            
             except:
                 alert = 'weatherlink_scrubber failed on station {:s}'.format(name)
                 send_email_text.send_email('schcrosby@gmail.com',alert)
-                raise Exception(alert)
-            temp_dict = url_data[j].copy()
-            temp_dict.update(cur_data)
-            # Find keys in dictionary
-            keys = temp_dict.keys()
-            # Write the data to CSV file
-            f.writelines('{},{},{},{},{},{},{}\n'
-                         .format(temp_dict[keys[3]], temp_dict[keys[5]],
-                                 temp_dict[keys[2]], temp_dict[keys[7]],
-                                 temp_dict[keys[1]], temp_dict[keys[6]], temp_dict[keys[4]]))
+                #Skip station                
+
     f.close()
 
     # End timer
@@ -145,7 +146,25 @@ def weatherlink_scrubber(station_name):
     link1 = 'http://www.weatherlink.com/user/'
     link2 = '/index.php?view=summary&headers=0'
     link = link1 + name + link2
-    page = requests.get(link)
+    
+    # Try first, if fail, try again
+    try:
+        page = requests.get(link)
+    except:
+        for _ in range(3):
+            time.sleep(.1)
+            try:
+                page = requests.get(link)
+                msg = 'success'
+                break
+            except:
+                msg = 'fail'
+        if msg == 'fail':
+            raise Exception('Could not download station %s'.format(name))
+            
+            
+        
+            
 
     #Now I parse the html code using the super handy BeautifulSoup function
     soup = BeautifulSoup(page.content, 'html.parser')

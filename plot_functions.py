@@ -1071,7 +1071,8 @@ if __name__ == '__main__':
     import get_param
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
     #param = get_param.get_param_skagit_SC100m()       
-    param = get_param.get_param_skagitE_200m()    
+    #param = get_param.get_param_skagitE_200m()    
+    param = get_param.get_param_bbay()    
     Nx = 685  
     Ny = 485
     num_goback = 4 #Number of forecasts to go back to
@@ -1083,8 +1084,8 @@ if __name__ == '__main__':
     # -------------------- TEST FUNCTIONS ----------------------------    
     #plot_bbay_wind_wave(date_string, zulu_hour, param)
     #plot_bbay_wind(date_string, zulu_hour, param)
-    #plot_bbay_wind_val(date_string, zulu_hour, param)
-    plot_skagit_wind_wave(date_string, zulu_hour, param)
+    plot_bbay_wind_val(date_string, zulu_hour, param)
+    #plot_skagit_wind_wave(date_string, zulu_hour, param)
     
     
     # Test hindcast loading and concatenating

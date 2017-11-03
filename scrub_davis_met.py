@@ -12,6 +12,7 @@ import urllib
 import json
 from datetime import datetime
 import time
+import os
 #import pandas as pd
 
 import send_email_text
@@ -30,7 +31,11 @@ def run_scrub():
     now = datetime.utcnow()
     
     # Data storage folder
-    fol_name = '../Data/downloads/davis_winds/'
+    fol_name = '../Data/downloads/davis_winds/{:s}/'.format(now.strftime('%Y%m'))
+    
+    # Make folder if doesn't yet exist
+    if not os.path.exists(fol_name):
+        os.mkdir(fol_name)
     
     # File name
     file_name = 'davisPS_{:s}'.format(now.strftime('%Y%m%d_%H%M'))
@@ -296,10 +301,6 @@ def weatherlink_scrubber(station_name):
     # Set data dictionary as global variable
     return(data)
 
-
-# Test Case
-#data = weatherlink_scrubber('nskabb')
-#print(data)
 
 
 # Runs Main Script if used as stand-alone     

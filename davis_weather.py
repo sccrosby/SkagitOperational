@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 #from matplotlib import pyplot as plt
 
 # Hardcoded location
-fol_loc = '../../Data/downloads/davis_winds'
+fol_loc = '../Data/downloads/davis_winds'
 
 
 def get_davis_latest(date_string,zulu_hour,sta_name,days_back):
@@ -74,6 +74,8 @@ def read_files(time,fol_loc,sta_name):
         df.loc[tt,'wind_dir'] = temp_df.loc[sta_name,'Wind_Direction']
         df.loc[tt,'slp'] = temp_df.loc[sta_name,' SLP']
     
+    df.lat = temp_df.loc[sta_name,'Lat']
+    df.lon = temp_df.loc[sta_name,'Lon']
     return df
 
 

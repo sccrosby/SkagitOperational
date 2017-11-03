@@ -23,6 +23,7 @@ from datetime import datetime, timedelta
 import op_functions 
 import download_ndbc
 import download_ncdc
+import davis_weather
 
 def wrapTo360(angle):
     while angle < 0 or angle >= 360:
@@ -718,8 +719,8 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     #m_lon, m_lat = p(x,y,inverse=True) 
     
     # ------------ Load in All Wind & Pressure Grib Data --------------------------------
-    (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
-    Slp = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)
+    #(Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
+    #Slp = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)
     
     # -------------------- Load Concatenated Hindcast ------------------------
     num_goback = 8;    
@@ -730,6 +731,12 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     (ndbc_time,ndbc_speed,ndbc_dir,ndbc_slp) = download_ndbc.get_ndbc_realtime(param['ndbc_sta_id'],56)
     ndbc_time = [t - timedelta(hours=gmt_off) for t in ndbc_time] # Convert from UTC to local
     
+    # ------------------Get Davis Winds---------------------------------------
+    sta_name = 'bellinghamkite'
+    days_back = 4
+    df = davis_weather.get_davis_latest(date_string,zulu_hour,sta_name,days_back)
+    df['time'] = df['time']-timedelta(hours=7)
+
     # ----------------------GRab NCDC Data------------------------------------
 #    usaf = '727976'
 #    wban = '24217'
@@ -744,7 +751,6 @@ def plot_bbay_wind_val(date_string, zulu_hour, param):
     # ------------------------ Load concatenated hindcast at ndbc ------------------
 #    (hind_time, hind_speed2, hind_dir2) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, ncdc_lat, ncdc_lon, num_goback)
 #    hind_time = [x - timedelta(hours=gmt_off) for x in hind_time] # Convert from UTC to local
-
 
     #----------------- Find closest model grid cell to ndbc ---------------------    
     dist = np.add(np.square(np.array(degLon)-param['ndbc_lon']),np.square(np.array(degLat)-param['ndbc_lat']))

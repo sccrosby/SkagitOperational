@@ -36,8 +36,9 @@ def wrapTo360(angle):
 # Returns size of HRDPS predictions from LandMask
 def load_hrdps_mask(date_string, zulu_hour, param):
     grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
-    maskFileName = '{0:s}/{1:s}{2:s}{3:02d}_P000-00.grib2'.format(grib_input_loc,
+    maskFileName = '{0:s}{1:s}{2:s}{3:02d}_P000-00.grib2'.format(grib_input_loc,
         param['hrdps_PrefixLAND'], date_string, zulu_hour)
+    #print (grib_input_loc, maskFileName)
     grbl = pygrib.open(maskFileName)
     grblL = grbl.select(name='Land-sea mask')[0]
     Land = grblL.values
@@ -302,9 +303,11 @@ def load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_
     dir_pred = [wrapTo360(s[I_lon, I_lat]) for s in Dir]       
     slp_pred = [s[I_lon, I_lat]/1000 for s in Slp] # units in hPa    
      
+    # ------------------- Time Vec -------------------
+    time = [datetime.strptime('{:s}{:d}'.format(date_string,zulu_hour),'%Y%m%d%H') + timedelta(hours=hour) for hour in range(48)]    
+   
      
-     
-    return (speed_pred,dir_pred,slp_pred)
+    return (time, speed_pred, dir_pred, slp_pred)
     
     
 def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_lon, num_goback):
@@ -336,7 +339,7 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_
     Slp = []
     Time = []
     # Loop over forecasts (earliest first)
-    for forecast in range(num_goback,1,-1):
+    for forecast in range(num_goback,0,-1):
         # Step back to previous forecasts
         forecast_time = init_time-timedelta(hours=6*forecast)
         date_string_hindcast = forecast_time.strftime('%Y%m%d')
@@ -508,7 +511,7 @@ def plot_bbay_wind(date_string, zulu_hour, param):
         cbar = plt.colorbar(CS)
         cbar.ax.set_ylabel('Wind Speed [mph]')
         CS.ax.ticklabel_format(useOffset=False)
-        CS.ax.get_xaxis().gept_t_major_formatter().set_scientific(False)
+        CS.ax.get_xaxis().get_major_formatter().set_scientific(False)
         CS.ax.set_ylim(llcorner_plot_zoom[0], urcorner_plot_zoom[0])
         CS.ax.set_xlim(llcorner_plot_zoom[1], urcorner_plot_zoom[1])
         CS.ax.set_xticks([-122.6, -122.5])
@@ -717,6 +720,8 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
 
 
 def plot_davis_val(date_string, zulu_hour, param, sta_name):
+    ms2mph = 2.237     
+    
     # Get time offset  
     gmt_off = op_functions.get_gmt_offset()
     
@@ -727,6 +732,8 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
     days_back = 2
     df = davis_weather.get_davis_latest(date_string,zulu_hour,sta_name,days_back)
     df['time'] = df['time']-timedelta(hours=7)
+    df['wind_speed'] = df['wind_speed']*ms2mph
+    df['slp'] = df['slp']/10
     
     # -------------------- Load Concatenated Hindcast ------------------------
     num_goback = 8;     # Number of forecasts to go back to (6hr each)
@@ -734,38 +741,68 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
     hind_time = [x - timedelta(hours=gmt_off) for x in hind_time] # Convert from UTC to local
    
     # -------------------- Load Forecast -------------------------------------
-    (load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, df.lat, df.lon)   
-    
+    (for_time,for_speed,for_dir,for_slp) = load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, df.lat, df.lon)   
+    for_time = [x - timedelta(hours=gmt_off) for x in for_time] # Convert from UTC to local
+
+    # Setup figure,            
+    fig = plt.figure(figsize=(5.,7.))   
    
     # set up subplots    
     gs = gridspec.GridSpec(30,1)
-    gs.update(left=0.075, right=0.98, top=0.95, bottom=0.075, wspace=0.15, hspace=0.05)     
+    gs.update(left=0.17, right=0.98, top=0.98, bottom=0.015, wspace=0.15, hspace=0.05)     
     ax2 = plt.subplot(gs[2:10,0])
-    #ax3 = plt.subplot(gs[11:19,0])        
-    #ax4 = plt.subplot(gs[20:28,0])    
+    ax3 = plt.subplot(gs[11:19,0])        
+    ax4 = plt.subplot(gs[20:28,0])    
     
     # Plot Speed
-    ax2.plot(df['time'],df['wind_speed'],'k.-',label='Observations')        
+    ax2.plot(df['time'],df['wind_speed'],'k.',label='Observations')        
     ax2.plot(hind_time,hind_speed,'r',label='Hindcast')
+    ax2.plot(for_time,for_speed,'b',label='Forecast')
     ax2.set_ylabel('Wind Speed [mph]')
     ax2.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
-    y_top = ax2.get_ylim()
-
+    #y_top = ax2.get_ylim()
+    
+    # Plot Dir
+    ax3.plot(df['time'],df['wind_dir'],'k.',label='Observations')        
+    ax3.plot(hind_time,hind_dir,'r',label='Hindcast')
+    ax3.plot(for_time,for_dir,'b',label='Forecast')
+    ax3.set_ylabel('Wind Direction [deg]')
+    #ax3.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
+  
+    # Plot SLP
+    ax4.plot(df['time'],df['slp'],'k.',label='Observations')        
+    ax4.plot(hind_time,hind_slp,'r',label='Hindcast')
+    ax4.plot(for_time,for_slp,'b',label='Forecast')
+    ax4.set_ylabel('Pressure [hP]')
+    #ax4.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
+    
+    # Ax color
+    #ax1.set_axis_bgcolor('white')
+    #ax2.set_axis_bgcolor('white') 
+    #ax3.set_axis_bgcolor('silver')     
+    
     # Make x-axis nice 
     days = mdates.DayLocator()
-    hours = mdates.HourLocator()
+    hours = mdates.HourLocator()    
     days_fmt = mdates.DateFormatter('%m/%d %H:%M')
     
     ax2.xaxis.set_major_locator(days)
     ax2.xaxis.set_major_formatter(days_fmt)
-    ax2.xaxis.set_minor_locator(hours)  
+    ax2.xaxis.set_minor_locator(hours)
+    ax2.tick_params(labelbottom='off')
 
-    # Get preditions nearest
-#    dist = np.add(np.square(np.array(degLon)-df_bk.lon),np.square(np.array(degLat)-df_bk.lat))
-#    (I_lon, I_lat) = np.where(dist == np.min(dist))
-#    df_speed_pred = [s[I_lon, I_lat] for s in Speed]        
-#    df_dir_pred = [wrapTo360(s[I_lon, I_lat]) for s in Dir]       
-#    df_slp_pred = [s[I_lon, I_lat]/1000 for s in Slp] # units in hPa   
+    ax3.xaxis.set_major_locator(days)
+    ax3.xaxis.set_major_formatter(days_fmt)
+    ax3.xaxis.set_minor_locator(hours)              
+    ax3.tick_params(labelbottom='off')
+
+    ax4.xaxis.set_major_locator(days)
+    ax4.xaxis.set_major_formatter(days_fmt)
+    ax4.xaxis.set_minor_locator(hours)              
+
+    fname = '{:s}/{:s}/{:s}{:s}_val'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],sta_name)
+    fig.savefig('{:s}.png'.format(fname),dpi=200)
+    plt.close()
                
                
 def plot_bbay_wind_val(date_string, zulu_hour, param):
@@ -1076,6 +1113,7 @@ def plot_skagit_wind_wave(date_string, zulu_hour, param):
     # Use ffmpeg to make animation
     os.chdir('{:s}/{:s}/'.format(param['fol_google'],param['folname_google']))
     ffmpegCommand = r'ffmpeg -f image2 -r 1 -i {0:s}WindWave_%02d.png -vcodec mpeg4 -y -vb 700k {0:s}WindWave.mp4'.format(param['fname_prefix_plot'])    
+    print ffmpegCommand    
     subprocess.check_call(ffmpegCommand, shell=True)
     os.chdir('../../SkagitOperational')
                 
@@ -1110,7 +1148,9 @@ if __name__ == '__main__':
     
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
     sta_name = 'bellinghamkite'
-    plot_davis_val(date_string, zulu_hour, sta_name)
+    sta_name = 'cruiseterminal'
+    sta_name = 'whatcomcc'
+    plot_davis_val(date_string, zulu_hour, param, sta_name)
     
     # Test hindcast loading and concatenating
 #    (Time, Speed, Dir, slp) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, param['ndbc_lat'], param['ndbc_lon'], num_goback)

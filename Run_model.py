@@ -158,17 +158,25 @@ try:
     
     # Make Validation Plots
     print 'Making Validation Plots'
-    plot_functions.plot_bbay_wind_val(date_string, zulu_hour, param)
-
+    sta_name = 'bellinghamkite'
+    plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
+    sta_name = 'cruiseterminal'
+    plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
+    #sta_name = 'nskabb'
+    #plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
+    sta_name = 'whatcomcc'
+    plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
+    
 except Exception as inst:
     alert = 'Recieved error: {:s}, BBay Plotting failed for {:s} and zulu hour {:d}'.format(inst,date_string,zulu_hour)
+    print alert    
     send_email_text.send_email('schcrosby@gmail.com',alert)    
 
 
 
 if SYNC_GDRIVE:
     # Sync Bbay Plots to Google Drive Folder       
-    print 'Syncing google drive BellinghamBay Folder'
+    print 'Syncing g.oogle drive BellinghamBay Folder'
     griveCommand = 'grive -s {:s}/'.format('BellinghamBay')
     os.chdir(param['fol_google'])
     err = subprocess.check_call(griveCommand, shell=True)
@@ -218,7 +226,9 @@ try:
 
 except Exception as inst:
     alert = 'Recieved error: {:s}, Skagit Modeled failed, for model run date {:s} and zulu hour {:d}'.format(inst,date_string,zulu_hour)
-    send_email_text.send_email('schcrosby@gmail.com',alert)    
+    print alert    
+    send_email_text.send_email('schcrosby@gmail.com',alert) 
+    os.chdir('../../SkagitOperational')
 
 
 if SYNC_GDRIVE:

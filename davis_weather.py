@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 #from matplotlib import pyplot as plt
 
 # Hardcoded location
-fol_loc = '../../Data/downloads/davis_winds'
+fol_loc = '../Data/downloads/davis_winds'
 
 
 def get_davis_latest(date_string,zulu_hour,sta_name,days_back):
@@ -58,13 +58,14 @@ def get_davis_range(date_start,date_end,sta_name):
 
 def read_files(time,fol_loc,sta_name):
     # Initialize
-    N_t = len(time)    
+    time.pop(-1)  #don't grab most recent file, it could be "in progress" 
+    N_t = len(time)   
     df = pd.DataFrame({'time':time})
     df['wind_speed'] = np.zeros(N_t)
     df['wind_dir'] = np.zeros(N_t)
     df['slp'] = np.zeros(N_t)
 
-    # Loop through files and grab data for station    
+    # Loop through files and grab data for station,    
     for tt in range(N_t):
         fol_name = df.loc[tt,'time'].strftime('%Y%m')
         file_name = 'davisPS_{:s}'.format(df.loc[tt,'time'].strftime('%Y%m%d_%H%M'))        
@@ -74,6 +75,8 @@ def read_files(time,fol_loc,sta_name):
         df.loc[tt,'wind_dir'] = temp_df.loc[sta_name,'Wind_Direction']
         df.loc[tt,'slp'] = temp_df.loc[sta_name,' SLP']
     
+    df.lat = temp_df.loc[sta_name,'Lat']
+    df.lon = temp_df.loc[sta_name,'Lon']
     return df
 
 

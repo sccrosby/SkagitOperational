@@ -37,7 +37,7 @@ zulu_hour = 12
 # ---------------------- INITIALIZE MODEL -------------------------------------
 
 # Model parameters contained in this dictionary, paths, file names, etc
-param = get_param.get_param_skagit_SC()
+param = get_param.get_param_skagitE_50m()
 
 param['num_forecast_hours'] = 1
 
@@ -46,11 +46,11 @@ start_time = time.time()
 
 # Stopped at tide_level = 1.75, wind_speed = 22.5, wind_dir = 200
 
-for tide_level in [4,4.25,4.5,4.75]: #np.arange(0,5,.25): # [m] NAVD88
+for tide_level in np.arange(-1.5,5,.5): #np.arange(0,5,.25): # [m] NAVD88
     
     for wind_speed in np.arange(2.5,30,2.5): #np.arange(2.5,30,2.5):#[10, 15, 20, 25]:#[18]: #[m/s]
         
-        for wind_dir in np.arange(0,360,10):#[135, 180]: #[180]: #[135, 255, 15]:  #deg, arriving from, compass coord
+        for wind_dir in np.arange(0,360,15):#[135, 180]: #[180]: #[135, 255, 15]:  #deg, arriving from, compass coord
         
             # Functions expecting a list of water/tide levels
             tide = [tide_level]        
@@ -66,7 +66,7 @@ for tide_level in [4,4.25,4.5,4.75]: #np.arange(0,5,.25): # [m] NAVD88
             #d3d_functions.make_test_loc(param)
             
             # Copy grid files to model folder 
-            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','extract_script']:
+            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','extract_script','objfile','objpoly']:
                 shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))           
             # Copy location files to model folder
             for fname in param['output_locs']:

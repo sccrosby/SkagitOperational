@@ -297,7 +297,7 @@ def load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_
     Slp = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)
     
     #----------------- Find closest model grid cell on HRDPS Forecast---------------------    
-    dist = np.add(np.square(np.array(degLon)-param['ndbc_lon']),np.square(np.array(degLat)-param['ndbc_lat']))
+    dist = np.add(np.square(np.array(degLon)-pt_lon),np.square(np.array(degLat)-pt_lat))
     (I_lon, I_lat) = np.where(dist == np.min(dist))
     speed_pred = [s[I_lon, I_lat] for s in Speed]        
     dir_pred = [wrapTo360(s[I_lon, I_lat]) for s in Dir]       
@@ -735,6 +735,7 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
     df['wind_speed'] = df['wind_speed']*ms2mph
     df['slp'] = df['slp']/10
     
+    print (df.lat, df.lon)
     # -------------------- Load Concatenated Hindcast ------------------------
     num_goback = 8;     # Number of forecasts to go back to (6hr each)
     (hind_time, hind_speed, hind_dir, hind_slp) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, df.lat, df.lon, num_goback)
@@ -760,6 +761,7 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
     ax2.plot(for_time,for_speed,'b',label='Forecast')
     ax2.set_ylabel('Wind Speed [mph]')
     ax2.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
+    ax2.set_ylim([0, 50])
     #y_top = ax2.get_ylim()
     
     # Plot Dir
@@ -767,6 +769,7 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
     ax3.plot(hind_time,hind_dir,'r',label='Hindcast')
     ax3.plot(for_time,for_dir,'b',label='Forecast')
     ax3.set_ylabel('Wind Direction [deg]')
+    ax3.set_ylim([0, 360])
     #ax3.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
   
     # Plot SLP
@@ -774,6 +777,7 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
     ax4.plot(hind_time,hind_slp,'r',label='Hindcast')
     ax4.plot(for_time,for_slp,'b',label='Forecast')
     ax4.set_ylabel('Pressure [hP]')
+    ax4.set_ylim([97, 103])
     #ax4.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
     
     # Ax color
@@ -1137,8 +1141,8 @@ if __name__ == '__main__':
     num_goback = 4 #Number of forecasts to go back to
     #param['num_forecast_hours'] = 1
    
-    date_string = '20171101'
-    zulu_hour = 0
+    #date_string = '20171101'
+    #zulu_hour = 0
     
     # -------------------- TEST FUNCTIONS ----------------------------    
     #plot_bbay_wind_wave(date_string, zulu_hour, param)

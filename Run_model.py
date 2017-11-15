@@ -140,8 +140,8 @@ try:
             os.mkdir('temp')  # Add temp directory for outputing raw swan files
         subprocess.check_call('./run_wave.sh',shell=True)  # Start D3D
         os.chdir('../../SkagitOperational')
-
-
+    
+    
     # Make Bbay Wind & Wave Plots
     print 'Making Wind and Wave plots BBay'
     plot_functions.plot_bbay_wind_wave(date_string, zulu_hour, param)
@@ -176,7 +176,7 @@ except Exception as inst:
 
 if SYNC_GDRIVE:
     # Sync Bbay Plots to Google Drive Folder       
-    print 'Syncing g.oogle drive BellinghamBay Folder'
+    print 'Syncing google drive BellinghamBay Folder'
     griveCommand = 'grive -s {:s}/'.format('BellinghamBay')
     os.chdir(param['fol_google'])
     err = subprocess.check_call(griveCommand, shell=True)

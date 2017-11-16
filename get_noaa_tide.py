@@ -6,6 +6,7 @@ Created on Mon Nov 13 10:18:20 2017
 """
 
 import urllib
+import urllib2
 import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,53 +17,100 @@ import os
 
 import op_functions
 
-# Start and stop
-(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+  
+#-------------------------- Observations --------------------------------   
+def get_obs(sta_id,start_date,end_date):
+    url1 = 'https://tidesandcurrents.noaa.gov/api/datagetter?product=water_level&application=NOS.COOPS.TAC.WL&station={:s}'.format(sta_id)
+    url2 = '&begin_date={:s}&end_date={:s}&datum=MLLW&units=english&time_zone=GMT&format=csv'.format(start_date.strftime('%Y%m%d'),end_date.strftime('%Y%m%d'))
+    
+    # Download File to string
+    fname = 'temp.csv'
+    urllib.urlretrieve(url1+url2,fname)
+    df_obs = pd.read_csv(fname)
+    os.remove(fname)
+    
+    # Create new data frame to output
+    df = pd.DataFrame()
+    
+    # Add time and observations
+    df['time'] = [datetime.strptime(tt,'%Y-%m-%d %H:%M') for tt in df_obs['Date Time']]
+    df['twl'] = df_obs[' Water Level']
+    
+    return df
 
-# Bellingham
-location_str = "Bellingham, Bellingham Bay, Washington"
-sta_id = '9449211'
-mllw2navd88 = 0.1606 # [meters] Navd88 = MLLW - mllw2NAVD88
-   
-# Port Susan
-#location_str = "Bellingham, Bellingham Bay, Washington"
-sta_id = '9448043'
-mllw2navd88 = 0.6489 # [meters] Navd88 = MLLW - mllw2NAVD88
-
-# Cherry Point
-sta_id = '9449424'
   
 #--------------------------GET FROM NOAA --------------------------------   
+def get_pred(sta_id,start_date,end_date):  
+    url1 = 'https://tidesandcurrents.noaa.gov/cgi-bin/predictiondownload.cgi?&stnid={:s}'.format(sta_id)
+    url2 = '&threshold=&thresholdDirection=&bdate={:s}&edate={:s}&units=standard&timezone=GMT&datum=MLLW&interval=6&clock=24hour&type=txt&annual=false'.format(start_date.strftime('%Y%m%d'),end_date.strftime('%Y%m%d'))
+      
+    # Download File to string
+    fname = 'temp.csv'
+    urllib.urlretrieve(url1+url2,fname)
+    #df_obs = pd.read_csv(fname)
+    #os.remove(fname) 
+    
+    url = url1 + url2 
+    
+    # Download File to string
+    aResp = urllib2.urlopen(url)
+    web_pg = aResp.read()
+    
+    # Parse Data
+    count = 0 
+    tdate = []
+    tide = []
+    for m in web_pg.splitlines():
+        count += 1
+        if count > 14: # Skip header lines
+            temp = m.split('\t')
+            tdate.append(datetime.strptime(temp[0]+temp[2],'%Y/%m/%d%H:%M'))
+            tide.append(float(temp[3]))
+    
+    df = pd.DataFrame()
+    df['time'] = tdate
+    df['twl'] = tide
+    
+    return df
+
+
+if __name__ == '__main__':      
+    # Start and stop
+    (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+    
+    # Bellingham
+    sta_id = '9449211'
+       
+    # Port Susan
+    sta_id = '9448043'
+    
+    # Cherry Point
+    sta_id = '9449424'
+    
+    # date range    
+    end_date = datetime.strptime(date_string,'%Y%m%d')
+    start_date = end_date - timedelta(days=2)
    
-## Build NOAA URLs     
-#interval = 'h' # 'h' - hour, '6'- 6 minutes
-#url1 = 'https://tidesandcurrents.noaa.gov/cgi-bin/predictiondownload.cgi?&stnid={:s}'.format(sta_id)
-#url2 = '&threshold=&thresholdDirection=&bdate={:s}&edate={:s}&'.format(start.strftime('%Y%m%d'),stop.strftime('%Y%m%d'))
-#url3 = 'units=metric&timezone=GMT&datum=MLLW&interval={:s}&clock=12hour&type=txt&annual=false'.format(interval)       
-#url = url1 + url2 + url3
+    df_obs = get_obs(sta_id,start_date,end_date)
+    df_pred = get_pred(sta_id,start_date,end_date)
+    
+    from matplotlib import pyplot as plt
+    
+    
+    plt.plot(df_obs['time'],df_obs['twl'],label='Obs')
+    plt.plot(df_pred['time'],df_pred['twl'],label='Pred')
+    plt.ylabel('Water Level [ft, MLLW]')
+    plt.legend()
+   
+## Convert from MLLW to NAVD88
+#tide = [t-mllw2navd88 for t in tide]
 #
-## Download File to string
-#aResp = urllib2.urlopen(url)
-#web_pg = aResp.read()
 
-end_date = datetime.strptime(date_string,'%Y%m%d')
-start_date = end_date - timedelta(days=2)
-
-url1 = 'https://tidesandcurrents.noaa.gov/api/datagetter?product=water_level&application=NOS.COOPS.TAC.WL&station={:s}'.format(sta_id)
-url2 = '&begin_date={:s}&end_date={:s}&datum=MLLW&units=english&time_zone=GMT&format=csv'.format(start_date.strftime('%Y%m%d'),end_date.strftime('%Y%m%d'))
-
-# Download File to string
-fname = 'temp.csv'
-urllib.urlretrieve(url1+url2,fname)
-df = pd.read_csv(fname)
-os.remove(fname)
-
-
-
-
-
-
-
+## Print data to file
+#with open('tide_pred_%s.txt' % sta_id,'w') as fid:
+#    fid.write('Date, Tide_NAVD88_Meters\n')
+#    for x,y in zip(tdate,tide):
+#        fid.write('%s %4.2f\n' % (x.strftime('%Y-%m-%d-%H-%M-%S'),y))
 
 
 

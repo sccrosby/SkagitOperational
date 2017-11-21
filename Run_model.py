@@ -74,8 +74,8 @@ import time
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
 # OPTION 1: Specifiy date and zulu hour
-#date_string = '20171101'
-#zulu_hour = 0
+#date_string = '20171117'
+#zulu_hour = 18
 
 # OPTION 2: Select most recent available forecast
 (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
@@ -156,16 +156,6 @@ try:
     print 'Making wind plots for BBay'
     plot_functions.plot_bbay_wind(date_string, zulu_hour, param)
     
-    # Make Validation Plots
-    print 'Making Validation Plots'
-    sta_name = 'bellinghamkite'
-    plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
-    sta_name = 'cruiseterminal'
-    plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
-    #sta_name = 'nskabb'
-    #plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
-    sta_name = 'whatcomcc'
-    plot_functions.plot_davis_val(date_string, zulu_hour, param, sta_name)
     
 except Exception as inst:
     alert = 'Recieved error: {:s}, BBay Plotting failed for {:s} and zulu hour {:d}'.format(inst,date_string,zulu_hour)
@@ -239,6 +229,18 @@ if SYNC_GDRIVE:
     err = subprocess.check_call(griveCommand, shell=True)
     os.chdir('../SkagitOperational')
 
+
+# Download UBC pressure pred gif
+#import requests
+#url = 'https://weather.eos.ubc.ca/wxfcst/WRF2G/{:s}00/MOV/g2/slp_925-500.gif'.format(date_string[2:])
+#fname = '{:s}/{:s}/UBC_slp_pred.gif'.format(param['fol_google'],param['folname_google'])
+#try:
+#    with open(fname, 'wb') as f:
+#        f.write(requests.get(url).content)
+#except Exception as inst:
+#    alert = 'Recieved error: {:s}, could not dowload ubc slp pred, url = '.format(inst,url)
+#    print alert    
+#    send_email_text.send_email('schcrosby@gmail.com',alert) 
 
 # End timer
 print 'Total time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))

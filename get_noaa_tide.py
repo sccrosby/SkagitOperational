@@ -7,10 +7,6 @@ Created on Mon Nov 13 10:18:20 2017
 
 import urllib
 import urllib2
-import subprocess
-import numpy as np
-import matplotlib.pyplot as plt
-from pytz import timezone
 from datetime import datetime, timedelta
 import pandas as pd
 import os
@@ -95,22 +91,13 @@ if __name__ == '__main__':
     df_pred = get_pred(sta_id,start_date,end_date)
     
     from matplotlib import pyplot as plt
-    
+    import seaborn as sns
     
     plt.plot(df_obs['time'],df_obs['twl'],label='Obs')
     plt.plot(df_pred['time'],df_pred['twl'],label='Pred')
     plt.ylabel('Water Level [ft, MLLW]')
     plt.legend()
    
-## Convert from MLLW to NAVD88
-#tide = [t-mllw2navd88 for t in tide]
-#
-
-## Print data to file
-#with open('tide_pred_%s.txt' % sta_id,'w') as fid:
-#    fid.write('Date, Tide_NAVD88_Meters\n')
-#    for x,y in zip(tdate,tide):
-#        fid.write('%s %4.2f\n' % (x.strftime('%Y-%m-%d-%H-%M-%S'),y))
 
 
 

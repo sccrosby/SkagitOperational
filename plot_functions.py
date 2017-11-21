@@ -11,6 +11,7 @@ import pygrib
 import scipy.ndimage
 import shutil
 import numpy as np
+import pandas as pd
 import pyproj
 import subprocess
 import os
@@ -24,6 +25,7 @@ import op_functions
 import download_ndbc
 import download_ncdc
 import davis_weather
+import get_noaa_tide
 
 def wrapTo360(angle):
     while angle < 0 or angle >= 360:
@@ -548,6 +550,13 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
     # Get time offset  
     gmt_off = op_functions.get_gmt_offset()
     m2ft = 3.28084     
+
+    # Get Tide and TWL predictions    
+    sta_id = '9449211' # Bellingham
+    lat = 48. + 44.7/60
+    lon = -122. - 29.7/60
+    #plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
+    (bbay_time, bbay_tide, bbay_twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)    
     
     # Initialize    
     forecast_count = param['num_forecast_hours'] #Number of forecast hours
@@ -1128,6 +1137,128 @@ def plot_skagit_wind_wave(date_string, zulu_hour, param):
         #fname_dest = '{:s}/{:s}/ImageFiles/{:s}WindWave_{:02d}.png'.format(param['fol_google'],param['folname_google'],param['fname_prefix_plot'],hour)
         #shutil.move(fname_src,fname_dest) 
 
+
+def get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon):
+    # offset    
+    gmt_off = op_functions.get_gmt_offset()
+    m2ft = 3.2804
+
+    # date range    
+    end_date = datetime.strptime(date_string,'%Y%m%d')
+    end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
+    start_date = end_date - timedelta(days=2)
+    
+    # Get water level pred from NOAA
+    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
+    tide = [t*m2ft for t in tide]
+    tide_time = [t-timedelta(hours=gmt_off) for t in tide_time]
+    
+    # Get slp predictions and sub sample
+    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
+    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, lat, lon)
+    slp_pred = [x[0] for x in slp_pred] # Was an array of lists
+    df_slp = pd.DataFrame.from_dict({'time':time,'slp':slp_pred})    
+    df_slp = df_slp.set_index('time')
+    df_slp = df_slp.resample('T') # Minute period
+    df_slp = df_slp.interpolate()*10 # convert to mb
+    
+    # Make TWL estimates from tide predictions and predicted SLP-inverse effect
+    m2ft = 3.28084
+    slp2ft = .013*m2ft # ft/dbar
+    slp0 = 1020; # Reference pressure    
+    df = pd.DataFrame
+    twl = df_pred['twl'] +  slp2ft*(slp0 - df_slp['slp'])
+    tide = df_pred['twl']
+    time = df_pred.index    
+    
+    return (time, tide, twl)
+    
+
+def plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon):   
+    
+    gmt_off = op_functions.get_gmt_offset()
+
+    # Date range    
+    end_date = datetime.strptime(date_string,'%Y%m%d')
+    end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
+    start_date = end_date - timedelta(days=2)
+    
+    # Get water level pred and obs
+    df_obs = get_noaa_tide.get_obs(sta_id,start_date,end_date)
+    df_pred = get_noaa_tide.get_pred(sta_id,start_date,end_date)
+    
+    # Get slp predictions and sub sample
+    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
+    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, lat, lon)
+    slp_pred = [x[0] for x in slp_pred] # Was an array of lists
+    df_slp = pd.DataFrame.from_dict({'time':time,'slp':slp_pred})    
+    df_slp = df_slp.set_index('time')
+    df_slp = df_slp.resample('T') # Minute period
+    df_slp = df_slp.interpolate()*10 # convert to mb
+
+    # Get slp hindcast predictions and sub sample
+    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, lat, lon, 2)
+    slp_pred = [x[0] for x in slp_pred] # Was an array of lists
+    df_slp_hind = pd.DataFrame.from_dict({'time':time,'slp':slp_pred})    
+    df_slp_hind = df_slp_hind.set_index('time')
+    df_slp_hind = df_slp_hind.resample('T') # Minute period
+    df_slp_hind = df_slp_hind.interpolate()*10 # convert to mb 
+     
+    # sub sample tidal predictions
+    df_pred = df_pred.set_index('time')
+    df_pred = df_pred.resample('T') # Minute period
+    df_pred = df_pred.interpolate()
+    
+    # Make TWL estimates from tide predictions and predicted SLP-inverse effect
+    m2ft = 3.28084
+    slp2ft = .013*m2ft # ft/dbar
+    slp0 = 1020; # Reference pressure    
+    twl_pred = df_pred['twl'] +  slp2ft*(slp0 - df_slp['slp'])
+    twl_hind = df_pred['twl'] +  slp2ft*(slp0 - df_slp_hind['slp'])
+    
+    # Plot
+    fig = plt.figure(figsize=(5.,7.))
+    gs = gridspec.GridSpec(2,1)
+    gs.update(left=0.15, right=0.98, top=0.88, bottom=0.075, wspace=0.05)
+    ax1 = plt.subplot(gs[0,0])
+    ax2 = plt.subplot(gs[1,0])
+     
+    ax1.plot(df_obs['time']-timedelta(hours=gmt_off),df_obs['twl'],label='Observations')
+    ax1.plot(df_pred.index-timedelta(hours=gmt_off),df_pred['twl'],label='Predictions')
+    ax1.plot(df_pred.index-timedelta(hours=gmt_off),twl_pred,'--',label='Tide + Surge')
+    ax1.plot(df_pred.index-timedelta(hours=gmt_off),twl_hind,'r--')
+    ax1.set_ylabel('Water Level [ft, MLLW]')    
+    ax1.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
+    ax1.grid()
+
+    ax2.plot(df_slp.index-timedelta(hours=gmt_off),df_slp['slp'],'-g')    
+    ax2.plot(df_slp_hind.index-timedelta(hours=gmt_off),df_slp_hind['slp'],'-g') 
+    ax2.set_ylabel('Sea-Level-Pressure [mb]')
+    ax2.set_xlim(ax1.get_xlim())
+    ax2.grid()
+    
+    # Make x-axis nice 
+    days = mdates.DayLocator()
+    hours = mdates.HourLocator()    
+    days_fmt = mdates.DateFormatter('%m/%d %H:%M')
+
+    ax2.xaxis.set_major_locator(days)
+    ax2.xaxis.set_major_formatter(days_fmt)
+    ax2.xaxis.set_minor_locator(hours)
+    
+    ax1.xaxis.set_major_locator(days)
+    ax1.xaxis.set_major_formatter(days_fmt)
+    ax1.xaxis.set_minor_locator(hours)    
+    
+    fname = '{:s}/{:s}/{:s}{:s}'.format(param['fol_google'],param['folname_google'],'TWL_',sta_name)
+    fig.savefig('{:s}.png'.format(fname),dpi=200)
+    
+    plt.close()   
+        
+    
+    
+#    return (df_pred, time, slp_pred, df_obs)
+    
     
 # Use for debugging     
 if __name__ == '__main__':    
@@ -1150,22 +1281,68 @@ if __name__ == '__main__':
     #plot_bbay_wind_val(date_string, zulu_hour, param)
     #plot_skagit_wind_wave(date_string, zulu_hour, param)
     
+    # --------------- Test Davis plot -----------------------------------
+    #(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+    #sta_name = 'bellinghamkite'
+    #sta_name = 'cruiseterminal'
+    #sta_name = 'whatcomcc'
+    #plot_davis_val(date_string, zulu_hour, param, sta_name)
+    
+    # ------------------------ Test twl pred point --------------------------
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
-    sta_name = 'bellinghamkite'
-    sta_name = 'cruiseterminal'
-    sta_name = 'whatcomcc'
-    plot_davis_val(date_string, zulu_hour, param, sta_name)
-    
-    # Test hindcast loading and concatenating
-#    (Time, Speed, Dir, slp) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, param['ndbc_lat'], param['ndbc_lon'], num_goback)
-#    plt.plot(Time,slp)
-#    plt.show()
-#    plt.close()
+    sta_id = '9449211' # Bellingham
+    lat = 48. + 44.7/60
+    lon = -122. - 29.7/60
+    #plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
+    #(time, tide, twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)
 
+    # offset    
+    gmt_off = op_functions.get_gmt_offset()
+    m2ft = 3.2804
+
+    # date range    
+    end_date = datetime.strptime(date_string,'%Y%m%d')
+    end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
+    start_date = end_date - timedelta(days=2)
+    
+    # Get water level pred from NOAA
+    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
+    tide = [t*m2ft for t in tide]
+    tide_time = [t-timedelta(hours=gmt_off) for t in tide_time]
+    
+    # Get slp predictions and sub sample
+    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
+    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, lat, lon)
+    (time_h, _, _, slp_pred_h) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, lat, lon,4)    
+    slp_pred = [x[0] for x in slp_pred] # Was an array of lists
+    slp_pred_h = [x[0] for x in slp_pred_h] # Was an array of lists
+    slp_pred_h.append(slp_pred)            
     
     
+    ref_date = datetime(1970,1,1)
+    tide_time_i = [(tt-ref_date).total_seconds() for tt in tide_time]
     
+    time_i = [(tt-ref_date).total_seconds() for tt in time]
+    time_h_i =  [(tt-ref_date).total_seconds() for tt in time_h]
+    time_h_i.append(time_i)
     
+    slp_i = np.interp(tide_time_i,time_i,slp_pred)
+    
+    # Make TWL estimates from tide predictions and predicted SLP-inverse effect
+    m2ft = 3.28084
+    slp2ft = .013*m2ft # ft/dbar
+    slp0 = 1020; # Reference pressure    
+    twl = tide +  slp2ft*(slp0 - slp_i*10)
+   
+    
+    plt.plot(tide_time,tide)
+    plt.plot(tide_time,twl)    
+    #plt.plot(tide_time,slp_i)
+
+#    df = pd.DataFrame
+#    df['tide'] = df_pred['twl']
+#    df.index = df.index - gmt_off
+#    
     
     
     

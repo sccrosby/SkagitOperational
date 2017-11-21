@@ -34,9 +34,8 @@ mllw2navd88 = 0.1606 # [meters] Navd88 = MLLW - mllw2NAVD88
    
 
 # Port Susan
-#location_str = "Bellingham, Bellingham Bay, Washington"
-sta_id = '9448043'
-mllw2navd88 = 0.6489 # [meters] Navd88 = MLLW - mllw2NAVD88
+#sta_id = '9448043'
+#mllw2navd88 = 0.6489 # [meters] Navd88 = MLLW - mllw2NAVD88
   
 #--------------------------GET FROM NOAA --------------------------------   
    

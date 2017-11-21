@@ -271,7 +271,7 @@ def get_param_skagitE_50m():
     param['yLL']                    = 5343228.0
     
     # Set locations
-    param['fol_model']              = '../ModelRuns/skagit_wave_100m'
+    param['fol_model']              = '../ModelRuns/skagit_LUT_50m'
     param['fol_wind_grib']          = '../Data/downloads/hrdps'
     param['fol_wind_crop']          = '../Data/crop/hrdps'
     param['fol_grid']               = '../Grids/delft3d/skagitE_50m'

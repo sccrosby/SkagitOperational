@@ -66,7 +66,7 @@ for tide_level in np.arange(-1.5,5,.5): #np.arange(0,5,.25): # [m] NAVD88
             #d3d_functions.make_test_loc(param)
             
             # Copy grid files to model folder 
-            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','extract_script','objfile','objpoly']:
+            for fname in ['fname_dep','fname_grid','fname_enc','fname_meteo_grid','fname_meteo_enc','run_script','objfile','objpoly']:
                 shutil.copyfile('{0:s}/{1:s}'.format(param['fol_grid'],param[fname]),'{0:s}/{1:s}'.format(param['fol_model'],param[fname]))           
             # Copy location files to model folder
             for fname in param['output_locs']:
@@ -84,22 +84,23 @@ for tide_level in np.arange(-1.5,5,.5): #np.arange(0,5,.25): # [m] NAVD88
             print 'Running D3D model'
             subprocess.check_call('./run_wave.sh',shell=True)             # Run Wave, which runs Swan using wind data
             
+            # Go back to working directory        
+            os.chdir('../../SkagitOperational')            
+            
             # Call Matlab script to extract variables of interest   
-            temp = '"{:s}"'.format(param['extract_script'])
+            temp = '"{:s}"'.format('dat_extractor.m')
             call_str = "matlab -nodisplay -noFigureWindows -nosplash -nodesktop -r 'try run({:s});end;exit;'".format(temp)         
             print call_str            
             subprocess.check_call(call_str,shell=True)
             
             # Make dir for output
-            out_fol = '../../Output/skagit/'
+            out_fol = '../Output/skagit/'
             out_mat = 'skagit_t{:02d}_s{:d}_d{:d}.mat'.format(int(tide_level*100),int(round(wind_speed)),wind_dir)
                                    
             # Copy to Output
-            shutil.copyfile('extract.mat','{:s}/{:s}'.format(out_fol,out_mat))
+            shutil.copyfile('temp.mat','{:s}/{:s}'.format(out_fol,out_mat))
             
-            # Go back to working directory        
-            os.chdir('../../SkagitOperational')
-            
+           
             print 'tide %d, wind speed %d, wind dir %d complete' % (int(tide_level),wind_speed,wind_dir)
 
 # End timer

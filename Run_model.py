@@ -73,7 +73,7 @@ import time
 
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
-# OPTION 1: Specifiy date and zulu hour
+# OPTION 1: Specifiy date and zulu hour  (Run Historical)
 #date_string = '20171117'
 #zulu_hour = 18
 

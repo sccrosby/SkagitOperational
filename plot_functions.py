@@ -555,7 +555,6 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
     sta_id = '9449211' # Bellingham
     lat = 48. + 44.7/60
     lon = -122. - 29.7/60
-    #plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
     #(bbay_time, bbay_tide, bbay_twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)    
     
     # Initialize    
@@ -1146,7 +1145,7 @@ def get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon):
     # date range    
     end_date = datetime.strptime(date_string,'%Y%m%d')
     end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
-    start_date = end_date - timedelta(days=2)
+    #start_date = end_date - timedelta(days=2)
     
     # Get water level pred from NOAA
     (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
@@ -1263,30 +1262,21 @@ def plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon):
 # Use for debugging     
 if __name__ == '__main__':    
     import get_param
-    #(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
-    #param = get_param.get_param_skagit_SC100m()       
-    #param = get_param.get_param_skagitE_200m()    
-    param = get_param.get_param_bbay()    
-    Nx = 685  
-    Ny = 485
-    num_goback = 4 #Number of forecasts to go back to
+    
+    # pick domain
+    param = get_param.get_param_skagitE_200m()    
+    #param = get_param.get_param_bbay()    
+    
+    # Use to speed up testing    
     #param['num_forecast_hours'] = 1
    
-    #date_string = '20171101'
-    #zulu_hour = 0
+    # Use historic data
+    date_string = '20171101'
+    zulu_hour = 0
     
-    # -------------------- TEST FUNCTIONS ----------------------------    
-    #plot_bbay_wind_wave(date_string, zulu_hour, param)
-    #plot_bbay_wind(date_string, zulu_hour, param)
-    #plot_bbay_wind_val(date_string, zulu_hour, param)
-    #plot_skagit_wind_wave(date_string, zulu_hour, param)
-    
-    # --------------- Test Davis plot -----------------------------------
-    #(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
-    #sta_name = 'bellinghamkite'
-    #sta_name = 'cruiseterminal'
-    #sta_name = 'whatcomcc'
-    #plot_davis_val(date_string, zulu_hour, param, sta_name)
+    # Test plot BBay
+    # plot_bbay_wind_wave(date_string, zulu_hour, param)
+
     
     # ------------------------ Test twl pred point --------------------------
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
@@ -1337,18 +1327,25 @@ if __name__ == '__main__':
     
     plt.plot(tide_time,tide)
     plt.plot(tide_time,twl)    
-    #plt.plot(tide_time,slp_i)
 
-#    df = pd.DataFrame
-#    df['tide'] = df_pred['twl']
-#    df.index = df.index - gmt_off
-#    
     
     
     
     
     
     
+    # -------------------- TEST FUNCTIONS ----------------------------    
+    #plot_bbay_wind_wave(date_string, zulu_hour, param)
+    #plot_bbay_wind(date_string, zulu_hour, param)
+    #plot_bbay_wind_val(date_string, zulu_hour, param)
+    #plot_skagit_wind_wave(date_string, zulu_hour, param)
+    
+    # --------------- Test Davis plot -----------------------------------
+    #(date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+    #sta_name = 'bellinghamkite'
+    #sta_name = 'cruiseterminal'
+    #sta_name = 'whatcomcc'
+    #plot_davis_val(date_string, zulu_hour, param, sta_name)
     
     
     

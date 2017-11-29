@@ -3,4 +3,6 @@ PATH=/home/crosby/bin:/home/crosby/.local/bin:/usr/local/sbin:/usr/local/bin:/us
 
 
 cd /home/crosby/Documents/SkagitOperational
-python Run_model.py > 'skagit.log'
+
+#python Run_model.py > 'skagit.log'
+sudo -u crosby python Run_model.py > 'skagit.log'

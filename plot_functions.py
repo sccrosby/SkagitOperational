@@ -556,7 +556,7 @@ def plot_bbay_wind_wave(date_string, zulu_hour, param):
     lat = 48. + 44.7/60
     lon = -122. - 29.7/60
     #plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
-    (bbay_time, bbay_tide, bbay_twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)    
+    #(bbay_time, bbay_tide, bbay_twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)    
     
     # Initialize    
     forecast_count = param['num_forecast_hours'] #Number of forecast hours

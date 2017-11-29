@@ -172,6 +172,9 @@ if SYNC_GDRIVE:
     err = subprocess.check_call(griveCommand, shell=True)
     os.chdir('../SkagitOperational')
 
+import sys
+sys.exit()
+
 try: 
     # Run Skagit Model
     #param = get_param.get_param_skagit_SC100m()

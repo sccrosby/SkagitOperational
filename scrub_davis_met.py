@@ -13,7 +13,7 @@ import json
 from datetime import datetime
 import time
 import os
-#import pandas as pd
+# import pandas as pd
 
 import send_email_text
 
@@ -22,66 +22,67 @@ import send_email_text
 def run_scrub():
     # Start timer
     start_time = time.time()
-    
+
     # Lat Lon bounds of Salish Sea
     lon_bounds = [-125.60, -121.60]
     lat_bounds = [46.80, 50.40]
-    
-    # Determine current time 
+
+    # Determine current time
     now = datetime.utcnow()
-    
+
     # Data storage folder
     fol_name = '../Data/downloads/davis_winds/{:s}/'.format(now.strftime('%Y%m'))
-    
+
     # Make folder if doesn't yet exist
     if not os.path.exists(fol_name):
         os.mkdir(fol_name)
-    
+
     # File name
     file_name = 'davisPS_{:s}'.format(now.strftime('%Y%m%d_%H%M'))
-    
+
     # Read url of all the weatherlink stations and grab import to a variable
     # Does not always work the first time, 6 attempts are made
     url = 'https://www.weatherlink.com/mapstations.json?'
-    try:    
+    try:
         response = urllib.urlopen(url)
-        data = json.loads(response.read())        
+        data = json.loads(response.read())
     except:
         for i in range(10):
             time.sleep(.1)
-            try: 
+            try:
                 response = urllib.urlopen(url)
-                data = json.loads(response.read())  
+                data = json.loads(response.read())
                 msg = 'success'
                 break
             except:
                 msg = 'fail'
         if msg == 'fail':
             alert = 'Could not open station list after several attempts'
-            send_email_text.send_email('schcrosby@gmail.com',alert)
+            send_email_text.send_email('schcrosby@gmail.com', alert)
             raise Exception(alert)
-    
+
     # Grab all of the stations within the bounds and add to a separate list
-    url_data = [] # Libraries to house data
+    url_data = []  # Libraries to house data
     for j in range(0, len(data)):
-        if data[j]['lat'] >= lat_bounds[0] and data[j]['lat'] <= lat_bounds[1] and data[j]['lng'] >= lon_bounds[0] and data[j]['lng'] <= lon_bounds[1]:
+        if data[j]['lat'] >= lat_bounds[0] and data[j]['lat'] <= lat_bounds[1] and data[j]['lng'] >= lon_bounds[0] and \
+                        data[j]['lng'] <= lon_bounds[1]:
             info = {
                 "sname": data[j]['sname'].encode('utf8'),  # Encode from unicode to string
                 "uname": data[j]['uname'].encode('utf8'),  # Encode from unicode to string
-                "lat":   '%.4f' % data[j]['lat'],
-                "lon":   '%.4f' % data[j]['lng']
+                "lat": '%.4f' % data[j]['lat'],
+                "lon": '%.4f' % data[j]['lng']
             }
             url_data.append(info)
-            #names.append(data[j]['uname'])
+            # names.append(data[j]['uname'])
 
     # Create csv file and write data to it
-    with open(fol_name+file_name, 'w') as f:
+    with open(fol_name + file_name, 'w') as f:
         # Write the header first
         f.writelines('Station,Lat,Lon,Wind_Speed,Wind_Direction, SLP, Time\n')
         for j in range(0, len(url_data)):
             # Combine the two dictionaries into one
             name = url_data[j]['uname']
-            try: 
+            try:
                 cur_data = weatherlink_scrubber(name)
                 temp_dict = url_data[j].copy()
                 temp_dict.update(cur_data)
@@ -91,46 +92,46 @@ def run_scrub():
                 f.writelines('{},{},{},{},{},{},{}\n'
                              .format(temp_dict[keys[3]], temp_dict[keys[5]],
                                      temp_dict[keys[2]], temp_dict[keys[7]],
-                                     temp_dict[keys[1]], temp_dict[keys[6]], temp_dict[keys[4]]))            
+                                     temp_dict[keys[1]], temp_dict[keys[6]], temp_dict[keys[4]]))
             except:
                 alert = 'weatherlink_scrubber failed on station {:s}'.format(name)
-                send_email_text.send_email('schcrosby@gmail.com',alert)
-                #Skip station                
+                send_email_text.send_email('schcrosby@gmail.com', alert)
+                # Skip station
 
     f.close()
 
     # End timer
-    print 'Davis scrub complete, time elapsed: {0:.2f} minutes'.format(((time.time() - start_time)/60.))
+    print 'Davis scrub complete, time elapsed: {0:.2f} minutes'.format(((time.time() - start_time) / 60.))
 
 
 # Use to create meta list of stations and long names
 def write_meta_data():
-    
     # Lat Lon bounds of Salish Sea
     lon_bounds = [-125.60, -121.60]
     lat_bounds = [46.80, 50.40]
-      
+
     # Read url of all the weatherlink stations and grab import to a variable
     url = 'https://www.weatherlink.com/mapstations.json?noCache=13'
     response = urllib.urlopen(url)
     data = json.loads(response.read())
-    
+
     # Grab all of the stations within the bounds and add to a separate list
-    url_data = [] # Libraries to house data
+    url_data = []  # Libraries to house data
     for j in range(0, len(data)):
-        if data[j]['lat'] >= lat_bounds[0] and data[j]['lat'] <= lat_bounds[1] and data[j]['lng'] >= lon_bounds[0] and data[j]['lng'] <= lon_bounds[1]:
+        if data[j]['lat'] >= lat_bounds[0] and data[j]['lat'] <= lat_bounds[1] and data[j]['lng'] >= lon_bounds[0] and \
+                        data[j]['lng'] <= lon_bounds[1]:
             info = {
                 "sname": data[j]['sname'].encode('utf8'),  # Encode from unicode to string
                 "uname": data[j]['uname'].encode('utf8'),  # Encode from unicode to string
-                "lat":   '%.4f' % data[j]['lat'],
-                "lon":   '%.4f' % data[j]['lng']
+                "lat": '%.4f' % data[j]['lat'],
+                "lon": '%.4f' % data[j]['lng']
             }
             url_data.append(info)
-            #names.append(data[j]['uname'])
-            
+            # names.append(data[j]['uname'])
+
     # Write metadata file for stations
     fname = 'davis_stations_meta.csv'
-    # Create metadata file if it doesn't exist  
+    # Create metadata file if it doesn't exist
     with open(fname, 'w') as f:
         # Write the header
         f.writelines('Station Name,Station Description,Lat,Lon\n')
@@ -142,7 +143,7 @@ def write_meta_data():
     print('Metadata File Created')
 
 
-# Get's met data for a given station 
+# Get's met data for a given station
 def weatherlink_scrubber(station_name):
     name = station_name.lower()
     name = name.replace(" ", "")
@@ -151,7 +152,7 @@ def weatherlink_scrubber(station_name):
     link1 = 'http://www.weatherlink.com/user/'
     link2 = '/index.php?view=summary&headers=0'
     link = link1 + name + link2
-    
+
     # Try first, if fail, try again
     try:
         page = requests.get(link)
@@ -166,19 +167,15 @@ def weatherlink_scrubber(station_name):
                 msg = 'fail'
         if msg == 'fail':
             raise Exception('Could not download station %s'.format(name))
-            
-            
-        
-            
 
-    #Now I parse the html code using the super handy BeautifulSoup function
+    # Now I parse the html code using the super handy BeautifulSoup function
     soup = BeautifulSoup(page.content, 'html.parser')
 
     # Create Dictionary to house all the key and values
     data = {}
 
     # Find all of the locations of the Meterological data within the HTML table
-    search_params = ['Barometer', 'Wind Speed', 'Wind Direction']
+    search_params = ['Barometer', 'Wind Direction', 'Average Wind Speed']
     inds = []
     td_list = soup.findAll('td')
     i = 0
@@ -189,7 +186,7 @@ def weatherlink_scrubber(station_name):
         i += 1
 
     ########################## Grab the SLP ##########################
-    slp = td_list[inds[0]+1].get_text()
+    slp = td_list[inds[0] + 1].get_text()
     if slp == 'n/a':
         slp = '9999.99'
     slp_units = slp[-3:]
@@ -228,7 +225,7 @@ def weatherlink_scrubber(station_name):
         print('Error with Pressure, possibly units: %s' % station_name)
 
     ########################## Grab the Wind Speed ##########################
-    spd = td_list[inds[1]+1].get_text()
+    spd = td_list[inds[2] + 2].get_text()
 
     # If speed is not served as a number but as calm convert to zero
     if spd == 'Calm':
@@ -237,11 +234,11 @@ def weatherlink_scrubber(station_name):
         spd = '999.99'
 
     # Assess units of served data for windspeed
-    if 'KT' in spd[2:]: # units are in knots
+    if 'KT' in spd[2:]:  # units are in knots
         unit_compare = 1
     elif 'mph' in spd[2:] or 'Mph' in spd[2:] or 'MPH' in spd[2:]:
         unit_compare = 2
-    else: # units are in
+    else:  # units are in
         unit_compare = 0
 
     # Create key for dictionary
@@ -253,11 +250,11 @@ def weatherlink_scrubber(station_name):
     spd_val = int(spd_val)
 
     # Convert to Metic
-    if unit_compare == 1: # Convert from Knots to m/s
+    if unit_compare == 1:  # Convert from Knots to m/s
         spd_val = spd_val * 0.514444
         spd_val = "%.2f" % spd_val
         spd_val = float(spd_val)
-    elif unit_compare == 2: # Convert from mph to m/s
+    elif unit_compare == 2:  # Convert from mph to m/s
         spd_val = spd_val * 0.44704
         spd_val = "%.2f" % spd_val
         spd_val = float(spd_val)
@@ -273,7 +270,7 @@ def weatherlink_scrubber(station_name):
         print('Error with speed value, possibly units: %s' % station_name)
 
     ########################## Grab the Wind Direction ##########################
-    wnddir = td_list[inds[2]+1].get_text()
+    wnddir = td_list[inds[1] + 1].get_text()
     if wnddir == 'n/a':
         wnddir = '999'
 
@@ -299,23 +296,15 @@ def weatherlink_scrubber(station_name):
     data.update({time_key: cur_date})
 
     # Set data dictionary as global variable
-    return(data)
+    return (data)
 
 
-
-# Runs Main Script if used as stand-alone     
-if __name__ == '__main__':        
-    try:    
+# Runs Main Script if used as stand-alone
+if __name__ == '__main__':
+    try:
         run_scrub()
     except:
         alert = 'run_scrub() failed for unknown reason'
-        send_email_text.send_email('schcrosby@gmail.com',alert)
+        send_email_text.send_email('schcrosby@gmail.com', alert)
         raise Exception(alert)
-    
-    
-
-
-
-
-
-
+	

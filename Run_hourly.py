@@ -102,3 +102,12 @@ err = subprocess.check_call(griveCommand, shell=True)
 os.chdir('../SkagitOperational')
 
 
+#%%
+sta_id = '9449424'
+sta_name = 'CherryPoint'
+lat = 48. + 51.8/60
+lon = -122. - 45.5/60
+plot_functions.plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
+
+
+

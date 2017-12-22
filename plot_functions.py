@@ -1180,7 +1180,7 @@ def plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon):
     # Date range    
     end_date = datetime.strptime(date_string,'%Y%m%d')
     end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
-    start_date = end_date - timedelta(days=2)
+    start_date = end_date - timedelta(days=3)
     
     # Get water level pred and obs
     df_obs = get_noaa_tide.get_obs(sta_id,start_date,end_date)
@@ -1196,7 +1196,7 @@ def plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon):
     df_slp = df_slp.interpolate()*10 # convert to mb
 
     # Get slp hindcast predictions and sub sample
-    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, lat, lon, 2)
+    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, lat, lon, 4)
     slp_pred = [x[0] for x in slp_pred] # Was an array of lists
     df_slp_hind = pd.DataFrame.from_dict({'time':time,'slp':slp_pred})    
     df_slp_hind = df_slp_hind.set_index('time')
@@ -1225,7 +1225,8 @@ def plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon):
     ax1.plot(df_obs['time']-timedelta(hours=gmt_off),df_obs['twl'],label='Observations')
     ax1.plot(df_pred.index-timedelta(hours=gmt_off),df_pred['twl'],label='Predictions')
     ax1.plot(df_pred.index-timedelta(hours=gmt_off),twl_pred,'--',label='Tide + Surge')
-    ax1.plot(df_pred.index-timedelta(hours=gmt_off),twl_hind,'r--')
+    #return (df_pred,df_slp_hind)
+    ax1.plot(df_pred.index-timedelta(hours=gmt_off),twl_hind,'r--')    
     ax1.set_ylabel('Water Level [ft, MLLW]')    
     ax1.legend(frameon=False, prop={'size':10}, bbox_to_anchor=(1, 1.3), ncol=3 )
     ax1.grid()
@@ -1276,15 +1277,25 @@ if __name__ == '__main__':
     
     # Test plot BBay
     # plot_bbay_wind_wave(date_string, zulu_hour, param)
-
+    
+    # Test     
+    sta_id = '9449424'
+    sta_name = 'CherryPoint'
+    lat = 48. + 51.8/60
+    lon = -122. - 45.5/60
+    plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
+    import sys
+    sys.exit()   
     
     # ------------------------ Test twl pred point --------------------------
     (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
     sta_id = '9449211' # Bellingham
     lat = 48. + 44.7/60
     lon = -122. - 29.7/60
-    #plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
+    
     #(time, tide, twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)
+
+
 
     # offset    
     gmt_off = op_functions.get_gmt_offset()

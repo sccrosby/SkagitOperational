@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 # Hardcoded location
 fol_loc = '../Data/downloads/davis_winds'
 
-
+# Note only goes back within two months
 def get_davis_latest(date_string,zulu_hour,sta_name,days_back):
     # set range of data to get
     date_current = datetime.strptime(date_string,'%Y%m%d')+timedelta(hours=zulu_hour)
@@ -36,13 +36,16 @@ def get_davis_latest(date_string,zulu_hour,sta_name,days_back):
     return df    
 
 
-
-# NOTE: Only works with up to two months
+# NOTE: Now works with any time range
 def get_davis_range(date_start,date_end,sta_name):
-    # Get list of available data, get two months if needed
-    data_file_list = os.listdir('{:s}/{:s}'.format(fol_loc,date_start.strftime('%Y%m')))
-    if date_start.month != date_end.month:
-        temp = os.listdir('{:s}/{:s}'.format(fol_loc,date_end.strftime('%Y%m')))
+    import pandas as pd
+    # List of months
+    daterange = pd.date_range(date_start,date_end, freq='1M')  
+    daterange = daterange.union([daterange[-1] + 1])  # Adds missing month
+    print daterange
+    data_file_list = []
+    for mymonth in daterange:
+        temp = os.listdir('{:s}/{:s}'.format(fol_loc,mymonth.strftime('%Y%m')))
         data_file_list = data_file_list+temp
     
     # Create time list and find within range
@@ -84,14 +87,17 @@ def read_files(time,fol_loc,sta_name):
 if __name__ == '__main__':   
     # Input variables
     date_string = '20171030'
+    date_start = datetime(2017,11,25) 
+    date_end = datetime(2018,1,24)
     zulu_hour = 6    
     sta_name = 'bellinghamkite'
     days_back = 8
+
+    df = get_davis_range(date_start,date_end,sta_name)
     
-    df = get_davis_latest(date_string,zulu_hour,sta_name,days_back)
-    
-    df.plot(x='time',y='wind_speed')
-    df.plot(x='time',y='wind_dir')
+#    df = get_davis_latest(date_string,zulu_hour,sta_name,days_back)    
+#    df.plot(x='time',y='wind_speed')
+#    df.plot(x='time',y='wind_dir')
 
 ##print df.keys()
 #

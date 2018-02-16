@@ -74,8 +74,8 @@ import time
 # ---------------------- SELECT DATE FOR MODsEL RUN ----------------------------
 
 # OPTION 1: Specifiy date and zulu hour  (Run Historical)
-#date_string = '20171219'
-#zulu_hour = 12
+#date_string = '20180208'
+#zulu_hour = 18
 
 # OPTION 2: Select most recent available forecast
 (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()

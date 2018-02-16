@@ -316,6 +316,7 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_
     # num_goback is the number of historic forecasts to load in
     ms2mph = 2.237    
     use_forecast = [2,3,4,5,6,7] #ignore first two hours (odd)
+    use_forecast = [1,2,3,4,5,6]
 
     # Set current working forecast
     init_time = datetime.strptime('{:s} {:d}'.format(date_string,zulu_hour),'%Y%m%d %H')    
@@ -326,6 +327,9 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_
     # Find closest model grid cell to ndbc     
     dist = np.add(np.square(np.array(degLon)-pt_lon),np.square(np.array(degLat)-pt_lat))
     (I_lon, I_lat) = np.where(dist == np.min(dist))   
+    
+    #print (degLat[I_lon, I_lat], degLon[I_lon, I_lat])
+    print (I_lon, I_lat)
 
     # Load rotations for winds
     Theta = op_functions.load_rotations(param['hrdps_rotation_file'],Ny,Nx)
@@ -375,6 +379,9 @@ def load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, pt_lat, pt_
             u10 = u10[I_lon, I_lat]
             v10 = v10[I_lon, I_lat]
             slp = slp[I_lon, I_lat]/1000 # Convert to kPa
+            
+                        
+            print (date_string_hindcast, zulu_hour_hindcast, hour, u10, v10)
             
             # Rotate to earth-relative
             rot = R.dot([u10.item(0),v10.item(0)])

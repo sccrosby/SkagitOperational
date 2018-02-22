@@ -1,4 +1,4 @@
-Skagit Operational Model (Current name is antiquated, suggested new title, COSMOS_PS_Operational)
+Skagit Operational Model (Current name is antiquated, suggested new title, SalishSeaForecasts)
 
 Assumed file structure on local machine (or virtual machine)
 
@@ -41,16 +41,26 @@ Documents/
 Notes:
 run_script.sh gets run by crontab 4x a day when we believe Env Canada has released their most recent MET predictions.
 run_script_scrub.sh gets run by crontab 48x a day to scrub MET info from Davis Weatherlink stations in PS.
+run_script_hourly.sh get runs by crontab 24x a day to update validation plots
 Current models run are D3D-Wave simulations for Bellingham Bay and Skagit Delta
-Plots and movies are generated of wind predictions and wave output
-Validation at Bellingham Bay buoy is included
+Currently Plots and movies are generated of wind predictions and wave output
 
 Next Steps:
-Implement DefltFM-FLOW model for entire Puget-Sound domain (DFM-PS)
-Run DFM-PS on WWU cluster in 48-hour forecast mode 
-Couple D3D-Wave model domains including Skagit, BellinghamBay to DFM-PS
-Incorporate more validation work using NOAA buoy and weather stations as well as scrubbed Davis WeatherLink data
-Optimize data management including: Download and archiving of predictions and critical model outputs
+Code and system need complete refactoring. Here is rough list of needed changes:
+- Switch from Delft3d to SWAN for waves, Delft3d is difficult and hacked for python/ubuntu.
+- New SWAN based system runs each hour independently, and skips hours were wind speeds are low in the middle of the basin, low wind speeds should be defined by a parameter, for now low wind speeds are those < 2.5 m/s, 
+- Switch from using pygrib to wgrib, pygrib incorrectly reads wind speed data (~30% lower, reason is unknown)
+- Build general/modular code to read in grib files (u,v,slp)
+- Develop generic framework for each modeled basin. We will expand to additional basins including, Bellingham Bay, Skagit Delta, Seattle, tacoma, Juan de Fuca.
+- Outputs will be switch from movies to images, these will be hosted thru ftp to a wwu server (instead of google drive)
+- Add an additional weather product (in addition to HRDPS) that provides 7-day forecasts of SLP).
+
+New Output plots will include:
+- Wind and wave plots for each basin
+- Large overall domain wind plots with slp contours
+- Site-based time series of water level observations, predictions.
+- Site-based MET conditions, observed and predicted 
+
 
 Guidance:
 Emphasize repeatability, e.g. use Docker or similar for compiling
@@ -71,6 +81,8 @@ sudo apt install ffmpeg
 sudo apt install python-pip
 pip install pytz
 
+Additional software installed on Ubunutu
+wgrib2 - http://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/, http://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/compile_questions.html
 
 
 

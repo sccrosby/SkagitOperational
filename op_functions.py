@@ -225,6 +225,7 @@ def tide_exc_prob(t_file, t_level, duration):
     
     return prob
 
+#def read_hrdps_grib2(date_string, zulu_hour, param):
     
 def read_hrdps_grib(date_string, zulu_hour, param):
     import pygrib

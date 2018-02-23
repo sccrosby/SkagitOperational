@@ -198,6 +198,8 @@ def get_param_skagitE_200m():
     param['num_forecast_hours']     = 48    # numer of files [hours]
     param['crop_bounds']            = np.asarray([[270,105],[288,129]]) # Skagit
     param['plot_bounds']            = [[48.24, 48.452],[-122.600, -122.37]] 
+    param['lats']                   = [48.20, 48.48]
+    param['lons']                   = [-122.69, -122.36]    
     param['tide_file']              = 'tide_pred_9448576.txt' # Set tide file to use
     
     # Set some constants for creating amu/avu files
@@ -326,6 +328,8 @@ def get_param_bbay():
     param['num_forecast_hours']     = 48    # numer of files [hours]
     param['crop_bounds']            = np.asarray([[270,117],[288,141]]) # Bellingham Bay
     param['plot_bounds']            = [[48.58, 48.785],[-122.645, -122.47]]  #[[48.64, 48.785],[-122.65, -122.47]]
+    param['lats']                   = [48.53, 48.84]
+    param['lons']                   = [-122.75, -122.34]
     param['tide_file']              = 'tide_pred_9449211_xtide.txt' # Set tide file to use
     
     # Set some constants for creating amu/avu files

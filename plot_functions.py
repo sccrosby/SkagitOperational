@@ -181,32 +181,57 @@ def load_hsig_pred(param,Nx,Ny):
         Vhsig.append(vhsig)
     return (Hsig, Uhsig, Vhsig, maxHsig)
 
-def load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny):
-    # Grib cropping bounds (indices)
-    bounds = param['crop_bounds'] 
+def load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param):    
+    # Hardcoded location of wgrib2 software    
+    loc_wgrib2 = '/home/crosby/Documents/SOFTWARE/wgrib2'    
     
-    # file locations    
+    # Use to find grib file prefix from ncvar selection
+    def get_prefix(argument):
+        switcher = {
+            'PRMSL_meansealevel':'hrdps_PrefixP',
+            'UGRD_10maboveground':'hrdps_PrefixU',
+            'VGRD_10maboveground':'hrdps_PrefixV',
+        }
+        return switcher.get(argument, "nothing")        
+
+    # File name and locations
     grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
-    prefix_p = param['hrdps_PrefixP'] 
+    fname_grib = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, param[get_prefix(ncvar)], date_string, zulu_hour, fcst)
+    fname_gribtemp = 'temp.grib2'
+        
+    # Set extents of grib data request
+    lat_min = param['lats'][0]
+    lat_max = param['lats'][1]
+    lon_min = param['lons'][0]
+    lon_max = param['lons'][1]
+    
+    # Extract subset to smaller grib file 
+    cmd = '{:s}/wgrib2 {:s} -set_grib_type c2 -small_grib {:4.3f}:{:4.3f} {:4.3f}:{:4.3f} {:s}'.format(loc_wgrib2,fname_grib,lon_min,lon_max,lat_min,lat_max,fname_gribtemp)
+    os.system(cmd)
+
+    # Convert smaller extract to netcdf     
+    cmd = '{:s}/wgrib2 {:s} -netcdf temp.nc'.format(loc_wgrib2,fname_gribtemp)
+    os.system(cmd)
+        
+    # Read in netcdf        
+    dataset = Dataset('temp.nc','r')
+    var = dataset.variables[ncvar][:]    
+    lat = dataset.variables['latitude'][:]
+    lon = dataset.variables['longitude'][:]
+    
+    return (lat, lon, var)
+
+def load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny): 
+    ncvar = 'PRMSL_meansealevel'
     
     Slp = []
-    for hour in range(param['num_forecast_hours']):
-        #Input grib file names            
-        PwindFileName = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, prefix_p, date_string, zulu_hour, hour)
-       
-        # Open grib
-        grbsp = pygrib.open(PwindFileName)
-        grbp  = grbsp.select(name='Pressure reduced to MSL')[0]
-        
-        slp = grbp.values # same as grb['values']
-        slp = np.asarray(slp)        
-        
-        slp = slp[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
+    for hour in range(param['num_forecast_hours']):        
+        (lat, lon, slp) = load_hrdps_grib(date_string, zulu_hour, hour, ncvar, param)
               
         # Save all varaibles into list of arrays        
         Slp.append(slp)
         
-    return Slp
+    return (lat, lon, slp)
     
     
 def load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny):
@@ -827,27 +852,13 @@ def plot_davis_val(date_string, zulu_hour, param, sta_name):
 def plot_bbay_wind_val(date_string, zulu_hour, param):
     # Get time offset  
     gmt_off = op_functions.get_gmt_offset()
-    
-    # Initialize    
-    hrdps_lamwest_file = param['hrdps_lamwest_file']
-    
-    # Grib cropping bounds (indices)
-    bounds = param['crop_bounds']
-       
-    #----------------------- Load up HRDP Land Mask----------------------------------------
-    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
-    
-    #------------------------------- Load lat/lon positions of hrdps ---------------------------------
-    (degLat,degLon) = load_hrdps_lamwest_locs(Nx,Ny,hrdps_lamwest_file)
-    degLat = degLat[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
-    degLon = degLon[bounds[0,1]:bounds[1,1], bounds[0,0]:bounds[1,0]]
-    
+           
     #---------------------------- Load bathy ----------------------------------
     (bathy_elv, bathy_lat, bathy_lon) = load_bathy_nc(param)
           
     # ------------ Load in HRDPS Wind & Pressure Grib Data --------------------------------
     (Speed,Dir,U10,V10,max_speed) = load_hrdps_wind(date_string, zulu_hour, param, Nx, Ny)
-    Slp = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)
+    (lat, lon, Slp) = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)
     
     # -------------------- Load Concatenated Hindcast ------------------------
     num_goback = 8;    
@@ -1272,8 +1283,8 @@ if __name__ == '__main__':
     import get_param
     
     # pick domain
-    param = get_param.get_param_skagitE_200m()    
-    #param = get_param.get_param_bbay()    
+    #param = get_param.get_param_skagitE_200m()    
+    param = get_param.get_param_bbay()    
     
     # Use to speed up testing    
     #param['num_forecast_hours'] = 1
@@ -1281,70 +1292,81 @@ if __name__ == '__main__':
     # Use historic data
     date_string = '20171101'
     zulu_hour = 0
+    fcst = 0    
+    
+    ncvar = 'PRMSL_meansealevel'
+    ncvar = 'VGRD_10maboveground'    
+    
+    lats = [47, 49]
+    lons = [-125, -120]
+    
+    (lat, lon, var) = load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param)
+    
+    #(lat, lon, var) = load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny)    
     
     # Test plot BBay
     # plot_bbay_wind_wave(date_string, zulu_hour, param)
     
-    # Test     
-    sta_id = '9449424'
-    sta_name = 'CherryPoint'
-    lat = 48. + 51.8/60
-    lon = -122. - 45.5/60
-    plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
-    import sys
-    sys.exit()   
+#    # Test     
+#    sta_id = '9449424'
+#    sta_name = 'CherryPoint'
+#    lat = 48. + 51.8/60
+#    lon = -122. - 45.5/60
+#    plot_twl_obs_point(date_string,zulu_hour,param,sta_id,sta_name,lat,lon)
+#    import sys
+#    sys.exit()   
     
-    # ------------------------ Test twl pred point --------------------------
-    (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
-    sta_id = '9449211' # Bellingham
-    lat = 48. + 44.7/60
-    lon = -122. - 29.7/60
-    
-    #(time, tide, twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)
-
-
-
-    # offset    
-    gmt_off = op_functions.get_gmt_offset()
-    m2ft = 3.2804
-
-    # date range    
-    end_date = datetime.strptime(date_string,'%Y%m%d')
-    end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
-    start_date = end_date - timedelta(days=2)
-    
-    # Get water level pred from NOAA
-    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
-    tide = [t*m2ft for t in tide]
-    tide_time = [t-timedelta(hours=gmt_off) for t in tide_time]
-    
-    # Get slp predictions and sub sample
-    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
-    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, lat, lon)
-    (time_h, _, _, slp_pred_h) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, lat, lon,4)    
-    slp_pred = [x[0] for x in slp_pred] # Was an array of lists
-    slp_pred_h = [x[0] for x in slp_pred_h] # Was an array of lists
-    slp_pred_h.append(slp_pred)            
-    
-    
-    ref_date = datetime(1970,1,1)
-    tide_time_i = [(tt-ref_date).total_seconds() for tt in tide_time]
-    
-    time_i = [(tt-ref_date).total_seconds() for tt in time]
-    time_h_i =  [(tt-ref_date).total_seconds() for tt in time_h]
-    time_h_i.append(time_i)
-    
-    slp_i = np.interp(tide_time_i,time_i,slp_pred)
-    
-    # Make TWL estimates from tide predictions and predicted SLP-inverse effect
-    m2ft = 3.28084
-    slp2ft = .013*m2ft # ft/dbar
-    slp0 = 1020; # Reference pressure    
-    twl = tide +  slp2ft*(slp0 - slp_i*10)
-   
-    
-    plt.plot(tide_time,tide)
-    plt.plot(tide_time,twl)    
+#    # ------------------------ Test twl pred point --------------------------
+#    (date_string, zulu_hour) = op_functions.latest_hrdps_forecast()
+#    sta_id = '9449211' # Bellingham
+#    lat = 48. + 44.7/60
+#    lon = -122. - 29.7/60
+#    
+#    #(time, tide, twl) = get_twl_pred_point(date_string,zulu_hour,param,sta_id,lat,lon)
+#
+#
+#
+#    # offset    
+#    gmt_off = op_functions.get_gmt_offset()
+#    m2ft = 3.2804
+#
+#    # date range    
+#    end_date = datetime.strptime(date_string,'%Y%m%d')
+#    end_date = end_date + timedelta(hours=zulu_hour) + timedelta(days=2)
+#    start_date = end_date - timedelta(days=2)
+#    
+#    # Get water level pred from NOAA
+#    (tide_time, tide) = op_functions.get_tides(date_string, zulu_hour, param)
+#    tide = [t*m2ft for t in tide]
+#    tide_time = [t-timedelta(hours=gmt_off) for t in tide_time]
+#    
+#    # Get slp predictions and sub sample
+#    (Nx,Ny) = load_hrdps_mask(date_string, zulu_hour, param)
+#    (time, speed_pred, dir_pred, slp_pred) = load_hrdps_point_forecast(date_string, zulu_hour, param, Nx, Ny, lat, lon)
+#    (time_h, _, _, slp_pred_h) = load_hrdps_point_hindcast(date_string, zulu_hour, param, Nx, Ny, lat, lon,4)    
+#    slp_pred = [x[0] for x in slp_pred] # Was an array of lists
+#    slp_pred_h = [x[0] for x in slp_pred_h] # Was an array of lists
+#    slp_pred_h.append(slp_pred)            
+#    
+#    
+#    ref_date = datetime(1970,1,1)
+#    tide_time_i = [(tt-ref_date).total_seconds() for tt in tide_time]
+#    
+#    time_i = [(tt-ref_date).total_seconds() for tt in time]
+#    time_h_i =  [(tt-ref_date).total_seconds() for tt in time_h]
+#    time_h_i.append(time_i)
+#    
+#    slp_i = np.interp(tide_time_i,time_i,slp_pred)
+#    
+#    # Make TWL estimates from tide predictions and predicted SLP-inverse effect
+#    m2ft = 3.28084
+#    slp2ft = .013*m2ft # ft/dbar
+#    slp0 = 1020; # Reference pressure    
+#    twl = tide +  slp2ft*(slp0 - slp_i*10)
+#   
+#    
+#    plt.plot(tide_time,tide)
+#    plt.plot(tide_time,twl)    
 
     
     

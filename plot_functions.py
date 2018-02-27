@@ -220,6 +220,19 @@ def load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param):
     lon = dataset.variables['longitude'][:]
     
     return (lat, lon, var)
+    
+def make_wnd():
+    # Load in u, v with load_hrdps_grib(), use keywords,  'UGRD_10maboveground'
+    
+    # Convert from lat/lon to utm
+
+    # Load in SWAN grid, test with pcolor/contour to see if bathy makes sense. This code will be for .wnd file too
+    
+    # Interp onto SWAN grid 
+    
+    # Write a .wnd file with the format needed
+    
+    return
 
 def load_hrdps_slp(date_string, zulu_hour, param, Nx, Ny): 
     ncvar = 'PRMSL_meansealevel'

@@ -1,4 +1,4 @@
-import plot_functions
+#import plot_functions
 import numpy as np
 import get_param
 import op_functions
@@ -29,7 +29,7 @@ def main():
    #Y = np.reshape(y, (q,p))
    X, Y = SWAN_functions.load_SWAN_grid(p, q)
    #ncvar = 'VGRD_10maboveground'
-   #op_functions.get_hrdps(date_string, zulu_hour, param)
+   op_functions.get_hrdps(date_string, zulu_hour, param)
    #lat, lon, var = plot_functions.load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param)
    #print('lat {0}\nlon {1}\n var{2}'.format(lat.shape, lon.shape, var.shape))
    #plot_functions.make_wnd(date_string, zulu_hour, param, X, Y, fcst)

@@ -2,14 +2,15 @@ import numpy as np
 import utm
 from netCDF4 import Dataset
 import os
+from scipy import interpolate
 
-def load_depth_grid(dep_nm = '/home/groberts/workspace/senior_project/SWAN_bbay/bbay_150m_bathy.bot'):
+def load_depth_grid(dep_nm = '../SWAN_runs/SWAN_0/bbay_150m_bathy.bot'):
    dep = np.loadtxt(dep_nm)
    dep = -dep
    [p, q] = dep.shape
    return(p, q)
 
-def load_SWAN_grid(p, q, grd_nm = '/home/groberts/workspace/senior_project/SWAN_bbay/bbay_150m_coord.grd'):
+def load_SWAN_grid(p, q, grd_nm = '../SWAN_runs/SWAN_0/bbay_150m_coord.grd'):
    grd = np.loadtxt(grd_nm)
    x = grd[:p*q]
    y = grd[p*q:]
@@ -41,8 +42,8 @@ def make_wnd(date_string, zulu_hour, param, X, Y, fcst):
    Met_u10_xy = np.array([utm.from_latlon(i[0],i[1])[:2] for i in np.transpose(np.stack((Met_u10_x, Met_u10_y)))])
    Met_v10_xy = np.array([utm.from_latlon(i[0],i[1])[:2] for i in np.transpose(np.stack((Met_v10_x, Met_v10_y)))])
    print(Met_u10_xy[0])
-   u = scipy.interpolate.griddata(Met_u10_xy, Met_u10, (X,Y))
-   v = scipy.interpolate.griddata(Met_v10_xy, Met_v10, (X,Y))
+   u = interpolate.griddata(Met_u10_xy, Met_u10, (X,Y))
+   v = interpolate.griddata(Met_v10_xy, Met_v10, (X,Y))
    #convert nans to 9999
    u_nan = np.isnan(u)
    print(u)
@@ -67,7 +68,7 @@ def make_wnd(date_string, zulu_hour, param, X, Y, fcst):
 
 def load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param):    
     # Hardcoded location of wgrib2 software    
-    loc_wgrib2 = '/home/groberts/source/wgrib2/grib2/wgrib2'    
+    loc_wgrib2 = '/home/robertg4/grib2/wgrib2'    
     
     # Use to find grib file prefix from ncvar selection
     def get_prefix(argument):

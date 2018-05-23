@@ -18,7 +18,7 @@ def load_SWAN_grid(p, q, grd_nm = '../SWAN_runs/SWAN_0/bbay_150m_coord.grd'):
    Y = np.reshape(y, (q,p))
    return(X,Y) 
 
-def make_wnd(date_string, zulu_hour, param, X, Y, fcst):
+def make_wnd(date_string, zulu_hour, param, X, Y, fcst, grid_units='UTM'):
    slp_varname = 'PRMSL_meansealevel'
    u10_varname = 'UGRD_10maboveground'
    v10_varname = 'VGRD_10maboveground'
@@ -38,22 +38,22 @@ def make_wnd(date_string, zulu_hour, param, X, Y, fcst):
    Met_v10_y = np.reshape(met_v10_lon, (q*p))-360.
    #interpolate onto meteo grid
    Met_u10_stack = np.stack((Met_u10_x, Met_u10_y))
-   print(Met_u10_stack)
-   Met_u10_xy = np.array([utm.from_latlon(i[0],i[1])[:2] for i in np.transpose(np.stack((Met_u10_x, Met_u10_y)))])
-   Met_v10_xy = np.array([utm.from_latlon(i[0],i[1])[:2] for i in np.transpose(np.stack((Met_v10_x, Met_v10_y)))])
-   print(Met_u10_xy[0])
+   if grid_units =='UTM':
+      Met_u10_xy = np.array([utm.from_latlon(i[0],i[1])[:2] for i in np.transpose(np.stack((Met_u10_x, Met_u10_y)))])
+      Met_v10_xy = np.array([utm.from_latlon(i[0],i[1])[:2] for i in np.transpose(np.stack((Met_v10_x, Met_v10_y)))])
+   else:
+      Met_u10_xy = np.transpose(np.stack((Met_u10_x, Met_u10_y)))
+      Met_v10_xy = np.transpose(np.stack((Met_v10_x, Met_v10_y)))
    u = interpolate.griddata(Met_u10_xy, Met_u10, (X,Y))
    v = interpolate.griddata(Met_v10_xy, Met_v10, (X,Y))
    #convert nans to 9999
    u_nan = np.isnan(u)
-   print(u)
    v_nan = np.isnan(v)
 
-   #u[u_nan] = 9999
-   #v[v_nan] = 9999
+   u[u_nan] = 9999
+   v[v_nan] = 9999
 
    [n,m] = u.shape
-   print('n {0} m {1}'.format(n, m))
    fid = open('../SWAN_runs/SWAN_{0}/nnrp_wind.wnd'.format(fcst), 'w')
    for i1 in range(m):
       for i2 in range(n):
@@ -77,11 +77,13 @@ def load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param):
             'UGRD_10maboveground':'hrdps_PrefixU',
             'VGRD_10maboveground':'hrdps_PrefixV',
         }
-        return switcher.get(argument, "nothing")        
+        return switcher[argument]
 
     # File name and locations
     grib_input_loc = '{0:s}/{1:s}{2:s}/'.format(param['fol_wind_grib'],param['folname_grib_prefix'],date_string)
+    print(grib_input_loc)
     fname_grib = '{0:s}{1:s}{2:s}{3:02d}_P{4:03d}-00.grib2'.format(grib_input_loc, param[get_prefix(ncvar)], date_string, zulu_hour, fcst)
+    print(fname_grib)
     fname_gribtemp = 'temp.grib2'
         
     # Set extents of grib data request
@@ -97,6 +99,7 @@ def load_hrdps_grib(date_string, zulu_hour, fcst, ncvar, param):
 
     # Convert smaller extract to netcdf     
     cmd = '{:s}/wgrib2 {:s} -netcdf temp.nc'.format(loc_wgrib2,fname_gribtemp)
+    print(cmd)
     os.system(cmd)
         
     # Read in netcdf        

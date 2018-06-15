@@ -380,3 +380,69 @@ def get_param_bbay():
     param['ndbc_lon']               = -122.576
     
     return param
+
+
+def get_param_Puget():   
+    # Model parameters contained in this dictionary, paths, file names, etc
+    param = {}
+    
+    param['lats'] = [47.032,48.4681]
+    param['lons'] = [-123.171,-122.128]
+    # Length of forecast
+    param['num_forecast_hours']     = 48    # numer of files [hours]
+    param['crop_bounds']            = np.asarray([[270,117],[288,141]]) # Bellingham Bay
+    param['plot_bounds']            = [[48.58, 48.785],[-122.645, -122.47]]  #[[48.64, 48.785],[-122.65, -122.47]]
+    param['tide_file']              = 'tide_pred_9449211_xtide.txt' # Set tide file to use
+    
+    # Set some constants for creating amu/avu files
+    param['line_meteo_grid_size']   = 1     # Line number in meteo grid with Nx, Ny (Actually line_number - 1, since python starts at 0)
+    param['line_header_skip']       = 3     # Number of header lines in meteo file
+    
+    # Set locations
+    param['fol_model']              = '../ModelRuns/bbay_150m'
+    param['fol_wind_grib']          = '../Data/downloads/hrdps'
+    param['fol_wind_crop']          = '../Data/crop/hrdps'
+    param['fol_grid']               = '../Grids/delft3d/bbay'
+    param['fol_plots']              = '../Plots/bbay'
+    param['fol_google']             = '../GoogleDrive'
+        
+    # Set file names and prefixes
+    param['folname_crop_prefix']    = 'hrdps_crop_'
+    param['folname_grib_prefix']    = 'hrdps_grib_'
+    param['folname_google']         = 'BellinghamBay'
+    param['fname_prefix_wind']      = 'wind_crop_' 
+    param['fname_meteo_grid']       = 'Bbay_150m.grd'
+    param['fname_meteo_enc']        = 'Bbay_150m.enc'
+    param['fname_grid']             = 'Bbay_150m.grd'
+    param['fname_dep']              = 'Bbay_150m.dep'
+    param['fname_enc']              = 'Bbay_150m.enc'
+    param['wind_u_name']            = 'wind_bbay.amu'    
+    param['wind_v_name']            = 'wind_bbay.amv'
+    param['fname_mdw']              = 'bbay.mdw'
+    param['run_script']             = 'run_wave.sh'
+    param['fname_prefix_plot']      = 'BellinghamBay_'
+    
+    # Set Output Locs
+    param['output_locs']            = []
+    #param['output_locs']            = ['LongB.loc',
+    #                                   'CrossBN.loc',
+    #                                   'CrossBS.loc']   
+                                       
+    # HRDPS prefixes and url
+    param['hrdps_PrefixP']          = 'CMC_hrdps_west_PRMSL_MSL_0_ps2.5km_' 
+    param['hrdps_PrefixU']          = 'CMC_hrdps_west_UGRD_TGL_10_ps2.5km_'
+    param['hrdps_PrefixV']          = 'CMC_hrdps_west_VGRD_TGL_10_ps2.5km_'
+    param['hrdps_PrefixLAND']       = 'CMC_hrdps_west_LAND_SFC_0_ps2.5km_'
+    param['hrdps_url']              = 'http://dd.weather.gc.ca/model_hrdps/west/grib2'
+    param['hrdps_lamwest_file']     = '../Data/downloads/hrdps/lamwestpoints.dat'
+    param['hrdps_rotation_file']    = '../Data/downloads/hrdps/rotations.dat'
+    
+    # Set GMT offset to local time
+    param['gmt_offset']             = op_functions.get_gmt_offset_2()
+    
+    # Set reat-time wind observation station to compare with
+    param['ndbc_sta_id']            = '46118'
+    param['ndbc_lat']               = 48.724
+    param['ndbc_lon']               = -122.576
+    
+    return param
